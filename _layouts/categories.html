@@ -1,0 +1,28 @@
+---
+layout: default
+---
+
+    <div class="home">
+        {%- if page.title -%}
+        <h1 class="post-list-heading">{{ page.title | default: "CATEGORIES" }}</h1>
+        {%- endif -%}
+
+        <div class="post-category">
+
+            <div class="title-category">
+                {%- if site.photo -%}
+                <img src="{{ site.imgslae32 | relative_url }}" alt="img slae32" class="slae32-image" />
+                {%- endif -%}
+                <div class="category-post"> SLAE32 </div>
+            </div>
+
+            <div class="subject-list">
+                {%- for post2 in site.categories.SLAE32 -%}
+                <ul class="subject">
+                    <a class="subject-link" href="{{ post2.url | relative_url }}"> {{ post2.subject}} </a>                   
+                </ul>
+                {%- endfor -%}
+            </div>
+        </div>
+
+    </div>

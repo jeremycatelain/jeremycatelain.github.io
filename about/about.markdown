@@ -1,18 +1,15 @@
 ---
-layout: page
-title: About
+layout: about
+title: ABOUT
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+27 years old French, passionate of Cybersecurity and working at PwC as a Cybersecurity Consultant since 2019.
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+Diplomed from the ECE Paris-Lyon in 2019 with a Cybersecurity speciality.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
-
-
-[jekyll-organization]: https://github.com/jekyll
+Main working fields are:
+- Penetration testing, Internal audit and Red Team;
+- Incident Response (1st Responder);
+- Cybersecurity Governance;
+- Risk Analysis.

@@ -1,0 +1,25 @@
+---
+layout: default
+---
+    <article class="post">
+
+        <header class="post-header-about">
+            <h1 class="post-list-heading2">{{ page.title | escape }}</h1>
+            <h1 class="post-list-heading3"> | JEREMY CATELAIN</h1>
+        </header>
+
+        <div class="image-cropper-profil">
+            {%- if site.photo -%}
+            <img src="{{ site.photo | relative_url }}" alt="photo de profil" class="rounded" />
+            {%- endif -%}
+        </div>
+
+        <div class="Description">
+            <h2 class="Description-title"> Description:</h2>
+
+            <div class="post-content-about">
+                {{ content }}
+            </div>
+        </div>
+
+    </article>
