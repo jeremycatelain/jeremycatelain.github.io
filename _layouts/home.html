@@ -22,20 +22,26 @@ layout: default
         <ul class="post-list">
             {%- for post in site.posts -%}
             <div class="post-listed">
-                <li>
+                <li class="post-content">
                     <dir class="post-title-date">
-                        <a class="post-link" href="{{ post.url | relative_url }}">
-                            {{ post.title | escape }}
-                        </a>
+                      
+                        <a class="link" href="{{ post.url | relative_url }}">
 
-                        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-                        <span class="post-meta">{{ post.date | date: date_format }}</span>
+                            <div class="post-title-link">{{ post.title | escape }} </div>
+                            <div class="post-subtitle-link">{{ post.subtitle | escape }} </div>
+
+                            {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+                            <span class="post-meta">{{ post.date | date: date_format }}</span>
+
+                        </a>
                     </dir>
-                    <div id="post-excerpts">
-                        {%- if site.show_excerpts -%}
+
+                    {%- if site.show_excerpts -%}
+                    <div class="post-excerpts">
                         {{ post.excerpt }}
-                        {%- endif -%}
                     </div>
+                        {%- endif -%}
+                    
                 </li>
             </div>
             {%- endfor -%}

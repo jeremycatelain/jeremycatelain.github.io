@@ -2,253 +2,284 @@
  * Custom CSS
  */
 .image-cropper {
-	max-width: 100px;
-	height: auto;
-	position: relative;
-	overflow: hidden;
-	float:left
+    max-width: 100px;
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    float: left
 }
 
 .image-cropper img {
-	display: block;
-	margin: 0 auto;
-	height: auto;
-	width: 150%;
-	margin: 0 0 0 0;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	-ms-border-radius: 50%;
-	-o-border-radius: 50%;
-	border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+    height: auto;
+    width: 150%;
+    margin: 0 0 0 0;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
 }
 
 .site-job {
-	@include relative-font-size(1.2);
-	font-weight: 600;
-	line-height: $base-line-height * $base-font-size * 2.25;
-	letter-spacing: -1px;
-	margin-bottom: 0;
-	margin: 1 auto;
-	line-height: 0.8;
-	display: block;
-	padding-left: 110px;
-	color: $grey-color-nav;
-	//float: left;
+    @include relative-font-size(1.2);
+    font-weight: 600;
+    line-height: $base-line-height * $base-font-size * 2.25;
+    letter-spacing: -1px;
+    margin-bottom: 0;
+    margin: 1 auto;
+    line-height: 0.8;
+    display: block;
+    padding-left: 110px;
+    color: $grey-color-nav;
+    //color: $light-bleu;
+    //float: left;
 }
 
-.align-left{
-		float:left;
+.align-left {
+    float: left;
 }
 
 .post-listed {
-	//display: inline-block;
-	//margin-bottom: 1rem;
-	//color: rgba(255, 255, 255, 0.7);
-	//background-color: rgba(255, 255, 255, 0.08);
-	margin-bottom: 30px;
-	padding-left: 20px;
-	padding-right: 20px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	border-color: $grey-blue-border;
-	border-style: solid;
-	border-width: 1px;
-	//border-radius: 0.9rem;
-	border-radius: 8px 8px 8px 8px;
-	//transition: color 0.2s, background-color 0.2s, border-color 0.2s;
-	//background-color: blue;
+    //display: inline-block;
+    //margin-bottom: 1rem;
+    //color: rgba(255, 255, 255, 0.7);
+    //background-color: rgba(255, 255, 255, 0.08);
+    margin-bottom: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-color: $grey-blue-border;
+    border-style: solid;
+    border-width: 1px;
+    //border-radius: 0.9rem;
+    border-radius: 8px 8px 8px 8px;
+    //transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+    //background-color: blue;
 }
 
 .post-title-date {
-	padding-left: 20px;
-	padding-bottom: 10px;
-	margin-left: -20px;
-	margin-right: -20px;
-	margin-top: -10px;
-	border-color: $grey-blue-border;
-	//background-color: grey;
-	border-radius: 8px 8px 0px 0px;
-	border-style: solid;
-	border-width: 1px;
-	background-color: $header-bg-color-2;
-	//background-image: linear-gradient(170deg, $header-bg-color, $header-bg-color-2, $header-bg-color-3);
+    padding-left: 20px;
+    padding-bottom: 10px;
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-top: -10px;
+    border-color: $grey-blue-border;
+    //background-color: grey;
+    border-radius: 8px 8px 0px 0px;
+    border-style: solid;
+    border-width: 1px;
+    background-color: $header-bg-color-2;
+    //background-image: linear-gradient(170deg, $header-bg-color, $header-bg-color-2, $header-bg-color-3);
 }
 
+/*
+.post-title-date:hover {
+    color: $grey-color-nav-hover;
+    background-color: $header-bg-color-4-button;
+    border-radius: 8px 8px 8px 8px;
+}*/
+
+.post-title-date:hover, post-link:visited, post-link:active {
+    display: block;
+    //@include relative-font-size(1.5);
+    //font-weight: 600;
+    color: $grey-color-nav;
+    background-color: $header-bg-color;
+    background-image: linear-gradient(180deg, #133f7d, $header-bg-color-2);
+    margin-left: -20px;
+    padding-left: 20px;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.link {
+    display: block;
+}
+
+
 .rss-subscribe {
-	text-align: center;
-	margin-top: -10px;
-	margin-bottom: 20px;
-	margin-left: auto;
-	margin-right: auto;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	color: $grey-light-color;
-	width: 150px;
-	border-radius: 8px 8px 8px 8px;
-	border-style: solid;
-	background-color: $header-bg-color;
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: $grey-light-color;
+    width: 150px;
+    border-radius: 8px 8px 8px 8px;
+    border-style: solid;
+    background-color: $header-bg-color;
 }
 
 .rss-subscribe:hover {
-	background-color: $button-hover;
+    background-color: $light-bleu;
 }
 
 .social-media-listed {
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 5px;
-	padding-top: 5px;
-	//background-color: white;
-	border-radius: 8px 8px 8px 8px;
-	border-style: solid;
-	border-width: 2px;
-	border-bottom-color: $grey-color-nav;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    //background-color: white;
+    border-radius: 8px 8px 8px 8px;
+    border-style: solid;
+    border-width: 2px;
+    border-bottom-color: $grey-color-nav;
 }
+
 .social-media-listed:hover {
-	background-color: $button-hover;
+    background-color: $light-bleu;
 }
 
 
 .post-category {
-	border-radius: 8px 8px 8px 8px;
-	border-style: solid;
-	border-width: 2px;
-	padding-top: 20px;
-	max-width: 80%;
-	margin-left: auto;
-	margin-right: auto;
-	border-color: $grey-light-color;
+    border-radius: 8px 8px 8px 8px;
+    border-style: solid;
+    border-width: 2px;
+    padding-top: 20px;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border-color: $grey-light-color;
 }
 
 .title-category {
-	display: flex;
-	justify-content: center;
-	padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
 }
 
 .slae32-image {
-	float: left;
-	width: 70px;
-	height: 70px;
+    float: left;
+    width: 70px;
+    height: 70px;
 }
 
 .category-post {
-	//text-align: center;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	padding-left: 10px;
-	@include relative-font-size(1.5);
-	font-weight: 700;
-	line-height: $base-line-height * $base-font-size * 2.25;
-	color: #2d8fb3;
+    //text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    @include relative-font-size(1.5);
+    font-weight: 700;
+    line-height: $base-line-height * $base-font-size * 2.25;
+    color: #2d8fb3;
 }
 
 .subject {
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom:20px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
 }
 
 .subject-link {
-	text-align: center;
-	display: block;
-	width: 300px;
-	margin-left: auto;
-	margin-right: auto;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	padding-left: 5px;
-	padding-right: 5px;
-	font-size: 17px;
-	font-weight: 900;
-	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-	border-width: 2px;
-	border-radius: 8px 8px 8px 8px;
-	border-style: solid;
-	background-color: #5ca3bd;
-	color: #e3ebfa;
+    text-align: center;
+    display: block;
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 17px;
+    font-weight: 900;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border-width: 2px;
+    border-radius: 8px 8px 8px 8px;
+    border-style: solid;
+    background-color: #5ca3bd;
+    color: #e3ebfa;
 }
 
 .subject-link:hover {
-	background-color: #7dc2db;
+    background-color: #7dc2db;
 }
 
 .image-cropper-profil {
-	max-width: 200px;
-	height: auto;
-	position: relative;
-	overflow: hidden;
-	align-content: center;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 10px;
-	margin-bottom: 40px;
+    max-width: 200px;
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 40px;
 }
 
 .image-cropper-profil img {
-	display: block;
-	margin: 0 auto;
-	height: auto;
-	width: 150%;
-	margin: 0 0 0 0;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	-ms-border-radius: 50%;
-	-o-border-radius: 50%;
-	border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+    height: auto;
+    width: 150%;
+    margin: 0 0 0 0;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
 }
 
 .Description {
-	border-radius: 8px 8px 8px 8px;
-	border-style: solid;
-	border-width: 2px;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	padding-left: 20px;
-	padding-right: 20px;
-	max-width: 80%;
-	margin-left: auto;
-	margin-right: auto;
-	border-color: $grey-light-color;
+    border-radius: 8px 8px 8px 8px;
+    border-style: solid;
+    border-width: 2px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border-color: $grey-light-color;
 }
 
 .post-content-about {
-	//text-align: center;
-	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-	@include relative-font-size(1);
+    //text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    @include relative-font-size(1);
 }
 
 .Description-title {
-	font-weight: bold;
-	color: #2d8fb3;
+    font-weight: bold;
+    color: $light-bleu;
 }
 
 .post-header-about {
-	display: flex;
-	justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .post-list-heading2 {
-	@include relative-font-size(1.75);
-	text-align: center;
-	font-weight: 900;
-	background: -webkit-linear-gradient(#a8cdf7, $header-bg-color);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	font-family: system-ui;
-	float: left;
+    @include relative-font-size(2);
+    text-align: center;
+    font-weight: 900;
+    background: -webkit-linear-gradient(#a8cdf7, $header-bg-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: system-ui;
+    float: left;
 }
 
 .post-list-heading3 {
-	@include relative-font-size(1.6);
-	text-align: center;
-	font-weight: 900;
-	background: -webkit-linear-gradient(#a8cdf7, #2d8fb3);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	font-family: system-ui;
-	padding-left: 10px;
+    @include relative-font-size(2);
+    text-align: center;
+    font-weight: 900;
+    background: -webkit-linear-gradient(#a8cdf7, #2d8fb3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: system-ui;
+    padding-left: 10px;
 }
 
 
+// IMAGES in POSTS
+
+.img[alt=as1] {
+    height: 100px;
+}

