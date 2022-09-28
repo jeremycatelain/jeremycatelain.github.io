@@ -1,32 +1,43 @@
 ---
 layout: default
 ---
-<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+    <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
-    <header class="post-header">
-        <div  class="post-header-about">
-            <h1 class="post-list-heading2 p-name" itemprop="name headline">{{ page.title | escape }}</h1>
-            <h1 class="post-list-heading3 p-name" itemprop="name headline">{{ page.subtitle | escape }}</h1>
-        </div>
-        <p class="post-meta-title">
-            <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-                {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-                {{ page.date | date: date_format }}
-            </time>
-            {%- if page.author -%}
-            • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
+        <header class="post-header">
+            <div class="post-header-about">
+                <h1 class="post-list-heading2 p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+                <h1 class="post-list-heading3 p-name" itemprop="name headline">{{ page.subtitle | escape }}</h1>
+            </div>
+            <p class="post-meta-title">
+                <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+                    {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+                    {{ page.date | date: date_format }}
+                </time>
+                {%- if page.author -%}
+                <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
+                {%- endif -%}
+            </p>
+
+            {%- if page.github-link -%}
+            
+                <a class="github-link-post" href="{{page.github-link | relative_url }}"> Github </a>
+            
             {%- endif -%}
-        </p>
-    </header>
 
-    <div class="post-content e-content" itemprop="articleBody">
-        {{ content }}
-    </div>
 
-  {%- if site.disqus.shortname -%}
-    {%- include disqus_comments.html -%}
-  {%- endif -%}
+        </header>
 
-  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+        <div class="post-content e-content" itemprop="articleBody">
+            {{ content }}
+        </div>
 
-</article>
+
+        <!--
+
+    {%- if site.disqus.shortname -%}
+      {%- include disqus_comments.html -%}
+    {%- endif -%}
+
+    <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+          -->
+    </article>

