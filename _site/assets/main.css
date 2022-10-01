@@ -133,7 +133,7 @@ table td { border: 1px solid #e8e8e8; }
 .post-title-post { letter-spacing: -1px; line-height: 1; float: left; text-align: center; font-size: 40px; text-align: center; font-weight: 900; background: -webkit-linear-gradient(#a8cdf7, #000d24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: system-ui; }
 @media screen and (max-width: 800px) { .post-title-post { font-size: 36px; } }
 
-.post-content { margin-bottom: 30px; }
+.post-content { margin-bottom: 30px; border-radius: 8px 8px 8px 8px; border-style: solid; border-width: 1px; padding-top: 5px; padding-left: 10px; padding-right: 10px; margin-left: auto; margin-right: auto; border-color: #e1e6f0; }
 .post-content h2 { font-size: 32px; }
 @media screen and (max-width: 800px) { .post-content h2 { font-size: 28px; } }
 .post-content h3 { font-size: 26px; }

