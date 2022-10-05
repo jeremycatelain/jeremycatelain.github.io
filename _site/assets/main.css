@@ -141,6 +141,14 @@ table td { border: 1px solid #e8e8e8; }
 .post-content h4 { font-size: 20px; }
 @media screen and (max-width: 800px) { .post-content h4 { font-size: 18px; } }
 
+.post-content-home { margin-bottom: 30px; }
+.post-content-home h2 { font-size: 32px; }
+@media screen and (max-width: 800px) { .post-content-home h2 { font-size: 28px; } }
+.post-content-home h3 { font-size: 26px; }
+@media screen and (max-width: 800px) { .post-content-home h3 { font-size: 22px; } }
+.post-content-home h4 { font-size: 20px; }
+@media screen and (max-width: 800px) { .post-content-home h4 { font-size: 18px; } }
+
 /** Custom CSS */
 .image-cropper { max-width: 100px; height: auto; position: relative; overflow: hidden; float: left; }
 

