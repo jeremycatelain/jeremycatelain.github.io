@@ -78,6 +78,7 @@ table td { border: 1px solid #e8e8e8; }
 .site-nav .menu-icon { display: none; }
 .site-nav .page-link { color: #9599a1; line-height: 1.5; font-size: 20px; font-weight: 900; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; text-transform: uppercase; padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 5px; }
 .site-nav .page-link:not(:last-child) { margin-right: 20px; }
+.site-nav .page-link:hover { background-color: #010d21; border-radius: 8px 8px 8px 8px; color: #e3ebfa; }
 @media screen and (max-width: 600px) { .site-nav { position: absolute; top: 9px; right: 15px; background-color: #fdfdfd; border: 1px solid #e8e8e8; border-radius: 5px; text-align: right; }
   .site-nav label[for="nav-trigger"] { display: block; float: right; width: 36px; height: 36px; z-index: 2; cursor: pointer; }
   .site-nav .menu-icon { display: block; float: right; width: 36px; height: 26px; line-height: 0; padding-top: 10px; text-align: center; }

@@ -2,7 +2,7 @@
 layout: post
 title:  "SLAE32"
 subtitle: "|  Assignment 4 - Encoder"
-date:   2022-10-02 08:45:58 +0200
+date:   2022-10-04 08:45:58 +0200
 category: SLAE32
 subject: Assignment 4 - Encoder
 excerpt_separator: <!--more-->
