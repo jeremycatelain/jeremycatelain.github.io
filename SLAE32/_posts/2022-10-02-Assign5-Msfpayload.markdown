@@ -6,7 +6,7 @@ date:   2022-10-05 08:45:58 +0200
 category: SLAE32
 subject: Assignment 5 - Msfpayload
 excerpt_separator: <!--more-->
-github-link: TODO
+github-link: https://github.com/jeremycatelain/SLAE32-Assignments/tree/main/assignment5
 ---
 
 ###  <span style="color:#2d8fb3;"> Description of the assignment </span>
@@ -18,7 +18,6 @@ github-link: TODO
 We are going to analyse together the following shellcodes:
 - linux/x86/adduser
 - linux/x86/exec
-- linux/x86/meterpreter/reverse_tcp -TO SUPP
 - linux/x86/chmod
  
 <!--more-->

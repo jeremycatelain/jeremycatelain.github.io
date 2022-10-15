@@ -486,26 +486,6 @@
     display: block;
 }
 
-
-.rss-subscribe {
-    text-align: center;
-    margin-top: -10px;
-    margin-bottom: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    color: $grey-light-color;
-    width: 150px;
-    border-radius: 8px 8px 8px 8px;
-    border-style: solid;
-    background-color: $header-bg-color;
-}
-
-.rss-subscribe:hover {
-    background-color: $light-bleu;
-}
-
 .social-media-listed {
     padding-left: 10px;
     padding-right: 10px;
@@ -670,4 +650,48 @@
 
 .img[alt=as1] {
     height: 100px;
+}
+
+.github-link-post2 {
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    //position: relative;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: $grey-light-color;
+    width: 200px;
+    border-radius: 8px 8px 8px 8px;
+    border-style: solid;
+    background-color: $header-bg-color;
+}
+
+.github-link {
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    align-content: center;
+    border-radius: 8px 8px 8px 8px;
+    border-style: solid;
+    width: 200px;
+    color: $grey-light-color;
+    background-color: $header-bg-color;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.github-link-post {
+    padding-left:31px;
+    padding-right:31px;
+    padding-top:6px;
+    padding-bottom:7px;
+}
+
+.github-link:hover {
+    background-color: $light-bleu;
 }

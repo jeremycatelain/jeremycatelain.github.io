@@ -6,7 +6,7 @@ date:   2022-10-01 08:45:58 +0200
 category: SLAE32
 subject: Assignment 3 - EggHunter
 excerpt_separator: <!--more-->
-github-link: TODO
+github-link: https://github.com/jeremycatelain/SLAE32-Assignments/tree/main/assignment3-EggHunter
 ---
 
 ###  <span style="color:#2d8fb3;"> Description of the assignment </span>

@@ -19,9 +19,10 @@ layout: default
             </p>
 
             {%- if page.github-link -%}
-            
-                <a class="github-link-post" href="{{page.github-link | relative_url }}"> Github </a>
-            
+            <div class="github-link">
+                <a class="github-link-post" href="{{page.github-link | relative_url }}"> Github repository </a>
+            </div>
+
             {%- endif -%}
 
 

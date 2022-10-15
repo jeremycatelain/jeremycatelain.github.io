@@ -170,10 +170,6 @@ table td { border: 1px solid #e8e8e8; }
 
 .link { display: block; }
 
-.rss-subscribe { text-align: center; margin-top: -10px; margin-bottom: 20px; margin-left: auto; margin-right: auto; padding-top: 5px; padding-bottom: 5px; color: #e1e6f0; width: 150px; border-radius: 8px 8px 8px 8px; border-style: solid; background-color: #000d24; }
-
-.rss-subscribe:hover { background-color: #2d8fb3; }
-
 .social-media-listed { padding-left: 10px; padding-right: 10px; padding-bottom: 5px; padding-top: 5px; border-radius: 8px 8px 8px 8px; border-style: solid; border-width: 2px; border-bottom-color: #9599a1; }
 
 .social-media-listed:hover { background-color: #2d8fb3; }
@@ -209,6 +205,14 @@ table td { border: 1px solid #e8e8e8; }
 .post-list-heading3 { font-size: 32px; text-align: center; font-weight: 900; background: -webkit-linear-gradient(#a8cdf7, #2d8fb3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: system-ui; padding-left: 10px; }
 
 .img[alt=as1] { height: 100px; }
+
+.github-link-post2 { text-align: center; margin-top: -10px; margin-bottom: 20px; margin-left: auto; margin-right: auto; padding-top: 5px; padding-bottom: 5px; color: #e1e6f0; width: 200px; border-radius: 8px 8px 8px 8px; border-style: solid; background-color: #000d24; }
+
+.github-link { text-align: center; margin-top: -10px; margin-bottom: 20px; margin-left: auto; margin-right: auto; padding-top: 5px; padding-bottom: 5px; align-content: center; border-radius: 8px 8px 8px 8px; border-style: solid; width: 200px; color: #e1e6f0; background-color: #000d24; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; }
+
+.github-link-post { padding-left: 31px; padding-right: 31px; padding-top: 6px; padding-bottom: 7px; }
+
+.github-link:hover { background-color: #2d8fb3; }
 
 /** Syntax highlighting styles */
 .highlight { background: #fff; }

