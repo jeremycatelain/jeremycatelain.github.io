@@ -2,7 +2,7 @@
 layout: post
 title:  "SLAE32"
 subtitle: "|  Assignment 7 - Crypter"
-date:   2022-10-05 08:45:58 +0200
+date:   2022-10-15 08:45:58 +0200
 category: SLAE32
 subject: Assignment 7 - Crypter
 excerpt_separator: <!--more-->

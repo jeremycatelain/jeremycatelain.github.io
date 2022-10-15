@@ -2,7 +2,7 @@
 layout: post
 title:  "SLAE32"
 subtitle: "|  Assignment 6 - Polymorph"
-date:   2022-10-05 08:45:58 +0200
+date:   2022-10-10 08:45:58 +0200
 category: SLAE32
 subject: Assignment 6 - Polymorph
 excerpt_separator: <!--more-->
