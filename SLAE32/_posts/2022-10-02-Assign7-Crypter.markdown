@@ -17,6 +17,12 @@ github-link: https://github.com/jeremycatelain/SLAE32-Assignments/tree/main/assi
  
 <!--more-->
 
+This blog post has been created for completing the requirements of the SecurityTube Linux Assembly Expert certification:
+
+http://securitytube-training.com/online-courses/securitytube-linux-assembly-expert/
+
+Student ID: PA-26457
+
 ###  <span style="color:#2d8fb3;"> AES 128 ECB </span>
 
 For this assessment, I decided to use the AES128 encryption algorithm in the ECB mode from the OpenSSL library.

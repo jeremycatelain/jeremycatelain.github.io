@@ -16,6 +16,12 @@ github-link: https://github.com/jeremycatelain/SLAE32-Assignments/tree/main/assi
  
 <!--more-->
 
+This blog post has been created for completing the requirements of the SecurityTube Linux Assembly Expert certification:
+
+http://securitytube-training.com/online-courses/securitytube-linux-assembly-expert/
+
+Student ID: PA-26457
+
 ###  <span style="color:#2d8fb3;"> Principal </span>
 
 In this assignment, we will create a custom Incremental Insertion Encoder.

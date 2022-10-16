@@ -22,6 +22,12 @@ As follows the list of shellcodes that we are going to change into polymorphic o
  
 <!--more-->
 
+This blog post has been created for completing the requirements of the SecurityTube Linux Assembly Expert certification:
+
+http://securitytube-training.com/online-courses/securitytube-linux-assembly-expert/
+
+Student ID: PA-26457
+
 ###  <span style="color:#2d8fb3;">  Part 1 - downloadexec </span>
 
 ***Link to the original shellcode: http://shell-storm.org/shellcode/files/shellcode-862.php***

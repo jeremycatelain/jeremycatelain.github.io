@@ -19,6 +19,13 @@ github-link: https://github.com/jeremycatelain/SLAE32-Assignments/tree/main/assi
  
 <!--more-->
 
+This blog post has been created for completing the requirements of the SecurityTube Linux Assembly Expert certification:
+
+http://securitytube-training.com/online-courses/securitytube-linux-assembly-expert/
+
+Student ID: PA-26457
+
+
 ###  <span style="color:#2d8fb3;"> MSFVenom example & Socket_call </span>
 
 To perform this exercise, we started by analysing the bind shell code of Metasploit to see how it works and what syscall are made. To do so, we followed the steps as follows to create an image of the different syscalls performed and to make it more visible.

@@ -17,6 +17,12 @@ github-link: https://github.com/jeremycatelain/SLAE32-Assignments/tree/main/assi
  
 <!--more-->
 
+This blog post has been created for completing the requirements of the SecurityTube Linux Assembly Expert certification:
+
+http://securitytube-training.com/online-courses/securitytube-linux-assembly-expert/
+
+Student ID: PA-26457
+
 ###  <span style="color:#2d8fb3;"> Principal - What is an EggHunter ? </span>
 
 The EggHunter is method used to exploit a buffer overflow vulnerability when the amount of space which could be allocated is not large enought to perform the simple buffer overflow technic by injecting directly the shellcode. Its particularity is that it is a small piece a instruction which will search into the memory for a known pattern that we were able to put somewhere into the memory (for instance in a HTML file) and execute its instructions. 

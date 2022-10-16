@@ -22,6 +22,12 @@ We are going to analyse together the following shellcodes:
  
 <!--more-->
 
+This blog post has been created for completing the requirements of the SecurityTube Linux Assembly Expert certification:
+
+http://securitytube-training.com/online-courses/securitytube-linux-assembly-expert/
+
+Student ID: PA-26457
+
 ###  <span style="color:#2d8fb3;"> Part 1 - linux/x86/adduser shellcode </span>
 
 ####  <span style="color:#01416C;"> Principle </span>
